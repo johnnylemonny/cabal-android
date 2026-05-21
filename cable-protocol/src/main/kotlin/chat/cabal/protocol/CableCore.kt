@@ -1,0 +1,60 @@
+package chat.cabal.protocol
+
+import java.security.PrivateKey
+import java.security.PublicKey
+import java.util.Base64
+
+class CableCore(
+    val publicKey: ByteArray,
+    private val privateKey: PrivateKey,
+    private val cabalSecret: ByteArray // 32-byte key for the group
+) {
+    fun createTextPost(channel: String, text: String, links: List<ByteArray> = emptyList()): TextPost {
+        // E2EE: Encrypt text before sending
+        val nonce = Crypto.randomBytes(12)
+        val encryptedBytes = Crypto.encrypt(cabalSecret, nonce, text.toByteArray(Charsets.UTF_8))
+        
+        // Combine nonce + encrypted data and encode to Base64 to fit in 'text' field
+        val combined = ByteArray(nonce.size + encryptedBytes.size)
+        System.arraycopy(nonce, 0, combined, 0, nonce.size)
+        System.arraycopy(encryptedBytes, 0, combined, nonce.size, encryptedBytes.size)
+        
+        val encryptedText = "E2E:" + Base64.getEncoder().encodeToString(combined)
+
+        val post = TextPost(
+            publicKey = publicKey,
+            links = links,
+            channel = channel,
+            timestamp = System.currentTimeMillis() / 1000,
+            text = encryptedText
+        )
+        post.signature = Crypto.sign(post.serializePayload(), privateKey)
+        return post
+    }
+
+    fun decryptText(encryptedText: String): String {
+        if (!encryptedText.startsWith("E2E:")) return encryptedText
+        
+        return try {
+            val combined = Base64.getDecoder().decode(encryptedText.removePrefix("E2E:"))
+            val nonce = combined.copyOfRange(0, 12)
+            val encryptedBytes = combined.copyOfRange(12, combined.size)
+            val decryptedBytes = Crypto.decrypt(cabalSecret, nonce, encryptedBytes)
+            String(decryptedBytes, Charsets.UTF_8)
+        } catch (e: Exception) {
+            "[Decryption Error]"
+        }
+    }
+
+    fun createJoinPost(channel: String, links: List<ByteArray> = emptyList()): JoinPost {
+        val post = JoinPost(
+            publicKey = publicKey,
+            links = links,
+            channel = channel,
+            timestamp = System.currentTimeMillis() / 1000
+        )
+        post.signature = Crypto.sign(post.serializePayload(), privateKey)
+        return post
+    }
+}
+
