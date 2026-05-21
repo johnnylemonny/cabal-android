@@ -6,9 +6,10 @@ A modern, native Android P2P chat client for the **Cable protocol**, built for p
 - **100% Native Kotlin**: Leverages the full power of Android with Jetpack Compose.
 - **Privacy First (FOSS)**: Zero Google Play Services, zero tracking. All data is local-first.
 - **True P2P Connectivity**: Direct communication via TCP sockets and MDNS local discovery.
+- **Full History Sync**: Automatic request/serve cycle for missing messages between peers.
 - **End-to-End Encryption (E2EE)**: Messages are secured with ChaCha20-Poly1305.
 - **Professional UI/UX**: Material 3 Design with dynamic colors, micro-interactions, and premium animations.
-- **Persistent Identity**: Secure key management using Android KeyStore.
+- **Persistent Identity**: Secure key management using Android KeyStore (Ed25519).
 
 ## 🛠️ Tech Stack (2026 Standard)
 - **Language**: Kotlin 2.3.21 (K2 Compiler)
@@ -21,7 +22,7 @@ A modern, native Android P2P chat client for the **Cable protocol**, built for p
 - **Cryptography**: Bouncy Castle & standard Java security providers
 
 ## 🏗️ Project Structure
-- `:app`: The main Android application module (UI, ViewModels, Sync Engine).
+- `:app`: The main Android application module (UI, ViewModels, Sync Engine, DI Modules).
 - `:cable-protocol`: Pure Kotlin implementation of the Cable binary protocol and serialization.
 - `:cable-network`: Networking layer handling TCP transports and peer discovery.
 
