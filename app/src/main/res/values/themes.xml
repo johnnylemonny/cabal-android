@@ -1,4 +1,12 @@
 <resources>
     <style name="Theme.CabalMobile" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="android:statusBarColor">@color/cabal_private_dark</item>
+        <item name="android:navigationBarColor">@color/cabal_private_dark</item>
+        <item name="android:windowLightStatusBar">false</item>
+
+        <!-- Splash Screen API -->
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_cabal_splash_icon</item>
+        <item name="windowSplashScreenBackground">@color/cabal_private_dark</item>
+        <item name="postSplashScreenTheme">@style/Theme.CabalMobile</item>
     </style>
 </resources>

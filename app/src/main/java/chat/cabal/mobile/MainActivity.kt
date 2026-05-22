@@ -50,9 +50,8 @@ class MainActivity : ComponentActivity() {
         if (permissions.values.all { it }) {
             startDiscovery()
         } else {
-            // Even if some denied, try starting what we can
             startDiscovery()
-            Toast.makeText(this, "Some permissions missing. P2P sync might be limited.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Permissions required for local sync", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -62,7 +61,6 @@ class MainActivity : ComponentActivity() {
         
         enableEdgeToEdge()
         
-        // Start Foreground Sync Service
         try {
             val serviceIntent = Intent(this, CabalSyncService::class.java)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -96,7 +94,6 @@ class MainActivity : ComponentActivity() {
             permissions.add(Manifest.permission.POST_NOTIFICATIONS)
         }
         
-        // ACCESS_LOCAL_NETWORK is for API 37+ (Android 17)
         if (Build.VERSION.SDK_INT >= 37) {
             permissions.add("android.permission.ACCESS_LOCAL_NETWORK")
         }
@@ -112,19 +109,15 @@ class MainActivity : ComponentActivity() {
 
     private fun startDiscovery() {
         try {
-            // Start discovery for the "default" cabal
             discovery.startDiscovery("default") { peerInfo ->
                 lifecycleScope.launch {
                     transport.connectToPeer(peerInfo.address, peerInfo.port)
                     syncEngine.onPeerConnected("${peerInfo.address}:${peerInfo.port}")
                 }
             }
-            // Announce our presence
             discovery.announce("default", 13333)
-        } catch (e: SecurityException) {
-            Log.e("MainActivity", "SecurityException during discovery: ${e.message}")
         } catch (e: Exception) {
-            Log.e("MainActivity", "Error during discovery: ${e.message}")
+            Log.e("MainActivity", "Discovery error: ${e.message}")
         }
     }
 }
@@ -148,7 +141,6 @@ fun MainApp(
     var showAddDialog by remember { mutableStateOf(false) }
     var selectedCabalKey by remember { mutableStateOf<String?>(null) }
 
-    // Set first cabal as default
     LaunchedEffect(cabals) {
         if (selectedCabalKey == null && cabals.isNotEmpty()) {
             selectedCabalKey = cabals.first().key
@@ -202,7 +194,7 @@ fun MainApp(
                     NavigationDrawerItem(
                         icon = { Icon(Icons.Default.Group, contentDescription = null) },
                         label = { Text(cabal.name) },
-                        selected = selectedCabalKey == cabal.key,
+                        selected = (selectedCabalKey == cabal.key),
                         onClick = {
                             selectedCabalKey = cabal.key
                             navController.navigate("chat")
@@ -216,9 +208,7 @@ fun MainApp(
                     icon = { Icon(Icons.Default.Add, contentDescription = null) },
                     label = { Text("Add Cabal") },
                     selected = false,
-                    onClick = {
-                        showAddDialog = true
-                    },
+                    onClick = { showAddDialog = true },
                     modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
                 )
 
@@ -228,7 +218,7 @@ fun MainApp(
                 NavigationDrawerItem(
                     icon = { Icon(Icons.Default.Info, contentDescription = null) },
                     label = { Text("About") },
-                    selected = currentRoute == "about",
+                    selected = (currentRoute == "about"),
                     onClick = {
                         navController.navigate("about")
                         scope.launch { drawerState.close() }
