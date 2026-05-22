@@ -31,16 +31,15 @@ import chat.cabal.mobile.ui.navigation.CabalNavGraph
 import chat.cabal.mobile.ui.theme.CabalTheme
 import chat.cabal.mobile.ui.viewmodel.MainViewModel
 import chat.cabal.network.TcpTransport
-import chat.cabal.protocol.CableCore
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : ComponentActivity() {
     private val database: CabalDatabase by inject()
-    private val cableCore: CableCore by inject()
     private val transport: TcpTransport by inject()
     private val syncEngine: SyncEngine by inject()
+    private val keyStoreManager: KeyStoreManager by inject()
     private val mainViewModel: MainViewModel by viewModel()
     private lateinit var discovery: NsdDiscovery
 
@@ -77,11 +76,11 @@ class MainActivity : ComponentActivity() {
 
         checkAndRequestPermissions()
 
-        val myPublicKeyHex = try { cableCore.publicKey.toHex() } catch (_: Exception) { "unknown" }
+        val myPublicKeyHex = keyStoreManager.getOrCreateKeyPair().public.encoded.takeLast(32).toByteArray().toHex()
         
         setContent {
             CabalTheme {
-                MainApp(database, cableCore, transport, syncEngine, myPublicKeyHex, mainViewModel)
+                MainApp(database, transport, syncEngine, myPublicKeyHex, mainViewModel)
             }
         }
     }
@@ -126,7 +125,6 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun MainApp(
     database: CabalDatabase,
-    cableCore: CableCore,
     transport: TcpTransport,
     syncEngine: SyncEngine,
     myPublicKeyHex: String,
@@ -281,7 +279,6 @@ fun MainApp(
             CabalNavGraph(
                 navController = navController,
                 database = database,
-                cableCore = cableCore,
                 syncEngine = syncEngine,
                 myPublicKeyHex = myPublicKeyHex,
                 modifier = Modifier.padding(innerPadding)

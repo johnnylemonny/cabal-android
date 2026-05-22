@@ -6,6 +6,7 @@ import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToList
 import chat.cabal.database.CabalDatabase
 import chat.cabal.database.Message
+import chat.cabal.mobile.core.SyncEngine
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -14,8 +15,7 @@ import kotlinx.coroutines.launch
 
 class ChatViewModel(
     private val database: CabalDatabase,
-    private val cableCore: chat.cabal.protocol.CableCore,
-    private val syncEngine: chat.cabal.mobile.core.SyncEngine
+    private val syncEngine: SyncEngine
 ) : ViewModel() {
     val messages: StateFlow<List<Message>> = database.cabalQueries
         .getMessagesByChannel("general")
@@ -25,22 +25,7 @@ class ChatViewModel(
 
     fun sendMessage(text: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            val post = cableCore.createTextPost("general", text)
-            val rawPost = post.serialize()
-            // Save locally
-            database.cabalQueries.insertMessage(
-                hash = post.hash(),
-                publicKey = post.publicKey,
-                channel = post.channel,
-                timestamp = post.timestamp,
-                text = text, // Local display uses original text
-                rawPost = rawPost,
-                status = 0L // Sending
-            )
-            // Broadcast to peers
-            syncEngine.broadcastPost(post)
-            // Mark as sent to network
-            database.cabalQueries.updateMessageStatus(1L, post.hash())
+            syncEngine.postText("general", text)
         }
     }
 }

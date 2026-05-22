@@ -3,6 +3,11 @@ CREATE TABLE cabal (
     name TEXT NOT NULL
 );
 
+CREATE TABLE kv_store (
+    key TEXT NOT NULL PRIMARY KEY,
+    value TEXT NOT NULL
+);
+
 CREATE TABLE message (
     hash BLOB NOT NULL PRIMARY KEY,
     publicKey BLOB NOT NULL,
@@ -21,6 +26,12 @@ VALUES (?, ?);
 
 getAllCabals:
 SELECT * FROM cabal;
+
+getKV:
+SELECT value FROM kv_store WHERE key = ?;
+
+putKV:
+INSERT OR REPLACE INTO kv_store(key, value) VALUES (?, ?);
 
 insertMessage:
 INSERT OR IGNORE INTO message(hash, publicKey, channel, timestamp, text, rawPost, status)

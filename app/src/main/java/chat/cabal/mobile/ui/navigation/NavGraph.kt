@@ -12,13 +12,11 @@ import chat.cabal.database.CabalDatabase
 import chat.cabal.mobile.core.SyncEngine
 import chat.cabal.mobile.ui.screens.ChatScreen
 import chat.cabal.mobile.ui.viewmodel.ChatViewModelFactory
-import chat.cabal.protocol.CableCore
 
 @Composable
 fun CabalNavGraph(
     navController: NavHostController,
     database: CabalDatabase,
-    cableCore: CableCore,
     syncEngine: SyncEngine,
     myPublicKeyHex: String,
     modifier: Modifier = Modifier
@@ -31,7 +29,7 @@ fun CabalNavGraph(
         composable("chat") {
             ChatScreen(
                 viewModel = viewModel(
-                    factory = ChatViewModelFactory(database, cableCore, syncEngine)
+                    factory = ChatViewModelFactory(database, syncEngine)
                 ),
                 myPublicKeyHex = myPublicKeyHex
             )

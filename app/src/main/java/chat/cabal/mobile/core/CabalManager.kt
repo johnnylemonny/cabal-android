@@ -41,5 +41,3 @@ class CabalManager(context: Context) {
         return keyPair.public.encoded.takeLast(32).toByteArray().toHex()
     }
 }
-
-fun ByteArray.toHex(): String = joinToString("") { "%02x".format(it) }

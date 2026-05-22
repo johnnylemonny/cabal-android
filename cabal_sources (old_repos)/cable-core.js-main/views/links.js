@@ -151,11 +151,12 @@ module.exports = function (lvl) {
         // `put` op to the list
         const dupindexes = new Map()
         const keys = []
-        ops.forEach((key, index) => {
+        ops.forEach((op, index) => {
+          const key = op.key
           if (keys.includes(key)) {
             if (!dupindexes.has(key)) {
               // make a list to store the `ops` indexes to merge for this key
-              dupindexes.get(key) = []
+              dupindexes.set(key, [])
             }
             // store the index of the duplicated value
             dupindexes.get(key).push(index)
@@ -166,7 +167,7 @@ module.exports = function (lvl) {
         // there were multiple operations for this batch that were potentially going to clobber each other; dedupe and
         // merge them into a single operation
         if (dupindexes.size > 0) {
-          dupIndexes.forEach((indexes, key) => {
+          dupindexes.forEach((indexes, key) => {
             // get the first duplicate and set it as our value (list of string'd hashes)
             let valueString = ops[indexes[0]].value
             for (let i = 1; i < indexes.length; i++) {
