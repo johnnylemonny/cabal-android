@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 288 288" width="288" height="288" role="img" aria-label="Cabal splash icon">
+  <title>Cabal splash icon final</title>
+  <desc>Dedicated splash icon with centered v2A mark inside a 288dp viewport.</desc>
+  <rect width="288" height="288" fill="#0B0D12"/>
+  <g transform="translate(47.880 47.880) scale(1.780000)">
+    <path d="M 24 22 Q 23 19 26 20 L 54 32 L 82 20 Q 85 19 84 22 L 58 84 Q 54 93 50 84 Z M 35 33 L 54 42 L 73 33 L 54 77 Z" fill="#FFFFFF" fill-rule="evenodd"/>
+  </g>
+</svg>

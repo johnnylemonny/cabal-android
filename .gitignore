@@ -1,0 +1,32 @@
+# Android
+*.iml
+.gradle
+/local.properties
+/.idea/caches
+/.idea/libraries
+/.idea/modules.xml
+/.idea/workspace.xml
+/.idea/navEditor.xml
+/.idea/assetWizardSettings.xml
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+local.properties
+
+# Kotlin
+/lib/
+*.class
+*.pyc
+
+# Beads & Agent Artifacts
+.beads/embeddeddolt/
+.artifacts/
+*.artifact.md
+graphify-out/
+cost.json
+
+# User specific
+*.swp
+*~

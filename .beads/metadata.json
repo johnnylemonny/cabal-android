@@ -1,0 +1,7 @@
+{
+  "database": "dolt",
+  "backend": "dolt",
+  "dolt_mode": "embedded",
+  "dolt_database": "new_cabal_mobile",
+  "project_id": "58131665-c29c-40e7-9f13-c02b1a6d4f63"
+}

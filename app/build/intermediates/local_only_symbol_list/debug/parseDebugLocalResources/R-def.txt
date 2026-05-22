@@ -1,0 +1,18 @@
+R_DEF: Internal format may change without notice
+local
+color cabal_cipher_blue
+color cabal_muted
+color cabal_peer_teal
+color cabal_private_black
+color cabal_private_dark
+color cabal_surface_dark
+color cabal_text_light
+color cabal_white
+color ic_launcher_background
+drawable ic_cabal_mark_v2a_foreground
+drawable ic_cabal_splash_icon
+mipmap ic_launcher
+mipmap ic_launcher_foreground
+mipmap ic_launcher_round
+string app_name
+style Theme.CabalMobile
