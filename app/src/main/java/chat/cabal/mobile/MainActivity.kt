@@ -11,6 +11,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -55,6 +56,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         
@@ -73,7 +75,7 @@ class MainActivity : ComponentActivity() {
 
         checkAndRequestPermissions()
 
-        val myPublicKeyHex = try { cableCore.publicKey.toHex() } catch (e: Exception) { "unknown" }
+        val myPublicKeyHex = try { cableCore.publicKey.toHex() } catch (_: Exception) { "unknown" }
         
         setContent {
             CabalTheme {
@@ -151,10 +153,9 @@ fun MainApp(
     
     if (showAddDialog) {
         AddCabalDialog(
-            onDismiss = { showAddDialog = false },
+            onDismiss = { },
             onConfirm = { key, name ->
                 mainViewModel.addCabal(key, name)
-                showAddDialog = false
             }
         )
     }
@@ -211,7 +212,6 @@ fun MainApp(
                     label = { Text("Add Cabal") },
                     selected = false,
                     onClick = {
-                        showAddDialog = true
                     },
                     modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
                 )
