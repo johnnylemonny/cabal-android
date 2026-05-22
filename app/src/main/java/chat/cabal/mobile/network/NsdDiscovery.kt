@@ -19,19 +19,21 @@ class NsdDiscovery(private val context: Context) : PeerDiscovery {
                 Log.d("NsdDiscovery", "Discovery started")
             }
             override fun onServiceFound(service: NsdServiceInfo) {
-                // Check if it's our service type
                 if (service.serviceType.contains("cabal")) {
-                    nsdManager.resolveService(service, object : NsdManager.ResolveListener {
+                    // Using modern API 34+ resolveService with Executor
+                    nsdManager.resolveService(service, context.mainExecutor, object : NsdManager.ResolveListener {
                         override fun onResolveFailed(serviceInfo: NsdServiceInfo, errorCode: Int) {
                             Log.e("NsdDiscovery", "Resolve failed: $errorCode")
                         }
                         override fun onServiceResolved(serviceInfo: NsdServiceInfo) {
-                            Log.d("NsdDiscovery", "Service resolved: ${serviceInfo.host.hostAddress}:${serviceInfo.port}")
+                            // Using modern hostAddresses (API 34+)
+                            val hostAddress = serviceInfo.hostAddresses.firstOrNull()?.hostAddress
+                            Log.d("NsdDiscovery", "Service resolved: $hostAddress:${serviceInfo.port}")
                             onPeerFound(
                                 PeerInfo(
-                                    address = serviceInfo.host.hostAddress ?: "",
+                                    address = hostAddress ?: "",
                                     port = serviceInfo.port,
-                                    cabalKey = cabalKey // In a real scenario, extract from service name
+                                    cabalKey = cabalKey
                                 )
                             )
                         }

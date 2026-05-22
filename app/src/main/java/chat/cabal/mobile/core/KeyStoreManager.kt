@@ -22,7 +22,7 @@ class KeyStoreManager {
 
     private fun generateKey() {
         val kpg = KeyPairGenerator.getInstance(
-            KeyProperties.KEY_ALGORITHM_ED25519, "AndroidKeyStore"
+            "Ed25519", "AndroidKeyStore"
         )
         val spec = KeyGenParameterSpec.Builder(
             keyAlias,

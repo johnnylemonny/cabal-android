@@ -68,9 +68,8 @@ class SyncEngine(
                         scope.launch {
                             val posts = database.cabalQueries.getMessagesInRange(
                                 channel = message.channel,
-                                timestamp = message.timeStart,
-                                timestamp_ = message.timeEnd,
-                                _0 = message.timeEnd,
+                                timeStart = message.timeStart,
+                                timeEnd = message.timeEnd,
                                 limit = message.limit.toLong()
                             ).executeAsList()
                             if (posts.isNotEmpty()) {

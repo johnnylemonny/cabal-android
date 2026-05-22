@@ -40,6 +40,6 @@ WHERE hash IN ?;
 
 getMessagesInRange:
 SELECT * FROM message
-WHERE channel = ? AND timestamp >= ? AND (timestamp <= ? OR ? = 0)
+WHERE channel = :channel AND timestamp >= :timeStart AND (timestamp <= :timeEnd OR :timeEnd = 0)
 ORDER BY timestamp ASC
-LIMIT ?;
+LIMIT :limit;

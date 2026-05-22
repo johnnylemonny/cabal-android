@@ -12,10 +12,8 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import app.cash.sqldelight.driver.android.AndroidSqliteDriver
 import chat.cabal.database.CabalDatabase
 import chat.cabal.mobile.core.KeyStoreManager
 import chat.cabal.mobile.core.SyncEngine
@@ -24,12 +22,12 @@ import android.content.Intent
 import chat.cabal.mobile.ui.navigation.CabalNavGraph
 import chat.cabal.mobile.ui.theme.CabalTheme
 import chat.cabal.mobile.ui.viewmodel.MainViewModel
-import chat.cabal.mobile.ui.viewmodel.MainViewModelFactory
 import chat.cabal.mobile.network.NsdDiscovery
 import chat.cabal.network.TcpTransport
 import chat.cabal.protocol.CableCore
-import chat.cabal.protocol.Crypto
 import chat.cabal.mobile.core.toHex
+import chat.cabal.mobile.ui.components.AddCabalDialog
+import chat.cabal.mobile.ui.components.PeerAvatar
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -66,7 +64,7 @@ class MainActivity : ComponentActivity() {
         val myPublicKeyHex = cableCore.publicKey.toHex()
         setContent {
             CabalTheme {
-                MainApp(database, cableCore, transport, myPublicKeyHex, mainViewModel)
+                MainApp(database, cableCore, transport, syncEngine, myPublicKeyHex, mainViewModel)
             }
         }
     }
@@ -78,6 +76,7 @@ fun MainApp(
     database: CabalDatabase,
     cableCore: CableCore,
     transport: TcpTransport,
+    syncEngine: SyncEngine,
     myPublicKeyHex: String,
     mainViewModel: MainViewModel
 ) {
@@ -98,7 +97,7 @@ fun MainApp(
     }
     
     if (showAddDialog) {
-        chat.cabal.mobile.ui.components.AddCabalDialog(
+        AddCabalDialog(
             onDismiss = { showAddDialog = false },
             onConfirm = { key, name ->
                 mainViewModel.addCabal(key, name)
@@ -119,7 +118,7 @@ fun MainApp(
                     verticalAlignment = androidx.compose.ui.Alignment.CenterVertically,
                     modifier = Modifier.padding(horizontal = 28.dp, vertical = 16.dp)
                 ) {
-                    chat.cabal.mobile.ui.components.PeerAvatar(myPublicKeyHex, modifier = Modifier.size(48.dp))
+                    PeerAvatar(myPublicKeyHex, modifier = Modifier.size(48.dp))
                     Spacer(Modifier.width(16.dp))
                     Column {
                         Text(
@@ -142,7 +141,7 @@ fun MainApp(
                 
                 cabals.forEach { cabal ->
                     NavigationDrawerItem(
-                        icon = { Icon(Icons.Default.Group, contentDesc = null) },
+                        icon = { Icon(Icons.Default.Group, contentDescription = null) },
                         label = { Text(cabal.name) },
                         selected = selectedCabalKey == cabal.key,
                         onClick = {
@@ -155,7 +154,7 @@ fun MainApp(
                 }
                 
                 NavigationDrawerItem(
-                    icon = { Icon(Icons.Default.Add, contentDesc = null) },
+                    icon = { Icon(Icons.Default.Add, contentDescription = null) },
                     label = { Text("Add Cabal") },
                     selected = false,
                     onClick = {
@@ -168,7 +167,7 @@ fun MainApp(
                 HorizontalDivider()
                 
                 NavigationDrawerItem(
-                    icon = { Icon(Icons.Default.Info, contentDesc = null) },
+                    icon = { Icon(Icons.Default.Info, contentDescription = null) },
                     label = { Text("About") },
                     selected = currentRoute == "about",
                     onClick = {
@@ -200,14 +199,14 @@ fun MainApp(
                         IconButton(onClick = {
                             scope.launch { drawerState.open() }
                         }) {
-                            Icon(Icons.Default.Menu, contentDesc = "Menu")
+                            Icon(Icons.Default.Menu, contentDescription = "Menu")
                         }
                     },
                     actions = {
                         if (peerCount > 0) {
                             Icon(
                                 Icons.Default.CloudDone, 
-                                contentDesc = "Connected",
+                                contentDescription = "Connected",
                                 tint = MaterialTheme.colorScheme.primary,
                                 modifier = Modifier.padding(end = 16.dp)
                             )
