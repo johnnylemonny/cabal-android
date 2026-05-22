@@ -15,31 +15,31 @@ sqldelight = "2.3.2"
 bouncycastle = "1.80"
 
 [libraries]
-androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
-junit = { group = "junit", name = "junit", version.ref = "junit" }
-androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
-androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
-androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
-androidx-lifecycle-viewmodel-compose = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "lifecycleRuntimeKtx" }
-androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
-androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose" }
-androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
-androidx-ui = { group = "androidx.compose.ui", name = "ui" }
-androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
-androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
-androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
-androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
-androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
-androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
-androidx-material-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended" }
-koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koin" }
-koin-androidx-compose = { group = "io.insert-koin", name = "koin-androidx-compose", version.ref = "koin" }
-ktor-network = { group = "io.ktor", name = "ktor-network", version.ref = "ktor" }
-ktor-utils = { group = "io.ktor", name = "ktor-utils", version.ref = "ktor" }
-sqldelight-android-driver = { group = "app.cash.sqldelight", name = "android-driver", version.ref = "sqldelight" }
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version = "1.18.0" }
+junit = { group = "junit", name = "junit", version = "4.13.2" }
+androidx-junit = { group = "androidx.test.ext", name = "junit", version = "1.3.0" }
+androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version = "3.7.0" }
+androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version = "2.10.0" }
+androidx-lifecycle-viewmodel-compose = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version = "2.10.0" }
+androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version = "1.13.0" }
+androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version = "2.9.8" }
+androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version = "2026.05.01" }
+androidx-ui = { group = "androidx.compose.ui", name = "ui", version = "1.11.2" }
+androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics", version = "1.11.2" }
+androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling", version = "1.11.2" }
+androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview", version = "1.11.2" }
+androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest", version = "1.11.2" }
+androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4", version = "1.11.2" }
+androidx-material3 = { group = "androidx.compose.material3", name = "material3", version = "1.4.0" }
+androidx-material-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended", version = "1.7.8" }
+koin-android = { group = "io.insert-koin", name = "koin-android", version = "4.2.1" }
+koin-androidx-compose = { group = "io.insert-koin", name = "koin-androidx-compose", version = "4.2.1" }
+ktor-network = { group = "io.ktor", name = "ktor-network", version = "3.5.0" }
+ktor-utils = { group = "io.ktor", name = "ktor-utils", version = "3.5.0" }
+sqldelight-android-driver = { group = "app.cash.sqldelight", name = "android-driver", version = "2.3.2" }
 sqldelight-sqlite-driver = { group = "app.cash.sqldelight", name = "sqlite-driver", version.ref = "sqldelight" }
-sqldelight-coroutines-extensions = { group = "app.cash.sqldelight", name = "coroutines-extensions", version.ref = "sqldelight" }
-bouncycastle-bcprov = { group = "org.bouncycastle", name = "bcprov-jdk18on", version.ref = "bouncycastle" }
+sqldelight-coroutines-extensions = { group = "app.cash.sqldelight", name = "coroutines-extensions", version = "2.3.2" }
+bouncycastle-bcprov = { group = "org.bouncycastle", name = "bcprov-jdk18on", version = "1.84" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

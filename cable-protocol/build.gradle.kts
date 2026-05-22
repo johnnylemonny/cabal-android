@@ -9,12 +9,16 @@ android {
     defaultConfig {
         minSdk = 24
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        targetSdk = 37
     }
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_25
         targetCompatibility = JavaVersion.VERSION_25
     }
+    compileSdkMinor = 0
+    buildToolsVersion = "37.0.0"
+    ndkVersion = "28.2.13676358"
 }
 
 kotlin {

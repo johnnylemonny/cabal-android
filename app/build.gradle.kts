@@ -42,6 +42,9 @@ android {
     buildFeatures {
         compose = true
     }
+    compileSdkMinor = 0
+    buildToolsVersion = "37.0.0"
+    ndkVersion = "28.2.13676358"
 }
 
 kotlin {
@@ -69,7 +72,7 @@ dependencies {
     implementation(libs.sqldelight.coroutines.extensions)
     implementation(libs.koin.android)
     implementation(libs.koin.androidx.compose)
-    implementation("androidx.security:security-crypto:1.1.0-alpha06")
+    implementation("androidx.security:security-crypto:1.1.0")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
