@@ -59,6 +59,7 @@ dependencies {
     implementation(libs.sqldelight.android.driver)
 
     implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.core.splashscreen)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.activity.compose)
@@ -72,7 +73,7 @@ dependencies {
     implementation(libs.sqldelight.coroutines.extensions)
     implementation(libs.koin.android)
     implementation(libs.koin.androidx.compose)
-    implementation("androidx.security:security-crypto:1.1.0")
+    implementation(libs.androidx.security)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

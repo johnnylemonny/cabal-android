@@ -11,7 +11,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -19,6 +18,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
@@ -56,8 +56,8 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
+        installSplashScreen()
         super.onCreate(savedInstanceState)
         
         enableEdgeToEdge()
@@ -65,7 +65,11 @@ class MainActivity : ComponentActivity() {
         // Start Foreground Sync Service
         try {
             val serviceIntent = Intent(this, CabalSyncService::class.java)
-            startForegroundService(serviceIntent)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                startForegroundService(serviceIntent)
+            } else {
+                startService(serviceIntent)
+            }
         } catch (e: Exception) {
             Log.e("MainActivity", "Failed to start service: ${e.message}")
         }
@@ -153,9 +157,10 @@ fun MainApp(
     
     if (showAddDialog) {
         AddCabalDialog(
-            onDismiss = { },
+            onDismiss = { showAddDialog = false },
             onConfirm = { key, name ->
                 mainViewModel.addCabal(key, name)
+                showAddDialog = false
             }
         )
     }
@@ -212,6 +217,7 @@ fun MainApp(
                     label = { Text("Add Cabal") },
                     selected = false,
                     onClick = {
+                        showAddDialog = true
                     },
                     modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
                 )

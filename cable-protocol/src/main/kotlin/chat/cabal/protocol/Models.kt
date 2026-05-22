@@ -195,8 +195,9 @@ sealed class CablePost {
         val size = Constants.PUBLICKEY_SIZE + Constants.SIGNATURE_SIZE + payload.size
         val buffer = ByteBuffer.allocate(size)
         buffer.put(publicKey)
-        if (signature != null) {
-            buffer.put(signature)
+        val sig = signature
+        if (sig != null) {
+            buffer.put(sig)
         } else {
             buffer.put(ByteArray(Constants.SIGNATURE_SIZE))
         }
