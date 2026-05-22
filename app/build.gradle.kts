@@ -43,6 +43,13 @@ android {
     buildFeatures {
         compose = true
     }
+
+    packaging {
+        jniLibs {
+            useLegacyPackaging = true
+        }
+    }
+
     compileSdkMinor = 0
     buildToolsVersion = "37.0.0"
     ndkVersion = "28.2.13676358"

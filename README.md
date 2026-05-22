@@ -1,31 +1,31 @@
-# Cabal Mobile (Native Kotlin Rewrite)
+# Cabal Mobile (Hybrid QuickJS Migration)
 
-A modern, native Android P2P chat client for the **Cable protocol**, built for privacy, transparency, and high performance in 2026.
+A modern, hybrid Android P2P chat client for the **Cable protocol**, utilizing the original JavaScript protocol implementation via **QuickJS** while maintaining a 100% native Jetpack Compose UI.
 
 ## 🌟 Key Features
-- **100% Native Kotlin**: Leverages the full power of Android with Jetpack Compose and Material 3.
+- **Hybrid Architecture**: Runs the original `cable-core.js` logic in a high-performance **QuickJS** engine.
+- **100% Native UI**: Jetpack Compose and Material 3 for a premium, fast, and responsive user experience.
 - **Privacy First (FOSS)**: Zero Google Play Services, zero tracking. All data is local-first.
 - **True P2P Connectivity**: Direct communication via TCP sockets and MDNS local discovery.
-- **Android 17 Ready**: Fully compatible with the latest Local Network Permission requirements (LNP).
-- **Full History Sync**: Automatic request/serve cycle for missing messages between peers.
-- **End-to-End Encryption (E2EE)**: Messages are secured with ChaCha20-Poly1305 and Ed25519 signatures.
-- **Premium UI/UX**: Professional Material 3 interface with dynamic color support, adaptive icons, and smooth splash screens.
-- **Persistent Identity**: Secure key management using Android KeyStore (with software fallback).
+- **Android 17 Ready**: Fully compatible with the latest Local Network Permission requirements (LNP) and 16 KB page size optimization.
+- **Persistence**: JS storage calls are seamlessly bridged to native **SQLDelight** (SQLite).
+- **Persistent Identity**: Secure key management using Android KeyStore.
 
 ## 🛠️ Tech Stack (2026 Standard)
 - **Language**: Kotlin 2.3.21 (K2 Compiler)
+- **JS Engine**: QuickJS (CashApp's `quickjs-android:0.9.2`)
 - **Java**: JDK 25 Adoptium
 - **Build System**: Gradle 9.5 with AGP 9.2.1
 - **UI**: Jetpack Compose (Material 3)
 - **Dependency Injection**: Koin 4.2.1
 - **Networking**: Ktor 3.5.0 (Sockets)
 - **Local Database**: SQLDelight 2.3.2 (SQLite)
-- **Cryptography**: Standard Java providers with Ed25519 and ChaCha20 support.
+- **Serialization**: Kotlinx Serialization 1.11.0 (for Kotlin-JS bridge)
 
 ## 🏗️ Project Structure
-- `:app`: The main Android application module (UI, ViewModels, Sync Engine, DI Modules).
-- `:cable-protocol`: Pure Kotlin implementation of the Cable binary protocol and serialization.
+- `:app`: The main Android application module (UI, ViewModels, Sync Engine, QuickJS Bridge).
 - `:cable-network`: Networking layer handling TCP transports and peer discovery via Android NSD.
+- `app/src/main/assets/cable-protocol.bundle.js`: Pre-compiled bundle of the JS protocol logic.
 
 ## 🚀 Getting Started
 1. **Clone the repository.**

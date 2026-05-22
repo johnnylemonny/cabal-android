@@ -18,6 +18,12 @@ lib/
 *.class
 *.pyc
 
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
 # Beads & Agent Artifacts
 .beads/embeddeddolt/
 .artifacts/
