@@ -1,5 +1,6 @@
 package chat.cabal.mobile.di
 
+import app.cash.sqldelight.db.SqlDriver
 import app.cash.sqldelight.driver.android.AndroidSqliteDriver
 import chat.cabal.database.CabalDatabase
 import chat.cabal.mobile.core.KeyStoreManager
@@ -9,17 +10,22 @@ import chat.cabal.mobile.ui.viewmodel.MainViewModel
 import chat.cabal.network.TcpTransport
 import chat.cabal.protocol.CableCore
 import chat.cabal.protocol.Crypto
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 
 val appModule = module {
-    single { 
+    single<SqlDriver> {
         AndroidSqliteDriver(CabalDatabase.Schema, androidContext(), "cabal.db") 
     }
     single { CabalDatabase(get()) }
     
     single { KeyStoreManager() }
+    
+    single<CoroutineScope> { CoroutineScope(SupervisorJob() + Dispatchers.Default) }
     
     single { 
         val ksm: KeyStoreManager = get()

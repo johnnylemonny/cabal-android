@@ -2,6 +2,7 @@ package chat.cabal.mobile.core
 
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
+import android.util.Log
 import java.security.KeyPair
 import java.security.KeyPairGenerator
 import java.security.KeyStore
@@ -13,11 +14,17 @@ class KeyStoreManager {
     private val keyStore = KeyStore.getInstance("AndroidKeyStore").apply { load(null) }
 
     fun getOrCreateKeyPair(): KeyPair {
-        if (!keyStore.containsAlias(keyAlias)) {
-            generateKey()
+        try {
+            if (!keyStore.containsAlias(keyAlias)) {
+                generateKey()
+            }
+            val entry = keyStore.getEntry(keyAlias, null) as KeyStore.PrivateKeyEntry
+            return KeyPair(entry.certificate.publicKey, entry.privateKey)
+        } catch (e: Exception) {
+            Log.e("KeyStoreManager", "Failed to get/create key: ${e.message}")
+            // Fallback to non-KeyStore key if KeyStore is broken (e.g. some emulators)
+            return generateSoftwareKey()
         }
-        val entry = keyStore.getEntry(keyAlias, null) as KeyStore.PrivateKeyEntry
-        return KeyPair(entry.certificate.publicKey, entry.privateKey)
     }
 
     private fun generateKey() {
@@ -31,5 +38,10 @@ class KeyStoreManager {
             .build()
         kpg.initialize(spec)
         kpg.generateKeyPair()
+    }
+
+    private fun generateSoftwareKey(): KeyPair {
+        val kpg = KeyPairGenerator.getInstance("Ed25519")
+        return kpg.generateKeyPair()
     }
 }

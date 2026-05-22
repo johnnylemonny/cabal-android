@@ -1,9 +1,16 @@
 package chat.cabal.mobile
 
+import android.Manifest
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -15,19 +22,15 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import chat.cabal.database.CabalDatabase
-import chat.cabal.mobile.core.KeyStoreManager
-import chat.cabal.mobile.core.SyncEngine
-import chat.cabal.mobile.core.CabalSyncService
-import android.content.Intent
+import chat.cabal.mobile.core.*
+import chat.cabal.mobile.network.NsdDiscovery
+import chat.cabal.mobile.ui.components.AddCabalDialog
+import chat.cabal.mobile.ui.components.PeerAvatar
 import chat.cabal.mobile.ui.navigation.CabalNavGraph
 import chat.cabal.mobile.ui.theme.CabalTheme
 import chat.cabal.mobile.ui.viewmodel.MainViewModel
-import chat.cabal.mobile.network.NsdDiscovery
 import chat.cabal.network.TcpTransport
 import chat.cabal.protocol.CableCore
-import chat.cabal.mobile.core.toHex
-import chat.cabal.mobile.ui.components.AddCabalDialog
-import chat.cabal.mobile.ui.components.PeerAvatar
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -40,32 +43,82 @@ class MainActivity : ComponentActivity() {
     private val mainViewModel: MainViewModel by viewModel()
     private lateinit var discovery: NsdDiscovery
 
+    private val requestPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestMultiplePermissions()
+    ) { permissions ->
+        if (permissions.values.all { it }) {
+            startDiscovery()
+        } else {
+            // Even if some denied, try starting what we can
+            startDiscovery()
+            Toast.makeText(this, "Some permissions missing. P2P sync might be limited.", Toast.LENGTH_SHORT).show()
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         
+        enableEdgeToEdge()
+        
         // Start Foreground Sync Service
-        val serviceIntent = Intent(this, CabalSyncService::class.java)
-        startForegroundService(serviceIntent)
+        try {
+            val serviceIntent = Intent(this, CabalSyncService::class.java)
+            startForegroundService(serviceIntent)
+        } catch (e: Exception) {
+            Log.e("MainActivity", "Failed to start service: ${e.message}")
+        }
         
         transport.start()
-        
         discovery = NsdDiscovery(this)
-        // Start discovery for the "default" cabal
-        discovery.startDiscovery("default") { peerInfo ->
-            lifecycleScope.launch {
-                transport.connectToPeer(peerInfo.address, peerInfo.port)
-                syncEngine.onPeerConnected("${peerInfo.address}:${peerInfo.port}")
-            }
-        }
-        // Announce our presence
-        discovery.announce("default", 13333)
+
+        checkAndRequestPermissions()
+
+        val myPublicKeyHex = try { cableCore.publicKey.toHex() } catch (e: Exception) { "unknown" }
         
-        enableEdgeToEdge()
-        val myPublicKeyHex = cableCore.publicKey.toHex()
         setContent {
             CabalTheme {
                 MainApp(database, cableCore, transport, syncEngine, myPublicKeyHex, mainViewModel)
             }
+        }
+    }
+
+    private fun checkAndRequestPermissions() {
+        val permissions = mutableListOf<String>()
+        
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            permissions.add(Manifest.permission.NEARBY_WIFI_DEVICES)
+            permissions.add(Manifest.permission.POST_NOTIFICATIONS)
+        }
+        
+        // ACCESS_LOCAL_NETWORK is for API 37+ (Android 17)
+        if (Build.VERSION.SDK_INT >= 37) {
+            permissions.add("android.permission.ACCESS_LOCAL_NETWORK")
+        }
+
+        val allGranted = permissions.all { checkSelfPermission(it) == PackageManager.PERMISSION_GRANTED }
+        
+        if (allGranted) {
+            startDiscovery()
+        } else {
+            requestPermissionLauncher.launch(permissions.toTypedArray())
+        }
+    }
+
+    private fun startDiscovery() {
+        try {
+            // Start discovery for the "default" cabal
+            discovery.startDiscovery("default") { peerInfo ->
+                lifecycleScope.launch {
+                    transport.connectToPeer(peerInfo.address, peerInfo.port)
+                    syncEngine.onPeerConnected("${peerInfo.address}:${peerInfo.port}")
+                }
+            }
+            // Announce our presence
+            discovery.announce("default", 13333)
+        } catch (e: SecurityException) {
+            Log.e("MainActivity", "SecurityException during discovery: ${e.message}")
+        } catch (e: Exception) {
+            Log.e("MainActivity", "Error during discovery: ${e.message}")
         }
     }
 }
