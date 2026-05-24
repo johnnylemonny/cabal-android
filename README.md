@@ -13,7 +13,7 @@ A modern, hybrid Android P2P chat client for the **Cable protocol**, utilizing t
 
 ## 🛠️ Tech Stack (2026 Standard)
 - **Language**: Kotlin 2.3.21 (K2 Compiler)
-- **JS Engine**: QuickJS (CashApp's `quickjs-android:0.9.2`)
+- **JS Engine**: **Zipline** (CashApp's successor to QuickJS, version 1.27.0) with full 16 KB page size support.
 - **Java**: JDK 25 Adoptium
 - **Build System**: Gradle 9.5 with AGP 9.2.1
 - **UI**: Jetpack Compose (Material 3)

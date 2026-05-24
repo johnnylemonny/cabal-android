@@ -11,7 +11,7 @@ import java.io.Closeable
 @OptIn(EngineApi::class)
 class QuickJsEngine(
     private val context: Context,
-    private val scope: CoroutineScope
+    scope: CoroutineScope
 ) : Closeable {
     private val zipline = Zipline.create(scope.coroutineContext[CoroutineDispatcher]!!)
 

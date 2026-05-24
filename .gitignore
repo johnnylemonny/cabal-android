@@ -17,6 +17,8 @@ captures/
 lib/
 *.class
 *.pyc
+.kotlin/
+.skills/
 
 # Node.js
 node_modules/

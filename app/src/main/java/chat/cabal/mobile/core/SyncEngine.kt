@@ -27,11 +27,13 @@ data class JsPost(
 
 class SyncEngine(
     private val scope: CoroutineScope,
-    private val database: CabalDatabase,
+    database: CabalDatabase,
     private val transport: TcpTransport,
     private val quickJs: QuickJsEngine,
     private val keyStoreManager: KeyStoreManager
 ) {
+    private val json = Json { ignoreUnknownKeys = true }
+
     init {
         quickJs.setBridges(
             network = object : QuickJsEngine.NetworkBridge {
@@ -47,6 +49,7 @@ class SyncEngine(
                     return try {
                         database.cabalQueries.getKV(keyHex).executeAsOneOrNull()
                     } catch (e: Exception) {
+                        Log.e("SyncEngine", "Failed to get KV: $keyHex", e)
                         null
                     }
                 }
@@ -63,7 +66,7 @@ class SyncEngine(
             ui = object : QuickJsEngine.UIBridge {
                 override fun onChatMessage(json: String) {
                     try {
-                        val msg = Json { ignoreUnknownKeys = true }.decodeFromString<JsChatMessage>(json)
+                        val msg = this@SyncEngine.json.decodeFromString<JsChatMessage>(json)
                         if (msg.post.postType == 0) { // TEXT_POST
                             database.cabalQueries.insertMessage(
                                 hash = msg.hash.decodeHex(),
