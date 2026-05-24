@@ -1,0 +1,10 @@
+.beads/
+.gradle/
+.idea/
+.kotlin/
+.skills/
+build/
+cabal_sources (old_repos)/
+graphify-out/
+AGENTS.md
+HANDOVER.md
