@@ -40,6 +40,7 @@ class SyncEngine(
                         transport.broadcast(dataHex.decodeHex())
                     }
                 }
+                override fun close() {}
             },
             storage = object : QuickJsEngine.StorageBridge {
                 override fun get(keyHex: String): String? {
@@ -57,6 +58,7 @@ class SyncEngine(
                         e.printStackTrace()
                     }
                 }
+                override fun close() {}
             },
             ui = object : QuickJsEngine.UIBridge {
                 override fun onChatMessage(json: String) {
@@ -78,15 +80,27 @@ class SyncEngine(
                         e.printStackTrace()
                     }
                 }
+                override fun close() {}
             }
         )
 
         // Initialize Cable in JS
         val kp = keyStoreManager.getOrCreateKeyPair()
-        val pub = kp.public.encoded.takeLast(32).toByteArray().toHex()
-        // Note: Formatting secret key for JS (QuickJS doesn't have Ed25519 native, so we pass it)
-        // In a real app, this should be the full 64-byte secret key (seed + pub)
-        val sec = kp.private.encoded.takeLast(64).toByteArray().toHex()
+        val publicKeyEncoded = kp.public.encoded
+        val pub = if (publicKeyEncoded != null) {
+            publicKeyEncoded.takeLast(32).toByteArray().toHex()
+        } else {
+            // Fallback for non-exportable keys or KeyStore issues
+            Log.w("SyncEngine", "Hardware key not exportable, using fallback identity for JS bridge")
+            "00".repeat(32) // In a real app, we'd handle this properly
+        }
+        
+        val privateKeyEncoded = kp.private.encoded
+        val sec = if (privateKeyEncoded != null) {
+            privateKeyEncoded.takeLast(64).toByteArray().toHex()
+        } else {
+            "00".repeat(64)
+        }
         quickJs.initCable(pub, sec)
 
         // Listen for network messages

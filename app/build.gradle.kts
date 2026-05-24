@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.sqldelight)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.zipline)
 }
 
 sqldelight {
@@ -82,7 +83,7 @@ dependencies {
     implementation(libs.koin.android)
     implementation(libs.koin.androidx.compose)
     implementation(libs.androidx.security)
-    implementation(libs.quickjs.android)
+    implementation(libs.zipline.android)
     implementation(libs.kotlinx.serialization.json)
 
     testImplementation(libs.junit)

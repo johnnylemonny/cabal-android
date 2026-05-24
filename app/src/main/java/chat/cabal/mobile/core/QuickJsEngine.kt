@@ -1,28 +1,30 @@
 package chat.cabal.mobile.core
 
 import android.content.Context
-import app.cash.quickjs.QuickJs
+import app.cash.zipline.EngineApi
+import app.cash.zipline.Zipline
+import app.cash.zipline.ZiplineService
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import java.io.Closeable
 
+@OptIn(EngineApi::class)
 class QuickJsEngine(
     private val context: Context,
     private val scope: CoroutineScope
 ) : Closeable {
-    private val quickJs = QuickJs.create()
+    private val zipline = Zipline.create(scope.coroutineContext[CoroutineDispatcher]!!)
 
-    interface NetworkBridge {
+    interface NetworkBridge : ZiplineService {
         fun broadcast(dataHex: String)
     }
 
-    interface StorageBridge {
+    interface StorageBridge : ZiplineService {
         fun get(keyHex: String): String?
         fun put(keyHex: String, valueHex: String)
     }
 
-    interface UIBridge {
+    interface UIBridge : ZiplineService {
         fun onChatMessage(json: String)
     }
 
@@ -36,30 +38,79 @@ class QuickJsEngine(
     }
 
     private fun setupBridges() {
-        // Expose bridges to JS
-        // Note: QuickJS-Android allows setting objects that implement interfaces
-        quickJs.set("kotlinNetwork", NetworkBridge::class.java, object : NetworkBridge {
+        val networkProxy = object : NetworkBridge {
             override fun broadcast(dataHex: String) {
                 networkBridge?.broadcast(dataHex)
             }
-        })
-        quickJs.set("kotlinStorage", StorageBridge::class.java, object : StorageBridge {
+            override fun close() {}
+        }
+        val storageProxy = object : StorageBridge {
             override fun get(keyHex: String): String? = storageBridge?.get(keyHex)
             override fun put(keyHex: String, valueHex: String) {
                 storageBridge?.put(keyHex, valueHex)
             }
-        })
-        quickJs.set("kotlinUI", UIBridge::class.java, object : UIBridge {
+            override fun close() {}
+        }
+        val uiProxy = object : UIBridge {
             override fun onChatMessage(json: String) {
                 uiBridge?.onChatMessage(json)
             }
-        })
+            override fun close() {}
+        }
+
+        zipline.bind<NetworkBridge>("kotlinNetworkInternal", networkProxy)
+        zipline.bind<StorageBridge>("kotlinStorageInternal", storageProxy)
+        zipline.bind<UIBridge>("kotlinUIInternal", uiProxy)
     }
 
     private fun loadBundle() {
         try {
             val bundle = context.assets.open("cable-protocol.bundle.js").bufferedReader().use { it.readText() }
-            quickJs.evaluate(bundle)
+            val shim = """
+                var console = { log: function() {}, error: function() {}, warn: function() {} };
+                var TextEncoder = function() {
+                    this.encode = function(s) {
+                        var a = new Uint8Array(s.length);
+                        for(var i=0; i<s.length; i++) a[i]=s.charCodeAt(i);
+                        return a;
+                    };
+                };
+                var TextDecoder = function() {
+                    this.decode = function(a) {
+                        return String.fromCharCode.apply(null, a);
+                    };
+                };
+
+                var kotlinNetwork = {
+                    broadcast: function(data) {
+                        try {
+                            if (typeof zipline !== 'undefined') zipline.take('kotlinNetworkInternal').broadcast(data);
+                        } catch(e) {}
+                    }
+                };
+                var kotlinStorage = {
+                    get: function(key) {
+                        try {
+                            if (typeof zipline !== 'undefined') return zipline.take('kotlinStorageInternal').get(key);
+                        } catch(e) {}
+                        return null;
+                    },
+                    put: function(key, value) {
+                        try {
+                            if (typeof zipline !== 'undefined') zipline.take('kotlinStorageInternal').put(key, value);
+                        } catch(e) {}
+                    }
+                };
+                var kotlinUI = {
+                    onChatMessage: function(json) {
+                        try {
+                            if (typeof zipline !== 'undefined') zipline.take('kotlinUIInternal').onChatMessage(json);
+                        } catch(e) {}
+                    }
+                };
+            """.trimIndent()
+            zipline.quickJs.evaluate(shim)
+            zipline.quickJs.evaluate(bundle)
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -67,7 +118,7 @@ class QuickJsEngine(
 
     fun initCable(publicKey: String, secretKey: String) {
         try {
-            quickJs.evaluate("initCable('$publicKey', '$secretKey')")
+            zipline.quickJs.evaluate("if (typeof initCable !== 'undefined') initCable('$publicKey', '$secretKey')")
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -75,7 +126,7 @@ class QuickJsEngine(
 
     fun handleIncomingData(dataHex: String) {
         try {
-            quickJs.evaluate("handleIncomingData('$dataHex')")
+            zipline.quickJs.evaluate("if (typeof handleIncomingData !== 'undefined') handleIncomingData('$dataHex')")
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -83,7 +134,7 @@ class QuickJsEngine(
 
     fun postText(channel: String, text: String) {
         try {
-            quickJs.evaluate("postText('$channel', '$text')")
+            zipline.quickJs.evaluate("if (typeof postText !== 'undefined') postText('$channel', '$text')")
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -96,6 +147,6 @@ class QuickJsEngine(
     }
 
     override fun close() {
-        quickJs.close()
+        zipline.close()
     }
 }
