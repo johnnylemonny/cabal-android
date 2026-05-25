@@ -1,6 +1,9 @@
 # Gradle
 .gradle/
 build/
+app/build/
+cable-network/build/
+cable-protocol/build/
 
 # Android Studio / IntelliJ
 .idea/
@@ -12,6 +15,7 @@ captures/
 .externalNativeBuild/
 .cxx/
 cmake/
+.navigation/
 
 # Android / Mobile
 *.apk
@@ -20,6 +24,7 @@ cmake/
 *.class
 bin/
 gen/
+*.flat
 
 # Logs
 *.log
@@ -34,8 +39,10 @@ graphify-out/
 .kotlin/
 .beads/
 cabal_sources (old_repos)/
+.graphifyignore
 
 # Secrets / Sensitive
 *.jks
 *.keystore
 google-services.json
+auth-secrets.properties

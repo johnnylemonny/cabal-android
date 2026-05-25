@@ -1,8 +1,8 @@
 # Cabal Android
 
-<div align="center">
-  <img src="cabal_brand_pack/png/cabal_lockup_horizontal_final_optical_stronger_dark_2400px.png" width="600" alt="Cabal Banner">
-</div>
+<p align="center">
+  <img src="cabal_brand_pack/png/cabal_lockup_horizontal_final_optical_stronger_dark_2400px.png" style="max-width: 100%; height: auto;" alt="Cabal Banner">
+</p>
 
 Cabal is a **privacy-first, peer-to-peer (P2P)** chat application for Android. It is a modern, high-performance rewrite of the original [cabal-mobile](https://github.com/cabal-club/cabal-mobile) client, built from the ground up using **Kotlin**, **Jetpack Compose**, and the **Cable protocol**.
 
@@ -28,9 +28,9 @@ Cabal is decentralized communication for the modern era. No central servers, no 
 
 This project is a native Android implementation designed for the year 2026, targeting **Android 17 (API 37)** and emphasizing security, transparency, and a premium user experience.
 
-<div align="center">
-  <img src="cabal_brand_pack/png/cabal_icon_v2a_final_dark_preview_1024px.png" width="200" alt="Cabal Icon">
-</div>
+<p align="center">
+  <img src="cabal_brand_pack/png/cabal_icon_v2a_final_dark_preview_1024px.png" style="width: 200px; height: auto;" alt="Cabal Icon">
+</p>
 
 ---
 
