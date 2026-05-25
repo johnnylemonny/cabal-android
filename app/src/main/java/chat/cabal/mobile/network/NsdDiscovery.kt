@@ -28,7 +28,7 @@ class NsdDiscovery(private val context: Context) : PeerDiscovery {
                         override fun onServiceResolved(serviceInfo: NsdServiceInfo) {
                             // Using modern hostAddresses (API 34+)
                             val hostAddress = serviceInfo.hostAddresses.firstOrNull()?.hostAddress
-                            Log.d("NsdDiscovery", "Service resolved: $hostAddress:${serviceInfo.port}")
+                            Log.d("NsdDiscovery", "Service resolved: ${serviceInfo.serviceName} at $hostAddress:${serviceInfo.port}")
                             onPeerFound(
                                 PeerInfo(
                                     address = hostAddress ?: "",

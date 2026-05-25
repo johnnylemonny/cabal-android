@@ -4,23 +4,15 @@
         "source": "chat.cabal.mobile.app-main-5:/mipmap-anydpi-v26/ic_launcher.xml"
     },
     {
-        "merged": "D:\\DEV\\gradle\\daemon\\9.5.1\\chat.cabal.mobile.app-debug-3:\\mipmap-anydpi-v26_ic_launcher_round.xml.flat",
-        "source": "D:\\DEV\\gradle\\daemon\\9.5.1\\chat.cabal.mobile.app-main-5:\\mipmap-anydpi-v26\\ic_launcher_round.xml"
+        "merged": "chat.cabal.mobile.app-debug-3:/drawable_ic_cabal_mark_v2a_foreground.xml.flat",
+        "source": "chat.cabal.mobile.app-main-5:/drawable/ic_cabal_mark_v2a_foreground.xml"
     },
     {
         "merged": "chat.cabal.mobile.app-debug-3:/mipmap-anydpi-v26_ic_launcher_round.xml.flat",
         "source": "chat.cabal.mobile.app-main-5:/mipmap-anydpi-v26/ic_launcher_round.xml"
     },
     {
-        "merged": "D:\\DEV\\gradle\\daemon\\9.5.1\\chat.cabal.mobile.app-debug-3:\\drawable_ic_cabal_splash_icon.xml.flat",
-        "source": "D:\\DEV\\gradle\\daemon\\9.5.1\\chat.cabal.mobile.app-main-5:\\drawable\\ic_cabal_splash_icon.xml"
-    },
-    {
-        "merged": "D:\\DEV\\gradle\\daemon\\9.5.1\\chat.cabal.mobile.app-debug-3:\\mipmap-anydpi-v26_ic_launcher.xml.flat",
-        "source": "D:\\DEV\\gradle\\daemon\\9.5.1\\chat.cabal.mobile.app-main-5:\\mipmap-anydpi-v26\\ic_launcher.xml"
-    },
-    {
-        "merged": "D:\\DEV\\gradle\\daemon\\9.5.1\\chat.cabal.mobile.app-debug-3:\\drawable_ic_cabal_mark_v2a_foreground.xml.flat",
-        "source": "D:\\DEV\\gradle\\daemon\\9.5.1\\chat.cabal.mobile.app-main-5:\\drawable\\ic_cabal_mark_v2a_foreground.xml"
+        "merged": "chat.cabal.mobile.app-debug-3:/drawable_ic_cabal_splash_icon.xml.flat",
+        "source": "chat.cabal.mobile.app-main-5:/drawable/ic_cabal_splash_icon.xml"
     }
 ]

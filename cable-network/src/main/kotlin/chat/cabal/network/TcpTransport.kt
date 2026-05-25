@@ -1,5 +1,6 @@
 package chat.cabal.network
 
+import android.util.Log
 import chat.cabal.protocol.Varint
 import io.ktor.network.selector.*
 import io.ktor.network.sockets.*
@@ -31,32 +32,35 @@ class TcpTransport(
         scope.launch(Dispatchers.IO) {
             try {
                 serverSocket = aSocket(selectorManager).tcp().bind(port = port)
-                println("Server started on port $port")
+                Log.i("TcpTransport", "Server started on port $port")
                 while (isActive) {
                     val socket = serverSocket?.accept() ?: break
                     val remoteAddress = socket.remoteAddress.toString()
                     activeConnections[remoteAddress] = socket
                     _connectionCount.value = activeConnections.size
+                    Log.i("TcpTransport", "Accepted connection from $remoteAddress")
                     launch { handleConnection(socket, remoteAddress) }
                 }
             } catch (e: Exception) {
-                e.printStackTrace()
+                Log.e("TcpTransport", "Server error", e)
             }
         }
     }
 
-    suspend fun connectToPeer(address: String, peerPort: Int) {
+    suspend fun connectToPeer(address: String, peerPort: Int): Boolean {
         val remoteId = "$address:$peerPort"
-        if (activeConnections.containsKey(remoteId)) return
+        if (activeConnections.containsKey(remoteId)) return true
         
-        try {
+        return try {
             val socket = aSocket(selectorManager).tcp().connect(address, peerPort)
             activeConnections[remoteId] = socket
             _connectionCount.value = activeConnections.size
             scope.launch { handleConnection(socket, remoteId) }
-            println("Connected to peer: $remoteId")
+            Log.i("TcpTransport", "Connected to peer: $remoteId")
+            true
         } catch (e: Exception) {
-            println("Failed to connect to $remoteId: ${e.message}")
+            Log.e("TcpTransport", "Failed to connect to $remoteId: ${e.message}")
+            false
         }
     }
 

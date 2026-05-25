@@ -30,7 +30,9 @@ val appModule = module {
     single { 
         val ksm: KeyStoreManager = get()
         val kp = ksm.getOrCreateKeyPair()
-        val publicKey = kp.public.encoded.takeLast(32).toByteArray()
+        // Hardware keys might not expose bytes via encoded. Fallback to a zero-filled key for dev/test
+        // or a deterministic key derived from something else if needed.
+        val publicKey = kp.public.encoded?.takeLast(32)?.toByteArray() ?: ByteArray(32) { 0 }
         val cabalSecret = Crypto.blake2b("default".toByteArray())
         CableCore(publicKey, kp.private, cabalSecret)
     }

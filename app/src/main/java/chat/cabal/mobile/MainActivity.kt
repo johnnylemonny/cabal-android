@@ -109,15 +109,23 @@ class MainActivity : ComponentActivity() {
 
     private fun startDiscovery() {
         try {
+            Log.d("MainActivity", "Starting NSD discovery for 'default'")
             discovery.startDiscovery("default") { peerInfo ->
+                Log.d("MainActivity", "Found peer via NSD: ${peerInfo.address}:${peerInfo.port}")
                 lifecycleScope.launch {
-                    transport.connectToPeer(peerInfo.address, peerInfo.port)
-                    syncEngine.onPeerConnected("${peerInfo.address}:${peerInfo.port}")
+                    val success = transport.connectToPeer(peerInfo.address, peerInfo.port)
+                    if (success) {
+                        Log.i("MainActivity", "Successfully connected to peer: ${peerInfo.address}")
+                        syncEngine.onPeerConnected("${peerInfo.address}:${peerInfo.port}")
+                    } else {
+                        Log.w("MainActivity", "Failed to connect to discovered peer: ${peerInfo.address}")
+                    }
                 }
             }
             discovery.announce("default", 13333)
+            Log.d("MainActivity", "NSD announcement sent for port 13333")
         } catch (e: Exception) {
-            Log.e("MainActivity", "Discovery error: ${e.message}")
+            Log.e("MainActivity", "Discovery error: ${e.message}", e)
         }
     }
 }
