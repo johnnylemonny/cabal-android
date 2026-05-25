@@ -1,0 +1,20 @@
+{
+    "logs": [
+        {
+            "outputFile": "chat.cabal.mobile.app-mergeDebugResources-1:/values-v33/values-v33.xml",
+            "map": [
+                {
+                    "source": "D:\\DEV\\gradle\\caches\\9.5.1\\transforms\\ff6a82c423a82ac9910e82b0b3babfff\\transformed\\core-splashscreen-1.2.0\\res\\values-v33\\values-v33.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endLines": "5",
+                        "endColumns": "12",
+                        "endOffsets": "284"
+                    }
+                }
+            ]
+        }
+    ]
+}

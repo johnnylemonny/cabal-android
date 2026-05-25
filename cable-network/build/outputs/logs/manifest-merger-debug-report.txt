@@ -1,0 +1,16 @@
+-- Merging decision tree log ---
+manifest
+ADDED from D:\Aplikacje\Poprawki\new-cabal-mobile\cable-network\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest10073410009145770076.xml:2:13-83
+INJECTED from D:\Aplikacje\Poprawki\new-cabal-mobile\cable-network\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest10073410009145770076.xml:2:13-83
+	package
+		INJECTED from D:\Aplikacje\Poprawki\new-cabal-mobile\cable-network\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest10073410009145770076.xml
+	xmlns:android
+		ADDED from D:\Aplikacje\Poprawki\new-cabal-mobile\cable-network\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest10073410009145770076.xml:2:23-81
+uses-sdk
+INJECTED from D:\Aplikacje\Poprawki\new-cabal-mobile\cable-network\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest10073410009145770076.xml reason: use-sdk injection requested
+INJECTED from D:\Aplikacje\Poprawki\new-cabal-mobile\cable-network\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest10073410009145770076.xml
+INJECTED from D:\Aplikacje\Poprawki\new-cabal-mobile\cable-network\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest10073410009145770076.xml
+	android:targetSdkVersion
+		INJECTED from D:\Aplikacje\Poprawki\new-cabal-mobile\cable-network\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest10073410009145770076.xml
+	android:minSdkVersion
+		INJECTED from D:\Aplikacje\Poprawki\new-cabal-mobile\cable-network\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest10073410009145770076.xml
