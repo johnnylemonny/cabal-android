@@ -49,6 +49,9 @@ android {
         jniLibs {
             useLegacyPackaging = true
         }
+        resources {
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+        }
     }
 
     compileSdkMinor = 0
@@ -67,13 +70,21 @@ dependencies {
     implementation(project(":cable-network"))
     implementation(libs.sqldelight.android.driver)
 
+    implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.core.splashscreen)
     implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.lifecycle.viewmodel.compose)
-    implementation(libs.androidx.activity.compose)
-    implementation(libs.androidx.navigation.compose)
-    implementation(platform(libs.androidx.compose.bom))
+    
+    implementation(libs.androidx.lifecycle.viewmodel.compose) {
+        exclude(group = "androidx.activity", module = "activity")
+    }
+    implementation(libs.androidx.activity.compose) {
+        exclude(group = "androidx.activity", module = "activity")
+    }
+    implementation(libs.androidx.navigation.compose) {
+        exclude(group = "androidx.activity", module = "activity")
+    }
+
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
