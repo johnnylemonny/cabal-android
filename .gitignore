@@ -1,38 +1,48 @@
-# Android
-*.iml
+# Gradle
 .gradle/
-/local.properties
-/.idea/
-.DS_Store
 build/
-*/build/
+app/build/
+cable-network/build/
+cable-protocol/build/
+
+# Android Studio / IntelliJ
+.idea/
+*.iml
+*.iws
+.shelf/
+local.properties
 captures/
 .externalNativeBuild/
 .cxx/
+cmake/
+.navigation/
+
+# Android / Mobile
 *.apk
-*.aab
-*.hprof
-
-# Kotlin
-lib/
+*.ap_
+*.dex
 *.class
-*.pyc
-.kotlin/
-.skills/
+bin/
+gen/
+*.flat
 
-# Node.js
-node_modules/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+# Logs
+*.log
 
-# Beads & Agent Artifacts
-.beads/embeddeddolt/
-.artifacts/
-*.artifact.md
+# System Files
+.DS_Store
+Thumbs.db
+
+# Project Specific
 graphify-out/
-cost.json
+.artifacts/
+.kotlin/
+.beads/
+cabal_sources (old_repos)/
+.graphifyignore
 
-# User specific
-*.swp
-*~
+# Secrets / Sensitive
+*.jks
+*.keystore
+google-services.json
+auth-secrets.properties
