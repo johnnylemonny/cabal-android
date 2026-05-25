@@ -1,8 +1,6 @@
 package chat.cabal.protocol
 
 import java.security.PrivateKey
-import java.security.PublicKey
-import java.util.Base64
 
 class CableCore(
     val publicKey: ByteArray,
@@ -19,7 +17,7 @@ class CableCore(
         System.arraycopy(nonce, 0, combined, 0, nonce.size)
         System.arraycopy(encryptedBytes, 0, combined, nonce.size, encryptedBytes.size)
         
-        val encryptedText = "E2E:" + Base64.getEncoder().encodeToString(combined)
+        val encryptedText = "E2E:" + android.util.Base64.encodeToString(combined, android.util.Base64.NO_WRAP)
 
         val post = TextPost(
             publicKey = publicKey,
@@ -36,25 +34,14 @@ class CableCore(
         if (!encryptedText.startsWith("E2E:")) return encryptedText
         
         return try {
-            val combined = Base64.getDecoder().decode(encryptedText.removePrefix("E2E:"))
+            val combined = android.util.Base64.decode(encryptedText.removePrefix("E2E:"), android.util.Base64.DEFAULT)
             val nonce = combined.copyOfRange(0, 12)
             val encryptedBytes = combined.copyOfRange(12, combined.size)
             val decryptedBytes = Crypto.decrypt(cabalSecret, nonce, encryptedBytes)
             String(decryptedBytes, Charsets.UTF_8)
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             "[Decryption Error]"
         }
-    }
-
-    fun createJoinPost(channel: String, links: List<ByteArray> = emptyList()): JoinPost {
-        val post = JoinPost(
-            publicKey = publicKey,
-            links = links,
-            channel = channel,
-            timestamp = System.currentTimeMillis() / 1000
-        )
-        post.signature = Crypto.sign(post.serializePayload(), privateKey)
-        return post
     }
 }
 
