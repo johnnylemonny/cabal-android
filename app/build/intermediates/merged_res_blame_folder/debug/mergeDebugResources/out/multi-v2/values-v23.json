@@ -4,7 +4,7 @@
             "outputFile": "chat.cabal.mobile.app-mergeDebugResources-1:/values-v23/values-v23.xml",
             "map": [
                 {
-                    "source": "D:\\DEV\\gradle\\caches\\9.5.1\\transforms\\8f29e82caaba559006e9a75a949dd400\\transformed\\appcompat-1.7.1\\res\\values-v23\\values-v23.xml",
+                    "source": "D:\\DEV\\gradle\\caches\\9.5.1\\transforms\\fb39d056c1689fab53efc09835e2fe54\\transformed\\appcompat-1.7.1\\res\\values-v23\\values-v23.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,20,34,35,36,39,43,44,45,46",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4",

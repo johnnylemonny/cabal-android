@@ -247,8 +247,11 @@ fun MainApp(
             topBar = {
                 TopAppBar(
                     title = { 
+                        val titleText = if (currentRoute == "about") "About" else {
+                            cabals.find { it.key == selectedCabalKey }?.name ?: "General"
+                        }
                         Column {
-                            Text(if (currentRoute == "about") "About" else "General")
+                            Text(titleText)
                             if (currentRoute != "about") {
                                 Text(
                                     text = if (peerCount > 0) "$peerCount peers connected" else "Searching for peers...",

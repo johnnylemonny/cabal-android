@@ -54,6 +54,7 @@ kotlin {
 }
 
 dependencies {
+    implementation(platform(libs.androidx.compose.bom))
     implementation(project(":cable-protocol"))
     implementation(project(":cable-network"))
     implementation(libs.sqldelight.android.driver)
@@ -62,9 +63,11 @@ dependencies {
     implementation(libs.androidx.core.splashscreen)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
-    implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.activity.compose) {
+        // Exclude potential duplicates if pulled in by other libs
+        exclude(group = "androidx.activity", module = "activity")
+    }
     implementation(libs.androidx.navigation.compose)
-    implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)

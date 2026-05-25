@@ -1,16 +1,16 @@
 # Graph Report - new-cabal-mobile  (2026-05-26)
 
 ## Corpus Check
-- 39 files · ~25,960 words
+- 39 files · ~25,987 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 792 nodes · 1751 edges · 77 communities (42 shown, 35 thin omitted)
+- 792 nodes · 1751 edges · 76 communities (41 shown, 35 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 6 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `ed9a16a6`
+- Built from commit: `d193b391`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -68,7 +68,7 @@
 - [[_COMMUNITY_Community 51|Community 51]]
 - [[_COMMUNITY_Community 52|Community 52]]
 - [[_COMMUNITY_Community 53|Community 53]]
-- [[_COMMUNITY_Community 54|Community 54]]
+- [[_COMMUNITY_Community 58|Community 58]]
 - [[_COMMUNITY_Community 59|Community 59]]
 - [[_COMMUNITY_Community 60|Community 60]]
 - [[_COMMUNITY_Community 61|Community 61]]
@@ -78,7 +78,6 @@
 - [[_COMMUNITY_Community 65|Community 65]]
 - [[_COMMUNITY_Community 66|Community 66]]
 - [[_COMMUNITY_Community 67|Community 67]]
-- [[_COMMUNITY_Community 68|Community 68]]
 
 ## God Nodes (most connected - your core abstractions)
 1. `call()` - 63 edges
@@ -100,7 +99,7 @@
 - `MainApp()` --calls--> `CabalNavGraph()`  [INFERRED]
   app/src/main/java/chat/cabal/mobile/MainActivity.kt → app/src/main/java/chat/cabal/mobile/ui/navigation/NavGraph.kt
 
-## Communities (77 total, 35 thin omitted)
+## Communities (76 total, 35 thin omitted)
 
 ### Community 0 - "Community 0"
 Cohesion: 0.05
@@ -147,64 +146,64 @@ Cohesion: 0.12
 Nodes (4): NetworkBridge, QuickJsEngine, StorageBridge, UIBridge
 
 ### Community 12 - "Community 12"
+Cohesion: 0.15
+Nodes (15): ag(), Bc(), cg(), Ef(), eI(), hg(), kf(), Ms() (+7 more)
+
+### Community 13 - "Community 13"
 Cohesion: 0.14
 Nodes (3): JsChatMessage, JsPost, SyncEngine
 
-### Community 13 - "Community 13"
+### Community 14 - "Community 14"
 Cohesion: 0.17
 Nodes (12): Fn(), Gg(), kI(), kw(), Mw(), Pw(), Rw(), so() (+4 more)
 
-### Community 14 - "Community 14"
+### Community 15 - "Community 15"
 Cohesion: 0.17
 Nodes (11): Agent Instructions, Beads Issue Tracker, code:bash (bd ready              # Find available work), code:bash (# Force overwrite without prompting), code:bash (bd ready              # Find available work), code:bash (git pull --rebase), Non-Interactive Shell Commands, Quick Reference (+3 more)
 
-### Community 15 - "Community 15"
+### Community 16 - "Community 16"
 Cohesion: 0.18
 Nodes (10): Android, Cabal Final Brand Package — v2A Optical Stronger, code:text (svg/cabal_lockup_horizontal_final_optical_stronger_white.svg), code:text (svg/      SVG jako źródło prawdy), code:text (android/ic_cabal_mark_v2a_foreground.xml), code:text (android/ic_cabal_splash_icon.xml), Finalna decyzja, Kolorystyka (+2 more)
 
-### Community 19 - "Community 19"
+### Community 20 - "Community 20"
 Cohesion: 0.22
 Nodes (8): 🏗️ Architecture, Cabal Android (Zipline Branch), 🔄 Key Differences (Zipline vs. Master), 📜 License, Secure Most (Bridges), 📖 Table of Contents, 🛠️ Technical Benefits, 🚀 Why Zipline?
 
-### Community 20 - "Community 20"
+### Community 21 - "Community 21"
 Cohesion: 0.22
 Nodes (9): Bn(), _emitStoredPost(), jI(), Qo(), _reindexChannelMembership(), _reindexHash(), Tn(), _y() (+1 more)
 
-### Community 21 - "Community 21"
+### Community 22 - "Community 22"
 Cohesion: 0.22
 Nodes (9): ca(), close(), [cn](), cp(), end(), hp(), next(), [Symbol.asyncIterator]() (+1 more)
 
-### Community 22 - "Community 22"
-Cohesion: 0.32
-Nodes (8): ag(), Bc(), cg(), hg(), qA(), Ro(), TC(), Wp()
-
-### Community 23 - "Community 23"
-Cohesion: 0.29
-Nodes (7): Ef(), eI(), kf(), Ms(), Pf(), Rf(), zE()
+### Community 29 - "Community 29"
+Cohesion: 0.4
+Nodes (5): dg(), El(), Q(), Qc(), YC()
 
 ### Community 30 - "Community 30"
 Cohesion: 0.4
-Nodes (5): dg(), El(), Q(), Qc(), YC()
+Nodes (5): ax(), createViewTranscoder(), cx(), fx(), Lg()
 
 ### Community 31 - "Community 31"
 Cohesion: 0.4
 Nodes (5): mx(), Rx(), uh(), wx(), xx()
 
-### Community 32 - "Community 32"
-Cohesion: 0.4
-Nodes (5): ax(), createViewTranscoder(), cx(), fx(), Lg()
-
-### Community 44 - "Community 44"
+### Community 43 - "Community 43"
 Cohesion: 0.5
 Nodes (4): fI(), hy(), Je(), Sy()
 
-### Community 45 - "Community 45"
+### Community 44 - "Community 44"
 Cohesion: 0.5
 Nodes (4): Gy(), max(), os(), vy()
 
+### Community 50 - "Community 50"
+Cohesion: 0.67
+Nodes (3): getLatestInfoHash(), getName(), _reindexInfoName()
+
 ### Community 51 - "Community 51"
 Cohesion: 0.67
-Nodes (3): Hn(), Jl(), mo()
+Nodes (3): ap(), fp(), Gs()
 
 ### Community 52 - "Community 52"
 Cohesion: 0.67
@@ -212,11 +211,7 @@ Nodes (3): Pc(), Ul(), Zd()
 
 ### Community 53 - "Community 53"
 Cohesion: 0.67
-Nodes (3): ap(), fp(), Gs()
-
-### Community 54 - "Community 54"
-Cohesion: 0.67
-Nodes (3): getLatestInfoHash(), getName(), _reindexInfoName()
+Nodes (3): Hn(), Jl(), mo()
 
 ## Knowledge Gaps
 - **36 isolated node(s):** `pb`, `sodium`, `PeerInfo`, `Constants`, `code:bash (bd ready              # Find available work)` (+31 more)
@@ -226,11 +221,11 @@ Nodes (3): getLatestInfoHash(), getName(), _reindexInfoName()
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `e()` connect `Community 10` to `Community 0`, `Community 1`, `Community 2`, `Community 5`, `Community 13`, `Community 21`?**
+- **Why does `e()` connect `Community 10` to `Community 0`, `Community 1`, `Community 2`, `Community 5`, `Community 14`, `Community 22`?**
   _High betweenness centrality (0.014) - this node is a cross-community bridge._
-- **Why does `call()` connect `Community 0` to `Community 1`, `Community 2`, `Community 3`, `Community 4`, `Community 5`, `Community 10`, `Community 54`, `Community 62`?**
+- **Why does `call()` connect `Community 0` to `Community 1`, `Community 2`, `Community 65`, `Community 4`, `Community 5`, `Community 3`, `Community 10`, `Community 50`?**
   _High betweenness centrality (0.004) - this node is a cross-community bridge._
-- **Why does `get()` connect `Community 2` to `Community 0`, `Community 1`, `Community 3`, `Community 4`, `Community 5`, `Community 6`, `Community 10`, `Community 20`?**
+- **Why does `get()` connect `Community 2` to `Community 0`, `Community 1`, `Community 3`, `Community 4`, `Community 5`, `Community 6`, `Community 10`, `Community 21`?**
   _High betweenness centrality (0.003) - this node is a cross-community bridge._
 - **What connects `pb`, `sodium`, `PeerInfo` to the rest of the system?**
   _36 weakly-connected nodes found - possible documentation gaps or missing edges._

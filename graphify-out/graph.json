@@ -9,7 +9,7 @@
       "source_file": "build.gradle.kts",
       "source_location": "L1",
       "id": "build_gradle_kts",
-      "community": 69,
+      "community": 68,
       "norm_label": "build.gradle.kts"
     },
     {
@@ -18,7 +18,7 @@
       "source_file": "settings.gradle.kts",
       "source_location": "L1",
       "id": "settings_gradle_kts",
-      "community": 70,
+      "community": 69,
       "norm_label": "settings.gradle.kts"
     },
     {
@@ -27,7 +27,7 @@
       "source_file": "app/build.gradle.kts",
       "source_location": "L1",
       "id": "app_build_gradle_kts",
-      "community": 71,
+      "community": 70,
       "norm_label": "build.gradle.kts"
     },
     {
@@ -36,7 +36,7 @@
       "source_file": "app/src/main/java/chat/cabal/mobile/CabalApplication.kt",
       "source_location": "L1",
       "id": "app_src_main_java_chat_cabal_mobile_cabalapplication_kt",
-      "community": 46,
+      "community": 45,
       "norm_label": "cabalapplication.kt"
     },
     {
@@ -45,7 +45,7 @@
       "source_file": "app/src/main/java/chat/cabal/mobile/CabalApplication.kt",
       "source_location": "L9",
       "id": "mobile_cabalapplication_cabalapplication",
-      "community": 46,
+      "community": 45,
       "norm_label": "cabalapplication"
     },
     {
@@ -54,7 +54,7 @@
       "source_file": "app/src/main/java/chat/cabal/mobile/CabalApplication.kt",
       "source_location": "L10",
       "id": "mobile_cabalapplication_cabalapplication_oncreate",
-      "community": 46,
+      "community": 45,
       "norm_label": ".oncreate()"
     },
     {
@@ -106,7 +106,7 @@
       "label": "MainApp()",
       "file_type": "code",
       "source_file": "app/src/main/java/chat/cabal/mobile/MainActivity.kt",
-      "source_location": "L133",
+      "source_location": "L132",
       "id": "mobile_mainactivity_mainapp",
       "community": 7,
       "norm_label": "mainapp()"
@@ -117,7 +117,7 @@
       "source_file": "app/src/main/java/chat/cabal/mobile/core/CabalManager.kt",
       "source_location": "L1",
       "id": "app_src_main_java_chat_cabal_mobile_core_cabalmanager_kt",
-      "community": 33,
+      "community": 32,
       "norm_label": "cabalmanager.kt"
     },
     {
@@ -126,7 +126,7 @@
       "source_file": "app/src/main/java/chat/cabal/mobile/core/CabalManager.kt",
       "source_location": "L10",
       "id": "core_cabalmanager_cabalmanager",
-      "community": 33,
+      "community": 32,
       "norm_label": "cabalmanager"
     },
     {
@@ -135,7 +135,7 @@
       "source_file": "app/src/main/java/chat/cabal/mobile/core/CabalManager.kt",
       "source_location": "L40",
       "id": "core_cabalmanager_cabalmanager_getpublickeyhex",
-      "community": 33,
+      "community": 32,
       "norm_label": ".getpublickeyhex()"
     },
     {
@@ -144,7 +144,7 @@
       "source_file": "app/src/main/java/chat/cabal/mobile/core/CabalManager.kt",
       "source_location": "L45",
       "id": "core_cabalmanager_tohex",
-      "community": 33,
+      "community": 32,
       "norm_label": "tohex()"
     },
     {
@@ -153,7 +153,7 @@
       "source_file": "app/src/main/java/chat/cabal/mobile/core/CabalSyncService.kt",
       "source_location": "L1",
       "id": "app_src_main_java_chat_cabal_mobile_core_cabalsyncservice_kt",
-      "community": 24,
+      "community": 23,
       "norm_label": "cabalsyncservice.kt"
     },
     {
@@ -162,7 +162,7 @@
       "source_file": "app/src/main/java/chat/cabal/mobile/core/CabalSyncService.kt",
       "source_location": "L9",
       "id": "core_cabalsyncservice_cabalsyncservice",
-      "community": 24,
+      "community": 23,
       "norm_label": "cabalsyncservice"
     },
     {
@@ -171,7 +171,7 @@
       "source_file": "app/src/main/java/chat/cabal/mobile/core/CabalSyncService.kt",
       "source_location": "L12",
       "id": "core_cabalsyncservice_cabalsyncservice_oncreate",
-      "community": 24,
+      "community": 23,
       "norm_label": ".oncreate()"
     },
     {
@@ -180,7 +180,7 @@
       "source_file": "app/src/main/java/chat/cabal/mobile/core/CabalSyncService.kt",
       "source_location": "L17",
       "id": "core_cabalsyncservice_cabalsyncservice_onstartcommand",
-      "community": 24,
+      "community": 23,
       "norm_label": ".onstartcommand()"
     },
     {
@@ -189,7 +189,7 @@
       "source_file": "app/src/main/java/chat/cabal/mobile/core/CabalSyncService.kt",
       "source_location": "L34",
       "id": "core_cabalsyncservice_cabalsyncservice_onbind",
-      "community": 24,
+      "community": 23,
       "norm_label": ".onbind()"
     },
     {
@@ -198,7 +198,7 @@
       "source_file": "app/src/main/java/chat/cabal/mobile/core/CabalSyncService.kt",
       "source_location": "L36",
       "id": "core_cabalsyncservice_cabalsyncservice_createnotificationchannel",
-      "community": 24,
+      "community": 23,
       "norm_label": ".createnotificationchannel()"
     },
     {
@@ -207,7 +207,7 @@
       "source_file": "app/src/main/java/chat/cabal/mobile/core/KeyStoreManager.kt",
       "source_location": "L1",
       "id": "app_src_main_java_chat_cabal_mobile_core_keystoremanager_kt",
-      "community": 27,
+      "community": 26,
       "norm_label": "keystoremanager.kt"
     },
     {
@@ -216,7 +216,7 @@
       "source_file": "app/src/main/java/chat/cabal/mobile/core/KeyStoreManager.kt",
       "source_location": "L12",
       "id": "core_keystoremanager_keystoremanager",
-      "community": 27,
+      "community": 26,
       "norm_label": "keystoremanager"
     },
     {
@@ -225,7 +225,7 @@
       "source_file": "app/src/main/java/chat/cabal/mobile/core/KeyStoreManager.kt",
       "source_location": "L16",
       "id": "core_keystoremanager_keystoremanager_getorcreatekeypair",
-      "community": 27,
+      "community": 26,
       "norm_label": ".getorcreatekeypair()"
     },
     {
@@ -234,7 +234,7 @@
       "source_file": "app/src/main/java/chat/cabal/mobile/core/KeyStoreManager.kt",
       "source_location": "L30",
       "id": "core_keystoremanager_keystoremanager_generatekey",
-      "community": 27,
+      "community": 26,
       "norm_label": ".generatekey()"
     },
     {
@@ -243,7 +243,7 @@
       "source_file": "app/src/main/java/chat/cabal/mobile/core/KeyStoreManager.kt",
       "source_location": "L43",
       "id": "core_keystoremanager_keystoremanager_generatesoftwarekey",
-      "community": 27,
+      "community": 26,
       "norm_label": ".generatesoftwarekey()"
     },
     {
@@ -252,7 +252,7 @@
       "source_file": "app/src/main/java/chat/cabal/mobile/core/SyncEngine.kt",
       "source_location": "L1",
       "id": "app_src_main_java_chat_cabal_mobile_core_syncengine_kt",
-      "community": 12,
+      "community": 13,
       "norm_label": "syncengine.kt"
     },
     {
@@ -261,7 +261,7 @@
       "source_file": "app/src/main/java/chat/cabal/mobile/core/SyncEngine.kt",
       "source_location": "L12",
       "id": "core_syncengine_syncengine",
-      "community": 12,
+      "community": 13,
       "norm_label": "syncengine"
     },
     {
@@ -270,7 +270,7 @@
       "source_file": "app/src/main/java/chat/cabal/mobile/core/SyncEngine.kt",
       "source_location": "L27",
       "id": "core_syncengine_syncengine_onpeerconnected",
-      "community": 12,
+      "community": 13,
       "norm_label": ".onpeerconnected()"
     },
     {
@@ -279,7 +279,7 @@
       "source_file": "app/src/main/java/chat/cabal/mobile/core/SyncEngine.kt",
       "source_location": "L47",
       "id": "core_syncengine_syncengine_handlemessage",
-      "community": 12,
+      "community": 13,
       "norm_label": ".handlemessage()"
     },
     {
@@ -288,7 +288,7 @@
       "source_file": "app/src/main/java/chat/cabal/mobile/core/SyncEngine.kt",
       "source_location": "L96",
       "id": "core_syncengine_syncengine_handlepost",
-      "community": 12,
+      "community": 13,
       "norm_label": ".handlepost()"
     },
     {
@@ -297,7 +297,7 @@
       "source_file": "app/src/main/java/chat/cabal/mobile/core/SyncEngine.kt",
       "source_location": "L114",
       "id": "core_syncengine_syncengine_broadcastpost",
-      "community": 12,
+      "community": 13,
       "norm_label": ".broadcastpost()"
     },
     {
@@ -306,7 +306,7 @@
       "source_file": "app/src/main/java/chat/cabal/mobile/di/Modules.kt",
       "source_location": "L1",
       "id": "app_src_main_java_chat_cabal_mobile_di_modules_kt",
-      "community": 72,
+      "community": 71,
       "norm_label": "modules.kt"
     },
     {
@@ -378,7 +378,7 @@
       "source_file": "app/src/main/java/chat/cabal/mobile/ui/components/MessageBubble.kt",
       "source_location": "L1",
       "id": "app_src_main_java_chat_cabal_mobile_ui_components_messagebubble_kt",
-      "community": 56,
+      "community": 55,
       "norm_label": "messagebubble.kt"
     },
     {
@@ -387,7 +387,7 @@
       "source_file": "app/src/main/java/chat/cabal/mobile/ui/components/MessageBubble.kt",
       "source_location": "L21",
       "id": "components_messagebubble_messagebubble",
-      "community": 56,
+      "community": 55,
       "norm_label": "messagebubble()"
     },
     {
@@ -441,7 +441,7 @@
       "source_file": "app/src/main/java/chat/cabal/mobile/ui/screens/ChatScreen.kt",
       "source_location": "L1",
       "id": "app_src_main_java_chat_cabal_mobile_ui_screens_chatscreen_kt",
-      "community": 57,
+      "community": 56,
       "norm_label": "chatscreen.kt"
     },
     {
@@ -450,7 +450,7 @@
       "source_file": "app/src/main/java/chat/cabal/mobile/ui/screens/ChatScreen.kt",
       "source_location": "L21",
       "id": "screens_chatscreen_chatscreen",
-      "community": 57,
+      "community": 56,
       "norm_label": "chatscreen()"
     },
     {
@@ -459,7 +459,7 @@
       "source_file": "app/src/main/java/chat/cabal/mobile/ui/theme/Color.kt",
       "source_location": "L1",
       "id": "app_src_main_java_chat_cabal_mobile_ui_theme_color_kt",
-      "community": 73,
+      "community": 72,
       "norm_label": "color.kt"
     },
     {
@@ -486,7 +486,7 @@
       "source_file": "app/src/main/java/chat/cabal/mobile/ui/theme/Type.kt",
       "source_location": "L1",
       "id": "app_src_main_java_chat_cabal_mobile_ui_theme_type_kt",
-      "community": 74,
+      "community": 73,
       "norm_label": "type.kt"
     },
     {
@@ -495,7 +495,7 @@
       "source_file": "app/src/main/java/chat/cabal/mobile/ui/viewmodel/ChatViewModel.kt",
       "source_location": "L1",
       "id": "app_src_main_java_chat_cabal_mobile_ui_viewmodel_chatviewmodel_kt",
-      "community": 47,
+      "community": 46,
       "norm_label": "chatviewmodel.kt"
     },
     {
@@ -504,7 +504,7 @@
       "source_file": "app/src/main/java/chat/cabal/mobile/ui/viewmodel/ChatViewModel.kt",
       "source_location": "L16",
       "id": "viewmodel_chatviewmodel_chatviewmodel",
-      "community": 47,
+      "community": 46,
       "norm_label": "chatviewmodel"
     },
     {
@@ -513,7 +513,7 @@
       "source_file": "app/src/main/java/chat/cabal/mobile/ui/viewmodel/ChatViewModel.kt",
       "source_location": "L27",
       "id": "viewmodel_chatviewmodel_chatviewmodel_sendmessage",
-      "community": 47,
+      "community": 46,
       "norm_label": ".sendmessage()"
     },
     {
@@ -522,7 +522,7 @@
       "source_file": "app/src/main/java/chat/cabal/mobile/ui/viewmodel/ChatViewModelFactory.kt",
       "source_location": "L1",
       "id": "app_src_main_java_chat_cabal_mobile_ui_viewmodel_chatviewmodelfactory_kt",
-      "community": 48,
+      "community": 47,
       "norm_label": "chatviewmodelfactory.kt"
     },
     {
@@ -531,7 +531,7 @@
       "source_file": "app/src/main/java/chat/cabal/mobile/ui/viewmodel/ChatViewModelFactory.kt",
       "source_location": "L9",
       "id": "viewmodel_chatviewmodelfactory_chatviewmodelfactory",
-      "community": 48,
+      "community": 47,
       "norm_label": "chatviewmodelfactory"
     },
     {
@@ -540,7 +540,7 @@
       "source_file": "app/src/main/java/chat/cabal/mobile/ui/viewmodel/ChatViewModelFactory.kt",
       "source_location": "L14",
       "id": "viewmodel_chatviewmodelfactory_chatviewmodelfactory_create",
-      "community": 48,
+      "community": 47,
       "norm_label": ".create()"
     },
     {
@@ -549,7 +549,7 @@
       "source_file": "app/src/main/java/chat/cabal/mobile/ui/viewmodel/MainViewModel.kt",
       "source_location": "L1",
       "id": "app_src_main_java_chat_cabal_mobile_ui_viewmodel_mainviewmodel_kt",
-      "community": 49,
+      "community": 48,
       "norm_label": "mainviewmodel.kt"
     },
     {
@@ -558,7 +558,7 @@
       "source_file": "app/src/main/java/chat/cabal/mobile/ui/viewmodel/MainViewModel.kt",
       "source_location": "L15",
       "id": "viewmodel_mainviewmodel_mainviewmodel",
-      "community": 49,
+      "community": 48,
       "norm_label": "mainviewmodel"
     },
     {
@@ -567,7 +567,7 @@
       "source_file": "app/src/main/java/chat/cabal/mobile/ui/viewmodel/MainViewModel.kt",
       "source_location": "L22",
       "id": "viewmodel_mainviewmodel_mainviewmodel_addcabal",
-      "community": 49,
+      "community": 48,
       "norm_label": ".addcabal()"
     },
     {
@@ -576,7 +576,7 @@
       "source_file": "app/src/main/java/chat/cabal/mobile/ui/viewmodel/MainViewModelFactory.kt",
       "source_location": "L1",
       "id": "app_src_main_java_chat_cabal_mobile_ui_viewmodel_mainviewmodelfactory_kt",
-      "community": 50,
+      "community": 49,
       "norm_label": "mainviewmodelfactory.kt"
     },
     {
@@ -585,7 +585,7 @@
       "source_file": "app/src/main/java/chat/cabal/mobile/ui/viewmodel/MainViewModelFactory.kt",
       "source_location": "L7",
       "id": "viewmodel_mainviewmodelfactory_mainviewmodelfactory",
-      "community": 50,
+      "community": 49,
       "norm_label": "mainviewmodelfactory"
     },
     {
@@ -594,7 +594,7 @@
       "source_file": "app/src/main/java/chat/cabal/mobile/ui/viewmodel/MainViewModelFactory.kt",
       "source_location": "L8",
       "id": "viewmodel_mainviewmodelfactory_mainviewmodelfactory_create",
-      "community": 50,
+      "community": 49,
       "norm_label": ".create()"
     },
     {
@@ -603,7 +603,7 @@
       "source_file": "cabal_sources (old_repos)/cabal-core-master/lib/crypto.js",
       "source_location": "L1",
       "id": "cabal_sources_old_repos_cabal_core_master_lib_crypto_js",
-      "community": 28,
+      "community": 27,
       "norm_label": "crypto.js"
     },
     {
@@ -612,7 +612,7 @@
       "source_file": "cabal_sources (old_repos)/cabal-core-master/lib/crypto.js",
       "source_location": "L1",
       "id": "lib_crypto_pb",
-      "community": 28,
+      "community": 27,
       "norm_label": "pb"
     },
     {
@@ -621,7 +621,7 @@
       "source_file": "cabal_sources (old_repos)/cabal-core-master/lib/crypto.js",
       "source_location": "L2",
       "id": "lib_crypto_sodium",
-      "community": 28,
+      "community": 27,
       "norm_label": "sodium"
     },
     {
@@ -630,7 +630,7 @@
       "source_file": "cabal_sources (old_repos)/cabal-core-master/lib/crypto.js",
       "source_location": "L11",
       "id": "lib_crypto_box",
-      "community": 28,
+      "community": 27,
       "norm_label": "box()"
     },
     {
@@ -639,7 +639,7 @@
       "source_file": "cabal_sources (old_repos)/cabal-core-master/lib/crypto.js",
       "source_location": "L23",
       "id": "lib_crypto_unbox",
-      "community": 28,
+      "community": 27,
       "norm_label": "unbox()"
     },
     {
@@ -648,7 +648,7 @@
       "source_file": "cabal_sources (old_repos)/cabal-mobile-2/src/frontend/lib/utils.js",
       "source_location": "L1",
       "id": "cabal_sources_old_repos_cabal_mobile_2_src_frontend_lib_utils_js",
-      "community": 58,
+      "community": 57,
       "norm_label": "utils.js"
     },
     {
@@ -657,7 +657,7 @@
       "source_file": "cabal_sources (old_repos)/cabal-mobile-2/src/frontend/lib/utils.js",
       "source_location": "L17",
       "id": "lib_utils_getdisplayname",
-      "community": 58,
+      "community": 57,
       "norm_label": "getdisplayname()"
     },
     {
@@ -666,7 +666,7 @@
       "source_file": "cable-network/build.gradle.kts",
       "source_location": "L1",
       "id": "cable_network_build_gradle_kts",
-      "community": 75,
+      "community": 74,
       "norm_label": "build.gradle.kts"
     },
     {
@@ -675,7 +675,7 @@
       "source_file": "cable-network/src/main/kotlin/chat/cabal/network/Discovery.kt",
       "source_location": "L1",
       "id": "cable_network_src_main_kotlin_chat_cabal_network_discovery_kt",
-      "community": 25,
+      "community": 24,
       "norm_label": "discovery.kt"
     },
     {
@@ -684,7 +684,7 @@
       "source_file": "cable-network/src/main/kotlin/chat/cabal/network/Discovery.kt",
       "source_location": "L3",
       "id": "network_discovery_peerdiscovery",
-      "community": 25,
+      "community": 24,
       "norm_label": "peerdiscovery"
     },
     {
@@ -693,7 +693,7 @@
       "source_file": "cable-network/src/main/kotlin/chat/cabal/network/Discovery.kt",
       "source_location": "L4",
       "id": "network_discovery_peerdiscovery_startdiscovery",
-      "community": 25,
+      "community": 24,
       "norm_label": ".startdiscovery()"
     },
     {
@@ -702,7 +702,7 @@
       "source_file": "cable-network/src/main/kotlin/chat/cabal/network/Discovery.kt",
       "source_location": "L5",
       "id": "network_discovery_peerdiscovery_stopdiscovery",
-      "community": 25,
+      "community": 24,
       "norm_label": ".stopdiscovery()"
     },
     {
@@ -711,7 +711,7 @@
       "source_file": "cable-network/src/main/kotlin/chat/cabal/network/Discovery.kt",
       "source_location": "L6",
       "id": "network_discovery_peerdiscovery_announce",
-      "community": 25,
+      "community": 24,
       "norm_label": ".announce()"
     },
     {
@@ -720,7 +720,7 @@
       "source_file": "cable-network/src/main/kotlin/chat/cabal/network/Discovery.kt",
       "source_location": "L9",
       "id": "network_discovery_peerinfo",
-      "community": 25,
+      "community": 24,
       "norm_label": "peerinfo"
     },
     {
@@ -729,7 +729,7 @@
       "source_file": "cable-network/src/main/kotlin/chat/cabal/network/TcpTransport.kt",
       "source_location": "L1",
       "id": "cable_network_src_main_kotlin_chat_cabal_network_tcptransport_kt",
-      "community": 16,
+      "community": 17,
       "norm_label": "tcptransport.kt"
     },
     {
@@ -738,7 +738,7 @@
       "source_file": "cable-network/src/main/kotlin/chat/cabal/network/TcpTransport.kt",
       "source_location": "L15",
       "id": "network_tcptransport_tcptransport",
-      "community": 16,
+      "community": 17,
       "norm_label": "tcptransport"
     },
     {
@@ -747,7 +747,7 @@
       "source_file": "cable-network/src/main/kotlin/chat/cabal/network/TcpTransport.kt",
       "source_location": "L31",
       "id": "network_tcptransport_tcptransport_start",
-      "community": 16,
+      "community": 17,
       "norm_label": ".start()"
     },
     {
@@ -756,7 +756,7 @@
       "source_file": "cable-network/src/main/kotlin/chat/cabal/network/TcpTransport.kt",
       "source_location": "L50",
       "id": "network_tcptransport_tcptransport_connecttopeer",
-      "community": 16,
+      "community": 17,
       "norm_label": ".connecttopeer()"
     },
     {
@@ -765,7 +765,7 @@
       "source_file": "cable-network/src/main/kotlin/chat/cabal/network/TcpTransport.kt",
       "source_location": "L67",
       "id": "network_tcptransport_tcptransport_handleconnection",
-      "community": 16,
+      "community": 17,
       "norm_label": ".handleconnection()"
     },
     {
@@ -774,7 +774,7 @@
       "source_file": "cable-network/src/main/kotlin/chat/cabal/network/TcpTransport.kt",
       "source_location": "L88",
       "id": "network_tcptransport_tcptransport_broadcast",
-      "community": 16,
+      "community": 17,
       "norm_label": ".broadcast()"
     },
     {
@@ -783,7 +783,7 @@
       "source_file": "cable-network/src/main/kotlin/chat/cabal/network/TcpTransport.kt",
       "source_location": "L98",
       "id": "network_tcptransport_tcptransport_sendtopeer",
-      "community": 16,
+      "community": 17,
       "norm_label": ".sendtopeer()"
     },
     {
@@ -792,7 +792,7 @@
       "source_file": "cable-network/src/main/kotlin/chat/cabal/network/TcpTransport.kt",
       "source_location": "L108",
       "id": "network_tcptransport_tcptransport_send",
-      "community": 16,
+      "community": 17,
       "norm_label": ".send()"
     },
     {
@@ -801,7 +801,7 @@
       "source_file": "cable-network/src/main/kotlin/chat/cabal/network/TcpTransport.kt",
       "source_location": "L115",
       "id": "network_tcptransport_tcptransport_readvarint",
-      "community": 16,
+      "community": 17,
       "norm_label": ".readvarint()"
     },
     {
@@ -810,7 +810,7 @@
       "source_file": "cable-network/src/main/kotlin/chat/cabal/network/TcpTransport.kt",
       "source_location": "L128",
       "id": "network_tcptransport_tcptransport_stop",
-      "community": 16,
+      "community": 17,
       "norm_label": ".stop()"
     },
     {
@@ -819,7 +819,7 @@
       "source_file": "cable-protocol/build.gradle.kts",
       "source_location": "L1",
       "id": "cable_protocol_build_gradle_kts",
-      "community": 76,
+      "community": 75,
       "norm_label": "build.gradle.kts"
     },
     {
@@ -828,7 +828,7 @@
       "source_file": "cable-protocol/src/main/kotlin/chat/cabal/protocol/CableCore.kt",
       "source_location": "L1",
       "id": "cable_protocol_src_main_kotlin_chat_cabal_protocol_cablecore_kt",
-      "community": 18,
+      "community": 19,
       "norm_label": "cablecore.kt"
     },
     {
@@ -837,7 +837,7 @@
       "source_file": "cable-protocol/src/main/kotlin/chat/cabal/protocol/CableCore.kt",
       "source_location": "L5",
       "id": "protocol_cablecore_cablecore",
-      "community": 18,
+      "community": 19,
       "norm_label": "cablecore"
     },
     {
@@ -846,7 +846,7 @@
       "source_file": "cable-protocol/src/main/kotlin/chat/cabal/protocol/CableCore.kt",
       "source_location": "L10",
       "id": "protocol_cablecore_cablecore_createtextpost",
-      "community": 18,
+      "community": 19,
       "norm_label": ".createtextpost()"
     },
     {
@@ -855,7 +855,7 @@
       "source_file": "cable-protocol/src/main/kotlin/chat/cabal/protocol/CableCore.kt",
       "source_location": "L33",
       "id": "protocol_cablecore_cablecore_decrypttext",
-      "community": 18,
+      "community": 19,
       "norm_label": ".decrypttext()"
     },
     {
@@ -864,7 +864,7 @@
       "source_file": "cable-protocol/src/main/kotlin/chat/cabal/protocol/Constants.kt",
       "source_location": "L1",
       "id": "cable_protocol_src_main_kotlin_chat_cabal_protocol_constants_kt",
-      "community": 59,
+      "community": 58,
       "norm_label": "constants.kt"
     },
     {
@@ -873,7 +873,7 @@
       "source_file": "cable-protocol/src/main/kotlin/chat/cabal/protocol/Constants.kt",
       "source_location": "L3",
       "id": "protocol_constants_constants",
-      "community": 59,
+      "community": 58,
       "norm_label": "constants"
     },
     {
@@ -882,7 +882,7 @@
       "source_file": "cable-protocol/src/main/kotlin/chat/cabal/protocol/Crypto.kt",
       "source_location": "L1",
       "id": "cable_protocol_src_main_kotlin_chat_cabal_protocol_crypto_kt",
-      "community": 17,
+      "community": 18,
       "norm_label": "crypto.kt"
     },
     {
@@ -891,7 +891,7 @@
       "source_file": "cable-protocol/src/main/kotlin/chat/cabal/protocol/Crypto.kt",
       "source_location": "L14",
       "id": "protocol_crypto_crypto",
-      "community": 17,
+      "community": 18,
       "norm_label": "crypto"
     },
     {
@@ -900,7 +900,7 @@
       "source_file": "cable-protocol/src/main/kotlin/chat/cabal/protocol/Crypto.kt",
       "source_location": "L21",
       "id": "protocol_crypto_crypto_generatekeypair",
-      "community": 17,
+      "community": 18,
       "norm_label": ".generatekeypair()"
     },
     {
@@ -909,7 +909,7 @@
       "source_file": "cable-protocol/src/main/kotlin/chat/cabal/protocol/Crypto.kt",
       "source_location": "L26",
       "id": "protocol_crypto_crypto_sign",
-      "community": 17,
+      "community": 18,
       "norm_label": ".sign()"
     },
     {
@@ -918,7 +918,7 @@
       "source_file": "cable-protocol/src/main/kotlin/chat/cabal/protocol/Crypto.kt",
       "source_location": "L33",
       "id": "protocol_crypto_crypto_verify",
-      "community": 17,
+      "community": 18,
       "norm_label": ".verify()"
     },
     {
@@ -927,7 +927,7 @@
       "source_file": "cable-protocol/src/main/kotlin/chat/cabal/protocol/Crypto.kt",
       "source_location": "L40",
       "id": "protocol_crypto_crypto_blake2b",
-      "community": 17,
+      "community": 18,
       "norm_label": ".blake2b()"
     },
     {
@@ -936,7 +936,7 @@
       "source_file": "cable-protocol/src/main/kotlin/chat/cabal/protocol/Crypto.kt",
       "source_location": "L48",
       "id": "protocol_crypto_crypto_randombytes",
-      "community": 17,
+      "community": 18,
       "norm_label": ".randombytes()"
     },
     {
@@ -945,7 +945,7 @@
       "source_file": "cable-protocol/src/main/kotlin/chat/cabal/protocol/Crypto.kt",
       "source_location": "L57",
       "id": "protocol_crypto_crypto_diffiehellman",
-      "community": 17,
+      "community": 18,
       "norm_label": ".diffiehellman()"
     },
     {
@@ -954,7 +954,7 @@
       "source_file": "cable-protocol/src/main/kotlin/chat/cabal/protocol/Crypto.kt",
       "source_location": "L67",
       "id": "protocol_crypto_crypto_encrypt",
-      "community": 17,
+      "community": 18,
       "norm_label": ".encrypt()"
     },
     {
@@ -963,7 +963,7 @@
       "source_file": "cable-protocol/src/main/kotlin/chat/cabal/protocol/Crypto.kt",
       "source_location": "L79",
       "id": "protocol_crypto_crypto_decrypt",
-      "community": 17,
+      "community": 18,
       "norm_label": ".decrypt()"
     },
     {
@@ -972,7 +972,7 @@
       "source_file": "cable-protocol/src/main/kotlin/chat/cabal/protocol/Models.kt",
       "source_location": "L1",
       "id": "cable_protocol_src_main_kotlin_chat_cabal_protocol_models_kt",
-      "community": 26,
+      "community": 25,
       "norm_label": "models.kt"
     },
     {
@@ -981,7 +981,7 @@
       "source_file": "cable-protocol/src/main/kotlin/chat/cabal/protocol/Models.kt",
       "source_location": "L6",
       "id": "protocol_models_cablemessage",
-      "community": 26,
+      "community": 25,
       "norm_label": "cablemessage"
     },
     {
@@ -990,7 +990,7 @@
       "source_file": "cable-protocol/src/main/kotlin/chat/cabal/protocol/Models.kt",
       "source_location": "L8",
       "id": "protocol_models_cablemessage_serialize",
-      "community": 26,
+      "community": 25,
       "norm_label": ".serialize()"
     },
     {
@@ -999,7 +999,7 @@
       "source_file": "cable-protocol/src/main/kotlin/chat/cabal/protocol/Models.kt",
       "source_location": "L11",
       "id": "protocol_models_postrequest",
-      "community": 41,
+      "community": 39,
       "norm_label": "postrequest"
     },
     {
@@ -1008,7 +1008,7 @@
       "source_file": "cable-protocol/src/main/kotlin/chat/cabal/protocol/Models.kt",
       "source_location": "L16",
       "id": "protocol_models_postrequest_serialize",
-      "community": 41,
+      "community": 39,
       "norm_label": ".serialize()"
     },
     {
@@ -1017,7 +1017,7 @@
       "source_file": "cable-protocol/src/main/kotlin/chat/cabal/protocol/Models.kt",
       "source_location": "L31",
       "id": "protocol_models_postrequest_equals",
-      "community": 41,
+      "community": 39,
       "norm_label": ".equals()"
     },
     {
@@ -1026,7 +1026,7 @@
       "source_file": "cable-protocol/src/main/kotlin/chat/cabal/protocol/Models.kt",
       "source_location": "L37",
       "id": "protocol_models_postrequest_hashcode",
-      "community": 41,
+      "community": 39,
       "norm_label": ".hashcode()"
     },
     {
@@ -1035,7 +1035,7 @@
       "source_file": "cable-protocol/src/main/kotlin/chat/cabal/protocol/Models.kt",
       "source_location": "L45",
       "id": "protocol_models_postresponse",
-      "community": 35,
+      "community": 41,
       "norm_label": "postresponse"
     },
     {
@@ -1044,7 +1044,7 @@
       "source_file": "cable-protocol/src/main/kotlin/chat/cabal/protocol/Models.kt",
       "source_location": "L49",
       "id": "protocol_models_postresponse_serialize",
-      "community": 35,
+      "community": 41,
       "norm_label": ".serialize()"
     },
     {
@@ -1053,7 +1053,7 @@
       "source_file": "cable-protocol/src/main/kotlin/chat/cabal/protocol/Models.kt",
       "source_location": "L65",
       "id": "protocol_models_postresponse_equals",
-      "community": 35,
+      "community": 41,
       "norm_label": ".equals()"
     },
     {
@@ -1062,7 +1062,7 @@
       "source_file": "cable-protocol/src/main/kotlin/chat/cabal/protocol/Models.kt",
       "source_location": "L71",
       "id": "protocol_models_postresponse_hashcode",
-      "community": 35,
+      "community": 41,
       "norm_label": ".hashcode()"
     },
     {
@@ -1071,7 +1071,7 @@
       "source_file": "cable-protocol/src/main/kotlin/chat/cabal/protocol/Models.kt",
       "source_location": "L74",
       "id": "protocol_models_hashresponse",
-      "community": 38,
+      "community": 35,
       "norm_label": "hashresponse"
     },
     {
@@ -1080,7 +1080,7 @@
       "source_file": "cable-protocol/src/main/kotlin/chat/cabal/protocol/Models.kt",
       "source_location": "L78",
       "id": "protocol_models_hashresponse_serialize",
-      "community": 38,
+      "community": 35,
       "norm_label": ".serialize()"
     },
     {
@@ -1089,7 +1089,7 @@
       "source_file": "cable-protocol/src/main/kotlin/chat/cabal/protocol/Models.kt",
       "source_location": "L91",
       "id": "protocol_models_hashresponse_equals",
-      "community": 38,
+      "community": 35,
       "norm_label": ".equals()"
     },
     {
@@ -1098,7 +1098,7 @@
       "source_file": "cable-protocol/src/main/kotlin/chat/cabal/protocol/Models.kt",
       "source_location": "L97",
       "id": "protocol_models_hashresponse_hashcode",
-      "community": 38,
+      "community": 35,
       "norm_label": ".hashcode()"
     },
     {
@@ -1107,7 +1107,7 @@
       "source_file": "cable-protocol/src/main/kotlin/chat/cabal/protocol/Models.kt",
       "source_location": "L100",
       "id": "protocol_models_channellistrequest",
-      "community": 42,
+      "community": 40,
       "norm_label": "channellistrequest"
     },
     {
@@ -1116,7 +1116,7 @@
       "source_file": "cable-protocol/src/main/kotlin/chat/cabal/protocol/Models.kt",
       "source_location": "L106",
       "id": "protocol_models_channellistrequest_serialize",
-      "community": 42,
+      "community": 40,
       "norm_label": ".serialize()"
     },
     {
@@ -1125,7 +1125,7 @@
       "source_file": "cable-protocol/src/main/kotlin/chat/cabal/protocol/Models.kt",
       "source_location": "L121",
       "id": "protocol_models_channellistrequest_equals",
-      "community": 42,
+      "community": 40,
       "norm_label": ".equals()"
     },
     {
@@ -1134,7 +1134,7 @@
       "source_file": "cable-protocol/src/main/kotlin/chat/cabal/protocol/Models.kt",
       "source_location": "L127",
       "id": "protocol_models_channellistrequest_hashcode",
-      "community": 42,
+      "community": 40,
       "norm_label": ".hashcode()"
     },
     {
@@ -1143,7 +1143,7 @@
       "source_file": "cable-protocol/src/main/kotlin/chat/cabal/protocol/Models.kt",
       "source_location": "L130",
       "id": "protocol_models_timerangerequest",
-      "community": 34,
+      "community": 37,
       "norm_label": "timerangerequest"
     },
     {
@@ -1152,7 +1152,7 @@
       "source_file": "cable-protocol/src/main/kotlin/chat/cabal/protocol/Models.kt",
       "source_location": "L138",
       "id": "protocol_models_timerangerequest_serialize",
-      "community": 34,
+      "community": 37,
       "norm_label": ".serialize()"
     },
     {
@@ -1161,7 +1161,7 @@
       "source_file": "cable-protocol/src/main/kotlin/chat/cabal/protocol/Models.kt",
       "source_location": "L161",
       "id": "protocol_models_timerangerequest_equals",
-      "community": 34,
+      "community": 37,
       "norm_label": ".equals()"
     },
     {
@@ -1170,7 +1170,7 @@
       "source_file": "cable-protocol/src/main/kotlin/chat/cabal/protocol/Models.kt",
       "source_location": "L167",
       "id": "protocol_models_timerangerequest_hashcode",
-      "community": 34,
+      "community": 37,
       "norm_label": ".hashcode()"
     },
     {
@@ -1179,7 +1179,7 @@
       "source_file": "cable-protocol/src/main/kotlin/chat/cabal/protocol/Models.kt",
       "source_location": "L170",
       "id": "protocol_models_cablepost",
-      "community": 39,
+      "community": 33,
       "norm_label": "cablepost"
     },
     {
@@ -1188,7 +1188,7 @@
       "source_file": "cable-protocol/src/main/kotlin/chat/cabal/protocol/Models.kt",
       "source_location": "L176",
       "id": "protocol_models_cablepost_serializepayload",
-      "community": 39,
+      "community": 33,
       "norm_label": ".serializepayload()"
     },
     {
@@ -1197,7 +1197,7 @@
       "source_file": "cable-protocol/src/main/kotlin/chat/cabal/protocol/Models.kt",
       "source_location": "L178",
       "id": "protocol_models_cablepost_serialize",
-      "community": 39,
+      "community": 33,
       "norm_label": ".serialize()"
     },
     {
@@ -1206,7 +1206,7 @@
       "source_file": "cable-protocol/src/main/kotlin/chat/cabal/protocol/Models.kt",
       "source_location": "L193",
       "id": "protocol_models_cablepost_hash",
-      "community": 39,
+      "community": 33,
       "norm_label": ".hash()"
     },
     {
@@ -1215,7 +1215,7 @@
       "source_file": "cable-protocol/src/main/kotlin/chat/cabal/protocol/Models.kt",
       "source_location": "L198",
       "id": "protocol_models_textpost",
-      "community": 18,
+      "community": 19,
       "norm_label": "textpost"
     },
     {
@@ -1224,7 +1224,7 @@
       "source_file": "cable-protocol/src/main/kotlin/chat/cabal/protocol/Models.kt",
       "source_location": "L206",
       "id": "protocol_models_textpost_serializepayload",
-      "community": 18,
+      "community": 19,
       "norm_label": ".serializepayload()"
     },
     {
@@ -1233,7 +1233,7 @@
       "source_file": "cable-protocol/src/main/kotlin/chat/cabal/protocol/Models.kt",
       "source_location": "L233",
       "id": "protocol_models_textpost_equals",
-      "community": 18,
+      "community": 19,
       "norm_label": ".equals()"
     },
     {
@@ -1242,7 +1242,7 @@
       "source_file": "cable-protocol/src/main/kotlin/chat/cabal/protocol/Models.kt",
       "source_location": "L242",
       "id": "protocol_models_textpost_hashcode",
-      "community": 18,
+      "community": 19,
       "norm_label": ".hashcode()"
     },
     {
@@ -1251,7 +1251,7 @@
       "source_file": "cable-protocol/src/main/kotlin/chat/cabal/protocol/Models.kt",
       "source_location": "L251",
       "id": "protocol_models_infopost",
-      "community": 36,
+      "community": 42,
       "norm_label": "infopost"
     },
     {
@@ -1260,7 +1260,7 @@
       "source_file": "cable-protocol/src/main/kotlin/chat/cabal/protocol/Models.kt",
       "source_location": "L258",
       "id": "protocol_models_infopost_serializepayload",
-      "community": 36,
+      "community": 42,
       "norm_label": ".serializepayload()"
     },
     {
@@ -1269,7 +1269,7 @@
       "source_file": "cable-protocol/src/main/kotlin/chat/cabal/protocol/Models.kt",
       "source_location": "L291",
       "id": "protocol_models_infopost_equals",
-      "community": 36,
+      "community": 42,
       "norm_label": ".equals()"
     },
     {
@@ -1278,7 +1278,7 @@
       "source_file": "cable-protocol/src/main/kotlin/chat/cabal/protocol/Models.kt",
       "source_location": "L297",
       "id": "protocol_models_infopost_hashcode",
-      "community": 36,
+      "community": 42,
       "norm_label": ".hashcode()"
     },
     {
@@ -1287,7 +1287,7 @@
       "source_file": "cable-protocol/src/main/kotlin/chat/cabal/protocol/Models.kt",
       "source_location": "L304",
       "id": "protocol_models_joinpost",
-      "community": 37,
+      "community": 38,
       "norm_label": "joinpost"
     },
     {
@@ -1296,7 +1296,7 @@
       "source_file": "cable-protocol/src/main/kotlin/chat/cabal/protocol/Models.kt",
       "source_location": "L311",
       "id": "protocol_models_joinpost_serializepayload",
-      "community": 37,
+      "community": 38,
       "norm_label": ".serializepayload()"
     },
     {
@@ -1305,7 +1305,7 @@
       "source_file": "cable-protocol/src/main/kotlin/chat/cabal/protocol/Models.kt",
       "source_location": "L332",
       "id": "protocol_models_joinpost_equals",
-      "community": 37,
+      "community": 38,
       "norm_label": ".equals()"
     },
     {
@@ -1314,7 +1314,7 @@
       "source_file": "cable-protocol/src/main/kotlin/chat/cabal/protocol/Models.kt",
       "source_location": "L338",
       "id": "protocol_models_joinpost_hashcode",
-      "community": 37,
+      "community": 38,
       "norm_label": ".hashcode()"
     },
     {
@@ -1323,7 +1323,7 @@
       "source_file": "cable-protocol/src/main/kotlin/chat/cabal/protocol/Models.kt",
       "source_location": "L346",
       "id": "protocol_models_leavepost",
-      "community": 43,
+      "community": 36,
       "norm_label": "leavepost"
     },
     {
@@ -1332,7 +1332,7 @@
       "source_file": "cable-protocol/src/main/kotlin/chat/cabal/protocol/Models.kt",
       "source_location": "L353",
       "id": "protocol_models_leavepost_serializepayload",
-      "community": 43,
+      "community": 36,
       "norm_label": ".serializepayload()"
     },
     {
@@ -1341,7 +1341,7 @@
       "source_file": "cable-protocol/src/main/kotlin/chat/cabal/protocol/Models.kt",
       "source_location": "L374",
       "id": "protocol_models_leavepost_equals",
-      "community": 43,
+      "community": 36,
       "norm_label": ".equals()"
     },
     {
@@ -1350,7 +1350,7 @@
       "source_file": "cable-protocol/src/main/kotlin/chat/cabal/protocol/Models.kt",
       "source_location": "L380",
       "id": "protocol_models_leavepost_hashcode",
-      "community": 43,
+      "community": 36,
       "norm_label": ".hashcode()"
     },
     {
@@ -1359,7 +1359,7 @@
       "source_file": "cable-protocol/src/main/kotlin/chat/cabal/protocol/Models.kt",
       "source_location": "L388",
       "id": "protocol_models_topicpost",
-      "community": 40,
+      "community": 34,
       "norm_label": "topicpost"
     },
     {
@@ -1368,7 +1368,7 @@
       "source_file": "cable-protocol/src/main/kotlin/chat/cabal/protocol/Models.kt",
       "source_location": "L396",
       "id": "protocol_models_topicpost_serializepayload",
-      "community": 40,
+      "community": 34,
       "norm_label": ".serializepayload()"
     },
     {
@@ -1377,7 +1377,7 @@
       "source_file": "cable-protocol/src/main/kotlin/chat/cabal/protocol/Models.kt",
       "source_location": "L422",
       "id": "protocol_models_topicpost_equals",
-      "community": 40,
+      "community": 34,
       "norm_label": ".equals()"
     },
     {
@@ -1386,7 +1386,7 @@
       "source_file": "cable-protocol/src/main/kotlin/chat/cabal/protocol/Models.kt",
       "source_location": "L428",
       "id": "protocol_models_topicpost_hashcode",
-      "community": 40,
+      "community": 34,
       "norm_label": ".hashcode()"
     },
     {
@@ -1395,7 +1395,7 @@
       "source_file": "cable-protocol/src/main/kotlin/chat/cabal/protocol/Models.kt",
       "source_location": "L436",
       "id": "protocol_models_cableparser",
-      "community": 26,
+      "community": 25,
       "norm_label": "cableparser"
     },
     {
@@ -1404,7 +1404,7 @@
       "source_file": "cable-protocol/src/main/kotlin/chat/cabal/protocol/Models.kt",
       "source_location": "L437",
       "id": "protocol_models_cableparser_parsepost",
-      "community": 26,
+      "community": 25,
       "norm_label": ".parsepost()"
     },
     {
@@ -1413,7 +1413,7 @@
       "source_file": "cable-protocol/src/main/kotlin/chat/cabal/protocol/Models.kt",
       "source_location": "L517",
       "id": "protocol_models_cableparser_parsemessage",
-      "community": 26,
+      "community": 25,
       "norm_label": ".parsemessage()"
     },
     {
@@ -1422,7 +1422,7 @@
       "source_file": "cable-protocol/src/main/kotlin/chat/cabal/protocol/Varint.kt",
       "source_location": "L1",
       "id": "cable_protocol_src_main_kotlin_chat_cabal_protocol_varint_kt",
-      "community": 29,
+      "community": 28,
       "norm_label": "varint.kt"
     },
     {
@@ -1431,7 +1431,7 @@
       "source_file": "cable-protocol/src/main/kotlin/chat/cabal/protocol/Varint.kt",
       "source_location": "L9",
       "id": "protocol_varint_varint",
-      "community": 29,
+      "community": 28,
       "norm_label": "varint"
     },
     {
@@ -1440,7 +1440,7 @@
       "source_file": "cable-protocol/src/main/kotlin/chat/cabal/protocol/Varint.kt",
       "source_location": "L10",
       "id": "protocol_varint_varint_encode",
-      "community": 29,
+      "community": 28,
       "norm_label": ".encode()"
     },
     {
@@ -1449,7 +1449,7 @@
       "source_file": "cable-protocol/src/main/kotlin/chat/cabal/protocol/Varint.kt",
       "source_location": "L21",
       "id": "protocol_varint_varint_decode",
-      "community": 29,
+      "community": 28,
       "norm_label": ".decode()"
     },
     {
@@ -1458,7 +1458,7 @@
       "source_file": "cable-protocol/src/main/kotlin/chat/cabal/protocol/Varint.kt",
       "source_location": "L34",
       "id": "protocol_varint_varint_size",
-      "community": 29,
+      "community": 28,
       "norm_label": ".size()"
     },
     {
@@ -1467,7 +1467,7 @@
       "source_file": "AGENTS.md",
       "source_location": "L1",
       "id": "agents_md",
-      "community": 14,
+      "community": 15,
       "norm_label": "agents.md"
     },
     {
@@ -1476,7 +1476,7 @@
       "source_file": "AGENTS.md",
       "source_location": "L1",
       "id": "new_cabal_mobile_agents_agent_instructions",
-      "community": 14,
+      "community": 15,
       "norm_label": "agent instructions"
     },
     {
@@ -1485,7 +1485,7 @@
       "source_file": "AGENTS.md",
       "source_location": "L5",
       "id": "new_cabal_mobile_agents_quick_reference",
-      "community": 14,
+      "community": 15,
       "norm_label": "quick reference"
     },
     {
@@ -1494,7 +1494,7 @@
       "source_file": "AGENTS.md",
       "source_location": "L7",
       "id": "new_cabal_mobile_agents_codeblock_1",
-      "community": 14,
+      "community": 15,
       "norm_label": "code:bash (bd ready              # find available work)"
     },
     {
@@ -1503,7 +1503,7 @@
       "source_file": "AGENTS.md",
       "source_location": "L15",
       "id": "new_cabal_mobile_agents_non_interactive_shell_commands",
-      "community": 14,
+      "community": 15,
       "norm_label": "non-interactive shell commands"
     },
     {
@@ -1512,7 +1512,7 @@
       "source_file": "AGENTS.md",
       "source_location": "L22",
       "id": "new_cabal_mobile_agents_codeblock_2",
-      "community": 14,
+      "community": 15,
       "norm_label": "code:bash (# force overwrite without prompting)"
     },
     {
@@ -1521,7 +1521,7 @@
       "source_file": "AGENTS.md",
       "source_location": "L40",
       "id": "new_cabal_mobile_agents_beads_issue_tracker",
-      "community": 14,
+      "community": 15,
       "norm_label": "beads issue tracker"
     },
     {
@@ -1530,7 +1530,7 @@
       "source_file": "AGENTS.md",
       "source_location": "L44",
       "id": "new_cabal_mobile_agents_quick_reference_44",
-      "community": 14,
+      "community": 15,
       "norm_label": "quick reference"
     },
     {
@@ -1539,7 +1539,7 @@
       "source_file": "AGENTS.md",
       "source_location": "L46",
       "id": "new_cabal_mobile_agents_codeblock_3",
-      "community": 14,
+      "community": 15,
       "norm_label": "code:bash (bd ready              # find available work)"
     },
     {
@@ -1548,7 +1548,7 @@
       "source_file": "AGENTS.md",
       "source_location": "L53",
       "id": "new_cabal_mobile_agents_rules",
-      "community": 14,
+      "community": 15,
       "norm_label": "rules"
     },
     {
@@ -1557,7 +1557,7 @@
       "source_file": "AGENTS.md",
       "source_location": "L59",
       "id": "new_cabal_mobile_agents_session_completion",
-      "community": 14,
+      "community": 15,
       "norm_label": "session completion"
     },
     {
@@ -1566,7 +1566,7 @@
       "source_file": "AGENTS.md",
       "source_location": "L69",
       "id": "new_cabal_mobile_agents_codeblock_4",
-      "community": 14,
+      "community": 15,
       "norm_label": "code:bash (git pull --rebase)"
     },
     {
@@ -1737,7 +1737,7 @@
       "source_file": "README_ZIPLINE.md",
       "source_location": "L1",
       "id": "readme_zipline_md",
-      "community": 19,
+      "community": 20,
       "norm_label": "readme_zipline.md"
     },
     {
@@ -1746,7 +1746,7 @@
       "source_file": "README_ZIPLINE.md",
       "source_location": "L1",
       "id": "new_cabal_mobile_readme_zipline_cabal_android_zipline_branch",
-      "community": 19,
+      "community": 20,
       "norm_label": "cabal android (zipline branch)"
     },
     {
@@ -1755,7 +1755,7 @@
       "source_file": "README_ZIPLINE.md",
       "source_location": "L9",
       "id": "new_cabal_mobile_readme_zipline_why_zipline",
-      "community": 19,
+      "community": 20,
       "norm_label": "\ud83d\ude80 why zipline?"
     },
     {
@@ -1764,7 +1764,7 @@
       "source_file": "README_ZIPLINE.md",
       "source_location": "L17",
       "id": "new_cabal_mobile_readme_zipline_table_of_contents",
-      "community": 19,
+      "community": 20,
       "norm_label": "\ud83d\udcd6 table of contents"
     },
     {
@@ -1773,7 +1773,7 @@
       "source_file": "README_ZIPLINE.md",
       "source_location": "L25",
       "id": "new_cabal_mobile_readme_zipline_key_differences_zipline_vs_master",
-      "community": 19,
+      "community": 20,
       "norm_label": "\ud83d\udd04 key differences (zipline vs. master)"
     },
     {
@@ -1782,7 +1782,7 @@
       "source_file": "README_ZIPLINE.md",
       "source_location": "L36",
       "id": "new_cabal_mobile_readme_zipline_architecture",
-      "community": 19,
+      "community": 20,
       "norm_label": "\ud83c\udfd7\ufe0f architecture"
     },
     {
@@ -1791,7 +1791,7 @@
       "source_file": "README_ZIPLINE.md",
       "source_location": "L40",
       "id": "new_cabal_mobile_readme_zipline_secure_most_bridges",
-      "community": 19,
+      "community": 20,
       "norm_label": "secure most (bridges)"
     },
     {
@@ -1800,7 +1800,7 @@
       "source_file": "README_ZIPLINE.md",
       "source_location": "L47",
       "id": "new_cabal_mobile_readme_zipline_technical_benefits",
-      "community": 19,
+      "community": 20,
       "norm_label": "\ud83d\udee0\ufe0f technical benefits"
     },
     {
@@ -1809,7 +1809,7 @@
       "source_file": "README_ZIPLINE.md",
       "source_location": "L55",
       "id": "new_cabal_mobile_readme_zipline_license",
-      "community": 19,
+      "community": 20,
       "norm_label": "\ud83d\udcdc license"
     },
     {
@@ -1818,7 +1818,7 @@
       "source_file": "cabal_brand_pack/README.md",
       "source_location": "L1",
       "id": "cabal_brand_pack_readme_md",
-      "community": 15,
+      "community": 16,
       "norm_label": "readme.md"
     },
     {
@@ -1827,7 +1827,7 @@
       "source_file": "cabal_brand_pack/README.md",
       "source_location": "L1",
       "id": "cabal_brand_pack_readme_cabal_final_brand_package_v2a_optical_stronger",
-      "community": 15,
+      "community": 16,
       "norm_label": "cabal final brand package \u2014 v2a optical stronger"
     },
     {
@@ -1836,7 +1836,7 @@
       "source_file": "cabal_brand_pack/README.md",
       "source_location": "L5",
       "id": "cabal_brand_pack_readme_finalna_decyzja",
-      "community": 15,
+      "community": 16,
       "norm_label": "finalna decyzja"
     },
     {
@@ -1845,7 +1845,7 @@
       "source_file": "cabal_brand_pack/README.md",
       "source_location": "L14",
       "id": "cabal_brand_pack_readme_mocniejsza_korekta_poziomego_lockupu",
-      "community": 15,
+      "community": 16,
       "norm_label": "mocniejsza korekta poziomego lockupu"
     },
     {
@@ -1854,7 +1854,7 @@
       "source_file": "cabal_brand_pack/README.md",
       "source_location": "L25",
       "id": "cabal_brand_pack_readme_codeblock_1",
-      "community": 15,
+      "community": 16,
       "norm_label": "code:text (svg/cabal_lockup_horizontal_final_optical_stronger_white.svg)"
     },
     {
@@ -1863,7 +1863,7 @@
       "source_file": "cabal_brand_pack/README.md",
       "source_location": "L31",
       "id": "cabal_brand_pack_readme_struktura",
-      "community": 15,
+      "community": 16,
       "norm_label": "struktura"
     },
     {
@@ -1872,7 +1872,7 @@
       "source_file": "cabal_brand_pack/README.md",
       "source_location": "L33",
       "id": "cabal_brand_pack_readme_codeblock_2",
-      "community": 15,
+      "community": 16,
       "norm_label": "code:text (svg/      svg jako zrod\u0142o prawdy)"
     },
     {
@@ -1881,7 +1881,7 @@
       "source_file": "cabal_brand_pack/README.md",
       "source_location": "L39",
       "id": "cabal_brand_pack_readme_android",
-      "community": 15,
+      "community": 16,
       "norm_label": "android"
     },
     {
@@ -1890,7 +1890,7 @@
       "source_file": "cabal_brand_pack/README.md",
       "source_location": "L43",
       "id": "cabal_brand_pack_readme_codeblock_3",
-      "community": 15,
+      "community": 16,
       "norm_label": "code:text (android/ic_cabal_mark_v2a_foreground.xml)"
     },
     {
@@ -1899,7 +1899,7 @@
       "source_file": "cabal_brand_pack/README.md",
       "source_location": "L51",
       "id": "cabal_brand_pack_readme_codeblock_4",
-      "community": 15,
+      "community": 16,
       "norm_label": "code:text (android/ic_cabal_splash_icon.xml)"
     },
     {
@@ -1908,7 +1908,7 @@
       "source_file": "cabal_brand_pack/README.md",
       "source_location": "L55",
       "id": "cabal_brand_pack_readme_kolorystyka",
-      "community": 15,
+      "community": 16,
       "norm_label": "kolorystyka"
     },
     {
@@ -1917,7 +1917,7 @@
       "source_file": "cabal_brand_pack/RELEASE_NOTES.md",
       "source_location": "L1",
       "id": "cabal_brand_pack_release_notes_md",
-      "community": 60,
+      "community": 59,
       "norm_label": "release_notes.md"
     },
     {
@@ -1926,7 +1926,7 @@
       "source_file": "cabal_brand_pack/RELEASE_NOTES.md",
       "source_location": "L1",
       "id": "cabal_brand_pack_release_notes_release_notes",
-      "community": 60,
+      "community": 59,
       "norm_label": "release notes"
     },
     {
@@ -1943,7 +1943,7 @@
       "file_type": "code",
       "source_file": "app/src/main/assets/cable-protocol.bundle.js",
       "source_location": "L1",
-      "community": 23,
+      "community": 12,
       "norm_label": "ze()",
       "id": "assets_cable_protocol_bundle_ze"
     },
@@ -1961,7 +1961,7 @@
       "file_type": "code",
       "source_file": "app/src/main/assets/cable-protocol.bundle.js",
       "source_location": "L1",
-      "community": 23,
+      "community": 12,
       "norm_label": "ms()",
       "id": "assets_cable_protocol_bundle_ms"
     },
@@ -1970,7 +1970,7 @@
       "file_type": "code",
       "source_file": "app/src/main/assets/cable-protocol.bundle.js",
       "source_location": "L1",
-      "community": 23,
+      "community": 12,
       "norm_label": "rf()",
       "id": "assets_cable_protocol_bundle_rf"
     },
@@ -1979,7 +1979,7 @@
       "file_type": "code",
       "source_file": "app/src/main/assets/cable-protocol.bundle.js",
       "source_location": "L1",
-      "community": 23,
+      "community": 12,
       "norm_label": "kf()",
       "id": "assets_cable_protocol_bundle_kf"
     },
@@ -2006,7 +2006,7 @@
       "file_type": "code",
       "source_file": "app/src/main/assets/cable-protocol.bundle.js",
       "source_location": "L1",
-      "community": 23,
+      "community": 12,
       "norm_label": "pf()",
       "id": "assets_cable_protocol_bundle_pf"
     },
@@ -2033,7 +2033,7 @@
       "file_type": "code",
       "source_file": "app/src/main/assets/cable-protocol.bundle.js",
       "source_location": "L1",
-      "community": 23,
+      "community": 12,
       "norm_label": "ei()",
       "id": "assets_cable_protocol_bundle_ei"
     },
@@ -2114,7 +2114,7 @@
       "file_type": "code",
       "source_file": "app/src/main/assets/cable-protocol.bundle.js",
       "source_location": "L1",
-      "community": 65,
+      "community": 63,
       "norm_label": "oi()",
       "id": "assets_cable_protocol_bundle_oi"
     },
@@ -2123,7 +2123,7 @@
       "file_type": "code",
       "source_file": "app/src/main/assets/cable-protocol.bundle.js",
       "source_location": "L1",
-      "community": 64,
+      "community": 61,
       "norm_label": "jf()",
       "id": "assets_cable_protocol_bundle_jf"
     },
@@ -2141,7 +2141,7 @@
       "file_type": "code",
       "source_file": "app/src/main/assets/cable-protocol.bundle.js",
       "source_location": "L1",
-      "community": 64,
+      "community": 61,
       "norm_label": "ci()",
       "id": "assets_cable_protocol_bundle_ci"
     },
@@ -2177,7 +2177,7 @@
       "file_type": "code",
       "source_file": "app/src/main/assets/cable-protocol.bundle.js",
       "source_location": "L1",
-      "community": 44,
+      "community": 43,
       "norm_label": "fi()",
       "id": "assets_cable_protocol_bundle_fi"
     },
@@ -2249,7 +2249,7 @@
       "file_type": "code",
       "source_file": "app/src/main/assets/cable-protocol.bundle.js",
       "source_location": "L1",
-      "community": 67,
+      "community": 60,
       "norm_label": "wi()",
       "id": "assets_cable_protocol_bundle_wi"
     },
@@ -2294,7 +2294,7 @@
       "file_type": "code",
       "source_file": "app/src/main/assets/cable-protocol.bundle.js",
       "source_location": "L1",
-      "community": 65,
+      "community": 63,
       "norm_label": "oa()",
       "id": "assets_cable_protocol_bundle_oa"
     },
@@ -2339,7 +2339,7 @@
       "file_type": "code",
       "source_file": "app/src/main/assets/cable-protocol.bundle.js",
       "source_location": "L1",
-      "community": 13,
+      "community": 14,
       "norm_label": "ki()",
       "id": "assets_cable_protocol_bundle_ki"
     },
@@ -2420,7 +2420,7 @@
       "file_type": "code",
       "source_file": "app/src/main/assets/cable-protocol.bundle.js",
       "source_location": "L1",
-      "community": 45,
+      "community": 44,
       "norm_label": "max()",
       "id": "assets_cable_protocol_bundle_max"
     },
@@ -2762,7 +2762,7 @@
       "file_type": "code",
       "source_file": "app/src/main/assets/cable-protocol.bundle.js",
       "source_location": "L1",
-      "community": 20,
+      "community": 21,
       "norm_label": "ji()",
       "id": "assets_cable_protocol_bundle_ji"
     },
@@ -2843,7 +2843,7 @@
       "file_type": "code",
       "source_file": "app/src/main/assets/cable-protocol.bundle.js",
       "source_location": "L1",
-      "community": 61,
+      "community": 66,
       "norm_label": "op()",
       "id": "assets_cable_protocol_bundle_op"
     },
@@ -2852,7 +2852,7 @@
       "file_type": "code",
       "source_file": "app/src/main/assets/cable-protocol.bundle.js",
       "source_location": "L1",
-      "community": 21,
+      "community": 22,
       "norm_label": "hp()",
       "id": "assets_cable_protocol_bundle_hp"
     },
@@ -2861,7 +2861,7 @@
       "file_type": "code",
       "source_file": "app/src/main/assets/cable-protocol.bundle.js",
       "source_location": "L1",
-      "community": 21,
+      "community": 22,
       "norm_label": "xa()",
       "id": "assets_cable_protocol_bundle_xa"
     },
@@ -2870,7 +2870,7 @@
       "file_type": "code",
       "source_file": "app/src/main/assets/cable-protocol.bundle.js",
       "source_location": "L1",
-      "community": 21,
+      "community": 22,
       "norm_label": "cp()",
       "id": "assets_cable_protocol_bundle_cp"
     },
@@ -2879,7 +2879,7 @@
       "file_type": "code",
       "source_file": "app/src/main/assets/cable-protocol.bundle.js",
       "source_location": "L1",
-      "community": 53,
+      "community": 51,
       "norm_label": "gs()",
       "id": "assets_cable_protocol_bundle_gs"
     },
@@ -2888,7 +2888,7 @@
       "file_type": "code",
       "source_file": "app/src/main/assets/cable-protocol.bundle.js",
       "source_location": "L1",
-      "community": 53,
+      "community": 51,
       "norm_label": "ap()",
       "id": "assets_cable_protocol_bundle_ap"
     },
@@ -2897,7 +2897,7 @@
       "file_type": "code",
       "source_file": "app/src/main/assets/cable-protocol.bundle.js",
       "source_location": "L1",
-      "community": 53,
+      "community": 51,
       "norm_label": "fp()",
       "id": "assets_cable_protocol_bundle_fp"
     },
@@ -2960,7 +2960,7 @@
       "file_type": "code",
       "source_file": "app/src/main/assets/cable-protocol.bundle.js",
       "source_location": "L1",
-      "community": 68,
+      "community": 62,
       "norm_label": "log()",
       "id": "assets_cable_protocol_bundle_log"
     },
@@ -2969,7 +2969,7 @@
       "file_type": "code",
       "source_file": "app/src/main/assets/cable-protocol.bundle.js",
       "source_location": "L1",
-      "community": 68,
+      "community": 62,
       "norm_label": "log_tee()",
       "id": "assets_cable_protocol_bundle_log_tee"
     },
@@ -2996,7 +2996,7 @@
       "file_type": "code",
       "source_file": "app/src/main/assets/cable-protocol.bundle.js",
       "source_location": "L1",
-      "community": 61,
+      "community": 66,
       "norm_label": "bp()",
       "id": "assets_cable_protocol_bundle_bp"
     },
@@ -3068,7 +3068,7 @@
       "file_type": "code",
       "source_file": "app/src/main/assets/cable-protocol.bundle.js",
       "source_location": "L1",
-      "community": 22,
+      "community": 12,
       "norm_label": "qa()",
       "id": "assets_cable_protocol_bundle_qa"
     },
@@ -3077,7 +3077,7 @@
       "file_type": "code",
       "source_file": "app/src/main/assets/cable-protocol.bundle.js",
       "source_location": "L1",
-      "community": 22,
+      "community": 12,
       "norm_label": "wp()",
       "id": "assets_cable_protocol_bundle_wp"
     },
@@ -3086,7 +3086,7 @@
       "file_type": "code",
       "source_file": "app/src/main/assets/cable-protocol.bundle.js",
       "source_location": "L1",
-      "community": 22,
+      "community": 12,
       "norm_label": "bc()",
       "id": "assets_cable_protocol_bundle_bc"
     },
@@ -3122,7 +3122,7 @@
       "file_type": "code",
       "source_file": "app/src/main/assets/cable-protocol.bundle.js",
       "source_location": "L1",
-      "community": 13,
+      "community": 14,
       "norm_label": "so()",
       "id": "assets_cable_protocol_bundle_so"
     },
@@ -3131,7 +3131,7 @@
       "file_type": "code",
       "source_file": "app/src/main/assets/cable-protocol.bundle.js",
       "source_location": "L1",
-      "community": 13,
+      "community": 14,
       "norm_label": "tl()",
       "id": "assets_cable_protocol_bundle_tl"
     },
@@ -3149,7 +3149,7 @@
       "file_type": "code",
       "source_file": "app/src/main/assets/cable-protocol.bundle.js",
       "source_location": "L1",
-      "community": 13,
+      "community": 14,
       "norm_label": "fn()",
       "id": "assets_cable_protocol_bundle_fn"
     },
@@ -3230,7 +3230,7 @@
       "file_type": "code",
       "source_file": "app/src/main/assets/cable-protocol.bundle.js",
       "source_location": "L1",
-      "community": 30,
+      "community": 29,
       "norm_label": "qc()",
       "id": "assets_cable_protocol_bundle_qc"
     },
@@ -3248,7 +3248,7 @@
       "file_type": "code",
       "source_file": "app/src/main/assets/cable-protocol.bundle.js",
       "source_location": "L1",
-      "community": 30,
+      "community": 29,
       "norm_label": "el()",
       "id": "assets_cable_protocol_bundle_el"
     },
@@ -3437,7 +3437,7 @@
       "file_type": "code",
       "source_file": "app/src/main/assets/cable-protocol.bundle.js",
       "source_location": "L1",
-      "community": 20,
+      "community": 21,
       "norm_label": "bn()",
       "id": "assets_cable_protocol_bundle_bn"
     },
@@ -3500,7 +3500,7 @@
       "file_type": "code",
       "source_file": "app/src/main/assets/cable-protocol.bundle.js",
       "source_location": "L1",
-      "community": 44,
+      "community": 43,
       "norm_label": "hy()",
       "id": "assets_cable_protocol_bundle_hy"
     },
@@ -3536,7 +3536,7 @@
       "file_type": "code",
       "source_file": "app/src/main/assets/cable-protocol.bundle.js",
       "source_location": "L1",
-      "community": 67,
+      "community": 60,
       "norm_label": "gc()",
       "id": "assets_cable_protocol_bundle_gc"
     },
@@ -3545,7 +3545,7 @@
       "file_type": "code",
       "source_file": "app/src/main/assets/cable-protocol.bundle.js",
       "source_location": "L1",
-      "community": 51,
+      "community": 53,
       "norm_label": "jl()",
       "id": "assets_cable_protocol_bundle_jl"
     },
@@ -3554,7 +3554,7 @@
       "file_type": "code",
       "source_file": "app/src/main/assets/cable-protocol.bundle.js",
       "source_location": "L1",
-      "community": 51,
+      "community": 53,
       "norm_label": "mo()",
       "id": "assets_cable_protocol_bundle_mo"
     },
@@ -3563,7 +3563,7 @@
       "file_type": "code",
       "source_file": "app/src/main/assets/cable-protocol.bundle.js",
       "source_location": "L1",
-      "community": 51,
+      "community": 53,
       "norm_label": "hn()",
       "id": "assets_cable_protocol_bundle_hn"
     },
@@ -3617,7 +3617,7 @@
       "file_type": "code",
       "source_file": "app/src/main/assets/cable-protocol.bundle.js",
       "source_location": "L1",
-      "community": 20,
+      "community": 21,
       "norm_label": "qo()",
       "id": "assets_cable_protocol_bundle_qo"
     },
@@ -3626,7 +3626,7 @@
       "file_type": "code",
       "source_file": "app/src/main/assets/cable-protocol.bundle.js",
       "source_location": "L1",
-      "community": 20,
+      "community": 21,
       "norm_label": "ye()",
       "id": "assets_cable_protocol_bundle_ye"
     },
@@ -3635,7 +3635,7 @@
       "file_type": "code",
       "source_file": "app/src/main/assets/cable-protocol.bundle.js",
       "source_location": "L1",
-      "community": 20,
+      "community": 21,
       "norm_label": "tn()",
       "id": "assets_cable_protocol_bundle_tn"
     },
@@ -3644,7 +3644,7 @@
       "file_type": "code",
       "source_file": "app/src/main/assets/cable-protocol.bundle.js",
       "source_location": "L1",
-      "community": 20,
+      "community": 21,
       "norm_label": "_y()",
       "id": "assets_cable_protocol_bundle_y"
     },
@@ -3680,7 +3680,7 @@
       "file_type": "code",
       "source_file": "app/src/main/assets/cable-protocol.bundle.js",
       "source_location": "L1",
-      "community": 44,
+      "community": 43,
       "norm_label": "sy()",
       "id": "assets_cable_protocol_bundle_sy"
     },
@@ -3707,7 +3707,7 @@
       "file_type": "code",
       "source_file": "app/src/main/assets/cable-protocol.bundle.js",
       "source_location": "L1",
-      "community": 45,
+      "community": 44,
       "norm_label": "vy()",
       "id": "assets_cable_protocol_bundle_vy"
     },
@@ -3752,7 +3752,7 @@
       "file_type": "code",
       "source_file": "app/src/main/assets/cable-protocol.bundle.js",
       "source_location": "L1",
-      "community": 22,
+      "community": 12,
       "norm_label": "ro()",
       "id": "assets_cable_protocol_bundle_ro"
     },
@@ -3761,7 +3761,7 @@
       "file_type": "code",
       "source_file": "app/src/main/assets/cable-protocol.bundle.js",
       "source_location": "L1",
-      "community": 44,
+      "community": 43,
       "norm_label": "je()",
       "id": "assets_cable_protocol_bundle_je"
     },
@@ -3797,7 +3797,7 @@
       "file_type": "code",
       "source_file": "app/src/main/assets/cable-protocol.bundle.js",
       "source_location": "L1",
-      "community": 45,
+      "community": 44,
       "norm_label": "os()",
       "id": "assets_cable_protocol_bundle_os"
     },
@@ -3806,7 +3806,7 @@
       "file_type": "code",
       "source_file": "app/src/main/assets/cable-protocol.bundle.js",
       "source_location": "L1",
-      "community": 45,
+      "community": 44,
       "norm_label": "gy()",
       "id": "assets_cable_protocol_bundle_gy"
     },
@@ -3815,7 +3815,7 @@
       "file_type": "code",
       "source_file": "app/src/main/assets/cable-protocol.bundle.js",
       "source_location": "L1",
-      "community": 66,
+      "community": 67,
       "norm_label": "zy()",
       "id": "assets_cable_protocol_bundle_zy"
     },
@@ -3833,7 +3833,7 @@
       "file_type": "code",
       "source_file": "app/src/main/assets/cable-protocol.bundle.js",
       "source_location": "L1",
-      "community": 66,
+      "community": 67,
       "norm_label": "ku()",
       "id": "assets_cable_protocol_bundle_ku"
     },
@@ -3977,7 +3977,7 @@
       "file_type": "code",
       "source_file": "app/src/main/assets/cable-protocol.bundle.js",
       "source_location": "L1",
-      "community": 21,
+      "community": 22,
       "norm_label": "ca()",
       "id": "assets_cable_protocol_bundle_ca"
     },
@@ -3986,7 +3986,7 @@
       "file_type": "code",
       "source_file": "app/src/main/assets/cable-protocol.bundle.js",
       "source_location": "L1",
-      "community": 22,
+      "community": 12,
       "norm_label": "hg()",
       "id": "assets_cable_protocol_bundle_hg"
     },
@@ -3995,7 +3995,7 @@
       "file_type": "code",
       "source_file": "app/src/main/assets/cable-protocol.bundle.js",
       "source_location": "L1",
-      "community": 22,
+      "community": 12,
       "norm_label": "cg()",
       "id": "assets_cable_protocol_bundle_cg"
     },
@@ -4004,7 +4004,7 @@
       "file_type": "code",
       "source_file": "app/src/main/assets/cable-protocol.bundle.js",
       "source_location": "L1",
-      "community": 22,
+      "community": 12,
       "norm_label": "ag()",
       "id": "assets_cable_protocol_bundle_ag"
     },
@@ -4022,7 +4022,7 @@
       "file_type": "code",
       "source_file": "app/src/main/assets/cable-protocol.bundle.js",
       "source_location": "L1",
-      "community": 22,
+      "community": 12,
       "norm_label": "tc()",
       "id": "assets_cable_protocol_bundle_tc"
     },
@@ -4184,7 +4184,7 @@
       "file_type": "code",
       "source_file": "app/src/main/assets/cable-protocol.bundle.js",
       "source_location": "L1",
-      "community": 30,
+      "community": 29,
       "norm_label": "yc()",
       "id": "assets_cable_protocol_bundle_yc"
     },
@@ -4193,7 +4193,7 @@
       "file_type": "code",
       "source_file": "app/src/main/assets/cable-protocol.bundle.js",
       "source_location": "L1",
-      "community": 30,
+      "community": 29,
       "norm_label": "dg()",
       "id": "assets_cable_protocol_bundle_dg"
     },
@@ -4220,7 +4220,7 @@
       "file_type": "code",
       "source_file": "app/src/main/assets/cable-protocol.bundle.js",
       "source_location": "L1",
-      "community": 30,
+      "community": 29,
       "norm_label": "q()",
       "id": "assets_cable_protocol_bundle_q"
     },
@@ -4418,7 +4418,7 @@
       "file_type": "code",
       "source_file": "app/src/main/assets/cable-protocol.bundle.js",
       "source_location": "L1",
-      "community": 32,
+      "community": 30,
       "norm_label": "lg()",
       "id": "assets_cable_protocol_bundle_lg"
     },
@@ -4427,7 +4427,7 @@
       "file_type": "code",
       "source_file": "app/src/main/assets/cable-protocol.bundle.js",
       "source_location": "L1",
-      "community": 32,
+      "community": 30,
       "norm_label": "cx()",
       "id": "assets_cable_protocol_bundle_cx"
     },
@@ -4436,7 +4436,7 @@
       "file_type": "code",
       "source_file": "app/src/main/assets/cable-protocol.bundle.js",
       "source_location": "L1",
-      "community": 32,
+      "community": 30,
       "norm_label": "ax()",
       "id": "assets_cable_protocol_bundle_ax"
     },
@@ -4445,7 +4445,7 @@
       "file_type": "code",
       "source_file": "app/src/main/assets/cable-protocol.bundle.js",
       "source_location": "L1",
-      "community": 32,
+      "community": 30,
       "norm_label": "fx()",
       "id": "assets_cable_protocol_bundle_fx"
     },
@@ -4472,7 +4472,7 @@
       "file_type": "code",
       "source_file": "app/src/main/assets/cable-protocol.bundle.js",
       "source_location": "L1",
-      "community": 63,
+      "community": 64,
       "norm_label": "gx()",
       "id": "assets_cable_protocol_bundle_gx"
     },
@@ -4571,7 +4571,7 @@
       "file_type": "code",
       "source_file": "app/src/main/assets/cable-protocol.bundle.js",
       "source_location": "L1",
-      "community": 62,
+      "community": 65,
       "norm_label": "kg()",
       "id": "assets_cable_protocol_bundle_kg"
     },
@@ -4580,7 +4580,7 @@
       "file_type": "code",
       "source_file": "app/src/main/assets/cable-protocol.bundle.js",
       "source_location": "L1",
-      "community": 62,
+      "community": 65,
       "norm_label": "ug()",
       "id": "assets_cable_protocol_bundle_ug"
     },
@@ -4652,7 +4652,7 @@
       "file_type": "code",
       "source_file": "app/src/main/assets/cable-protocol.bundle.js",
       "source_location": "L1",
-      "community": 13,
+      "community": 14,
       "norm_label": "vg()",
       "id": "assets_cable_protocol_bundle_vg"
     },
@@ -4661,7 +4661,7 @@
       "file_type": "code",
       "source_file": "app/src/main/assets/cable-protocol.bundle.js",
       "source_location": "L1",
-      "community": 13,
+      "community": 14,
       "norm_label": "gg()",
       "id": "assets_cable_protocol_bundle_gg"
     },
@@ -4670,7 +4670,7 @@
       "file_type": "code",
       "source_file": "app/src/main/assets/cable-protocol.bundle.js",
       "source_location": "L1",
-      "community": 13,
+      "community": 14,
       "norm_label": "zg()",
       "id": "assets_cable_protocol_bundle_zg"
     },
@@ -4760,7 +4760,7 @@
       "file_type": "code",
       "source_file": "app/src/main/assets/cable-protocol.bundle.js",
       "source_location": "L1",
-      "community": 32,
+      "community": 30,
       "norm_label": "createviewtranscoder()",
       "id": "assets_cable_protocol_bundle_createviewtranscoder"
     },
@@ -4796,7 +4796,7 @@
       "file_type": "code",
       "source_file": "app/src/main/assets/cable-protocol.bundle.js",
       "source_location": "L1",
-      "community": 63,
+      "community": 64,
       "norm_label": "zx()",
       "id": "assets_cable_protocol_bundle_zx"
     },
@@ -4823,7 +4823,7 @@
       "file_type": "code",
       "source_file": "app/src/main/assets/cable-protocol.bundle.js",
       "source_location": "L1",
-      "community": 21,
+      "community": 22,
       "norm_label": "next()",
       "id": "assets_cable_protocol_bundle_next"
     },
@@ -4850,7 +4850,7 @@
       "file_type": "code",
       "source_file": "app/src/main/assets/cable-protocol.bundle.js",
       "source_location": "L1",
-      "community": 21,
+      "community": 22,
       "norm_label": "[cn]()",
       "id": "assets_cable_protocol_bundle_cn"
     },
@@ -4868,7 +4868,7 @@
       "file_type": "code",
       "source_file": "app/src/main/assets/cable-protocol.bundle.js",
       "source_location": "L1",
-      "community": 21,
+      "community": 22,
       "norm_label": "close()",
       "id": "assets_cable_protocol_bundle_close"
     },
@@ -4886,7 +4886,7 @@
       "file_type": "code",
       "source_file": "app/src/main/assets/cable-protocol.bundle.js",
       "source_location": "L1",
-      "community": 21,
+      "community": 22,
       "norm_label": "[symbol.asynciterator]()",
       "id": "assets_cable_protocol_bundle_symbol_asynciterator"
     },
@@ -4913,7 +4913,7 @@
       "file_type": "code",
       "source_file": "app/src/main/assets/cable-protocol.bundle.js",
       "source_location": "L1",
-      "community": 21,
+      "community": 22,
       "norm_label": "end()",
       "id": "assets_cable_protocol_bundle_end"
     },
@@ -4949,7 +4949,7 @@
       "file_type": "code",
       "source_file": "app/src/main/assets/cable-protocol.bundle.js",
       "source_location": "L1",
-      "community": 13,
+      "community": 14,
       "norm_label": "write()",
       "id": "assets_cable_protocol_bundle_write"
     },
@@ -5075,7 +5075,7 @@
       "file_type": "code",
       "source_file": "app/src/main/assets/cable-protocol.bundle.js",
       "source_location": "L1",
-      "community": 13,
+      "community": 14,
       "norm_label": "._batch()",
       "id": "assets_cable_protocol_bundle_e_batch"
     },
@@ -5345,7 +5345,7 @@
       "file_type": "code",
       "source_file": "app/src/main/assets/cable-protocol.bundle.js",
       "source_location": "L1",
-      "community": 13,
+      "community": 14,
       "norm_label": "rw()",
       "id": "assets_cable_protocol_bundle_rw"
     },
@@ -5354,7 +5354,7 @@
       "file_type": "code",
       "source_file": "app/src/main/assets/cable-protocol.bundle.js",
       "source_location": "L1",
-      "community": 13,
+      "community": 14,
       "norm_label": "kw()",
       "id": "assets_cable_protocol_bundle_kw"
     },
@@ -5363,7 +5363,7 @@
       "file_type": "code",
       "source_file": "app/src/main/assets/cable-protocol.bundle.js",
       "source_location": "L1",
-      "community": 13,
+      "community": 14,
       "norm_label": "mw()",
       "id": "assets_cable_protocol_bundle_mw"
     },
@@ -5372,7 +5372,7 @@
       "file_type": "code",
       "source_file": "app/src/main/assets/cable-protocol.bundle.js",
       "source_location": "L1",
-      "community": 13,
+      "community": 14,
       "norm_label": "pw()",
       "id": "assets_cable_protocol_bundle_pw"
     },
@@ -5597,7 +5597,7 @@
       "file_type": "code",
       "source_file": "app/src/main/assets/cable-protocol.bundle.js",
       "source_location": "L1",
-      "community": 54,
+      "community": 50,
       "norm_label": "getlatestinfohash()",
       "id": "assets_cable_protocol_bundle_getlatestinfohash"
     },
@@ -5885,7 +5885,7 @@
       "file_type": "code",
       "source_file": "app/src/main/assets/cable-protocol.bundle.js",
       "source_location": "L3",
-      "community": 23,
+      "community": 12,
       "norm_label": "ef()",
       "id": "assets_cable_protocol_bundle_ef"
     },
@@ -5984,7 +5984,7 @@
       "file_type": "code",
       "source_file": "app/src/main/assets/cable-protocol.bundle.js",
       "source_location": "L3",
-      "community": 20,
+      "community": 21,
       "norm_label": "_reindexhash()",
       "id": "assets_cable_protocol_bundle_reindexhash"
     },
@@ -5993,7 +5993,7 @@
       "file_type": "code",
       "source_file": "app/src/main/assets/cable-protocol.bundle.js",
       "source_location": "L3",
-      "community": 54,
+      "community": 50,
       "norm_label": "_reindexinfoname()",
       "id": "assets_cable_protocol_bundle_reindexinfoname"
     },
@@ -6011,7 +6011,7 @@
       "file_type": "code",
       "source_file": "app/src/main/assets/cable-protocol.bundle.js",
       "source_location": "L3",
-      "community": 20,
+      "community": 21,
       "norm_label": "_reindexchannelmembership()",
       "id": "assets_cable_protocol_bundle_reindexchannelmembership"
     },
@@ -6038,7 +6038,7 @@
       "file_type": "code",
       "source_file": "app/src/main/assets/cable-protocol.bundle.js",
       "source_location": "L3",
-      "community": 20,
+      "community": 21,
       "norm_label": "_emitstoredpost()",
       "id": "assets_cable_protocol_bundle_emitstoredpost"
     },
@@ -6578,7 +6578,7 @@
       "file_type": "code",
       "source_file": "app/src/main/assets/cable-protocol.bundle.js",
       "source_location": "L3",
-      "community": 54,
+      "community": 50,
       "norm_label": "getname()",
       "id": "assets_cable_protocol_bundle_getname"
     },
@@ -6884,7 +6884,7 @@
       "file_type": "code",
       "source_file": "app/src/main/java/chat/cabal/mobile/core/Extensions.kt",
       "source_location": "L1",
-      "community": 55,
+      "community": 54,
       "norm_label": "extensions.kt",
       "id": "app_src_main_java_chat_cabal_mobile_core_extensions_kt"
     },
@@ -6893,7 +6893,7 @@
       "file_type": "code",
       "source_file": "app/src/main/java/chat/cabal/mobile/core/Extensions.kt",
       "source_location": "L3",
-      "community": 55,
+      "community": 54,
       "norm_label": "tohex()",
       "id": "core_extensions_tohex"
     },
@@ -6902,7 +6902,7 @@
       "file_type": "code",
       "source_file": "app/src/main/java/chat/cabal/mobile/core/Extensions.kt",
       "source_location": "L5",
-      "community": 55,
+      "community": 54,
       "norm_label": "decodehex()",
       "id": "core_extensions_decodehex"
     },
@@ -7055,7 +7055,7 @@
       "file_type": "code",
       "source_file": "app/src/main/java/chat/cabal/mobile/core/SyncEngine.kt",
       "source_location": "L13",
-      "community": 12,
+      "community": 13,
       "norm_label": "jschatmessage",
       "id": "core_syncengine_jschatmessage"
     },
@@ -7064,7 +7064,7 @@
       "file_type": "code",
       "source_file": "app/src/main/java/chat/cabal/mobile/core/SyncEngine.kt",
       "source_location": "L21",
-      "community": 12,
+      "community": 13,
       "norm_label": "jspost",
       "id": "core_syncengine_jspost"
     },
@@ -7073,7 +7073,7 @@
       "file_type": "code",
       "source_file": "app/src/main/java/chat/cabal/mobile/core/SyncEngine.kt",
       "source_location": "L40",
-      "community": 12,
+      "community": 13,
       "norm_label": "broadcast()",
       "id": "core_syncengine_broadcast"
     },
@@ -7082,7 +7082,7 @@
       "file_type": "code",
       "source_file": "app/src/main/java/chat/cabal/mobile/core/SyncEngine.kt",
       "source_location": "L45",
-      "community": 12,
+      "community": 13,
       "norm_label": "close()",
       "id": "core_syncengine_close"
     },
@@ -7091,7 +7091,7 @@
       "file_type": "code",
       "source_file": "app/src/main/java/chat/cabal/mobile/core/SyncEngine.kt",
       "source_location": "L48",
-      "community": 12,
+      "community": 13,
       "norm_label": "get()",
       "id": "core_syncengine_get"
     },
@@ -7100,7 +7100,7 @@
       "file_type": "code",
       "source_file": "app/src/main/java/chat/cabal/mobile/core/SyncEngine.kt",
       "source_location": "L57",
-      "community": 12,
+      "community": 13,
       "norm_label": "put()",
       "id": "core_syncengine_put"
     },
@@ -7109,7 +7109,7 @@
       "file_type": "code",
       "source_file": "app/src/main/java/chat/cabal/mobile/core/SyncEngine.kt",
       "source_location": "L67",
-      "community": 12,
+      "community": 13,
       "norm_label": "onchatmessage()",
       "id": "core_syncengine_onchatmessage"
     },
@@ -7118,7 +7118,7 @@
       "file_type": "code",
       "source_file": "app/src/main/java/chat/cabal/mobile/core/SyncEngine.kt",
       "source_location": "L115",
-      "community": 12,
+      "community": 13,
       "norm_label": ".posttext()",
       "id": "core_syncengine_syncengine_posttext"
     },
@@ -7127,7 +7127,7 @@
       "file_type": "code",
       "source_file": "cable-protocol/src/main/kotlin/chat/cabal/protocol/CableCore.kt",
       "source_location": "L49",
-      "community": 18,
+      "community": 19,
       "norm_label": ".createjoinpost()",
       "id": "protocol_cablecore_cablecore_createjoinpost"
     }
@@ -7210,9 +7210,9 @@
       "source_file": "app/src/main/java/chat/cabal/mobile/MainActivity.kt",
       "source_location": "L78",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "mobile_mainactivity_mainactivity_oncreate",
-      "target": "mobile_mainactivity_mainactivity_checkandrequestpermissions",
-      "confidence_score": 1.0
+      "target": "mobile_mainactivity_mainactivity_checkandrequestpermissions"
     },
     {
       "relation": "calls",
@@ -7221,9 +7221,9 @@
       "source_file": "app/src/main/java/chat/cabal/mobile/MainActivity.kt",
       "source_location": "L84",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "mobile_mainactivity_mainactivity_oncreate",
-      "target": "mobile_mainactivity_mainapp",
-      "confidence_score": 1.0
+      "target": "mobile_mainactivity_mainapp"
     },
     {
       "relation": "calls",
@@ -7254,9 +7254,9 @@
       "source_file": "app/src/main/java/chat/cabal/mobile/MainActivity.kt",
       "source_location": "L104",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "mobile_mainactivity_mainactivity_checkandrequestpermissions",
-      "target": "mobile_mainactivity_mainactivity_startdiscovery",
-      "confidence_score": 1.0
+      "target": "mobile_mainactivity_mainactivity_startdiscovery"
     },
     {
       "relation": "calls",
@@ -7307,9 +7307,9 @@
       "source_file": "app/src/main/java/chat/cabal/mobile/core/CabalManager.kt",
       "source_location": "L45",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "app_src_main_java_chat_cabal_mobile_core_cabalmanager_kt",
-      "target": "core_cabalmanager_tohex",
-      "confidence_score": 1.0
+      "target": "core_cabalmanager_tohex"
     },
     {
       "relation": "method",
@@ -7507,9 +7507,9 @@
       "source_file": "app/src/main/java/chat/cabal/mobile/core/SyncEngine.kt",
       "source_location": "L47",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_syncengine_syncengine",
-      "target": "core_syncengine_syncengine_handlemessage",
-      "confidence_score": 1.0
+      "target": "core_syncengine_syncengine_handlemessage"
     },
     {
       "relation": "method",
@@ -7517,9 +7517,9 @@
       "source_file": "app/src/main/java/chat/cabal/mobile/core/SyncEngine.kt",
       "source_location": "L96",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_syncengine_syncengine",
-      "target": "core_syncengine_syncengine_handlepost",
-      "confidence_score": 1.0
+      "target": "core_syncengine_syncengine_handlepost"
     },
     {
       "relation": "method",
@@ -7527,9 +7527,9 @@
       "source_file": "app/src/main/java/chat/cabal/mobile/core/SyncEngine.kt",
       "source_location": "L114",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_syncengine_syncengine",
-      "target": "core_syncengine_syncengine_broadcastpost",
-      "confidence_score": 1.0
+      "target": "core_syncengine_syncengine_broadcastpost"
     },
     {
       "relation": "method",
@@ -7737,9 +7737,9 @@
       "source_file": "cabal_sources (old_repos)/cabal-core-master/lib/crypto.js",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "cabal_sources_old_repos_cabal_core_master_lib_crypto_js",
-      "target": "lib_crypto_pb",
-      "confidence_score": 1.0
+      "target": "lib_crypto_pb"
     },
     {
       "relation": "contains",
@@ -7747,9 +7747,9 @@
       "source_file": "cabal_sources (old_repos)/cabal-core-master/lib/crypto.js",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "cabal_sources_old_repos_cabal_core_master_lib_crypto_js",
-      "target": "lib_crypto_sodium",
-      "confidence_score": 1.0
+      "target": "lib_crypto_sodium"
     },
     {
       "relation": "contains",
@@ -7757,9 +7757,9 @@
       "source_file": "cabal_sources (old_repos)/cabal-core-master/lib/crypto.js",
       "source_location": "L11",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "cabal_sources_old_repos_cabal_core_master_lib_crypto_js",
-      "target": "lib_crypto_box",
-      "confidence_score": 1.0
+      "target": "lib_crypto_box"
     },
     {
       "relation": "contains",
@@ -7767,9 +7767,9 @@
       "source_file": "cabal_sources (old_repos)/cabal-core-master/lib/crypto.js",
       "source_location": "L23",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "cabal_sources_old_repos_cabal_core_master_lib_crypto_js",
-      "target": "lib_crypto_unbox",
-      "confidence_score": 1.0
+      "target": "lib_crypto_unbox"
     },
     {
       "relation": "contains",
@@ -7777,9 +7777,9 @@
       "source_file": "cabal_sources (old_repos)/cabal-mobile-2/src/frontend/lib/utils.js",
       "source_location": "L17",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "cabal_sources_old_repos_cabal_mobile_2_src_frontend_lib_utils_js",
-      "target": "lib_utils_getdisplayname",
-      "confidence_score": 1.0
+      "target": "lib_utils_getdisplayname"
     },
     {
       "relation": "contains",
@@ -7928,9 +7928,9 @@
       "source_file": "cable-network/src/main/kotlin/chat/cabal/network/TcpTransport.kt",
       "source_location": "L42",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "network_tcptransport_tcptransport_start",
-      "target": "network_tcptransport_tcptransport_handleconnection",
-      "confidence_score": 1.0
+      "target": "network_tcptransport_tcptransport_handleconnection"
     },
     {
       "relation": "calls",
@@ -7939,9 +7939,9 @@
       "source_file": "cable-network/src/main/kotlin/chat/cabal/network/TcpTransport.kt",
       "source_location": "L58",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "network_tcptransport_tcptransport_connecttopeer",
-      "target": "network_tcptransport_tcptransport_handleconnection",
-      "confidence_score": 1.0
+      "target": "network_tcptransport_tcptransport_handleconnection"
     },
     {
       "relation": "calls",
@@ -7950,9 +7950,9 @@
       "source_file": "cable-network/src/main/kotlin/chat/cabal/network/TcpTransport.kt",
       "source_location": "L71",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "network_tcptransport_tcptransport_handleconnection",
-      "target": "network_tcptransport_tcptransport_readvarint",
-      "confidence_score": 1.0
+      "target": "network_tcptransport_tcptransport_readvarint"
     },
     {
       "relation": "calls",
@@ -7961,9 +7961,9 @@
       "source_file": "cable-network/src/main/kotlin/chat/cabal/network/TcpTransport.kt",
       "source_location": "L91",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "network_tcptransport_tcptransport_broadcast",
-      "target": "network_tcptransport_tcptransport_send",
-      "confidence_score": 1.0
+      "target": "network_tcptransport_tcptransport_send"
     },
     {
       "relation": "calls",
@@ -7972,9 +7972,9 @@
       "source_file": "cable-network/src/main/kotlin/chat/cabal/network/TcpTransport.kt",
       "source_location": "L101",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "network_tcptransport_tcptransport_sendtopeer",
-      "target": "network_tcptransport_tcptransport_send",
-      "confidence_score": 1.0
+      "target": "network_tcptransport_tcptransport_send"
     },
     {
       "relation": "contains",
@@ -8663,9 +8663,9 @@
       "source_file": "AGENTS.md",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "agents_md",
-      "target": "new_cabal_mobile_agents_agent_instructions",
-      "confidence_score": 1.0
+      "target": "new_cabal_mobile_agents_agent_instructions"
     },
     {
       "relation": "contains",
@@ -8673,9 +8673,9 @@
       "source_file": "AGENTS.md",
       "source_location": "L5",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "new_cabal_mobile_agents_agent_instructions",
-      "target": "new_cabal_mobile_agents_quick_reference",
-      "confidence_score": 1.0
+      "target": "new_cabal_mobile_agents_quick_reference"
     },
     {
       "relation": "contains",
@@ -8683,9 +8683,9 @@
       "source_file": "AGENTS.md",
       "source_location": "L15",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "new_cabal_mobile_agents_agent_instructions",
-      "target": "new_cabal_mobile_agents_non_interactive_shell_commands",
-      "confidence_score": 1.0
+      "target": "new_cabal_mobile_agents_non_interactive_shell_commands"
     },
     {
       "relation": "contains",
@@ -8693,9 +8693,9 @@
       "source_file": "AGENTS.md",
       "source_location": "L40",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "new_cabal_mobile_agents_agent_instructions",
-      "target": "new_cabal_mobile_agents_beads_issue_tracker",
-      "confidence_score": 1.0
+      "target": "new_cabal_mobile_agents_beads_issue_tracker"
     },
     {
       "relation": "contains",
@@ -8703,9 +8703,9 @@
       "source_file": "AGENTS.md",
       "source_location": "L59",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "new_cabal_mobile_agents_agent_instructions",
-      "target": "new_cabal_mobile_agents_session_completion",
-      "confidence_score": 1.0
+      "target": "new_cabal_mobile_agents_session_completion"
     },
     {
       "relation": "contains",
@@ -8713,9 +8713,9 @@
       "source_file": "AGENTS.md",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "new_cabal_mobile_agents_quick_reference",
-      "target": "new_cabal_mobile_agents_codeblock_1",
-      "confidence_score": 1.0
+      "target": "new_cabal_mobile_agents_codeblock_1"
     },
     {
       "relation": "contains",
@@ -8723,9 +8723,9 @@
       "source_file": "AGENTS.md",
       "source_location": "L22",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "new_cabal_mobile_agents_non_interactive_shell_commands",
-      "target": "new_cabal_mobile_agents_codeblock_2",
-      "confidence_score": 1.0
+      "target": "new_cabal_mobile_agents_codeblock_2"
     },
     {
       "relation": "contains",
@@ -8733,9 +8733,9 @@
       "source_file": "AGENTS.md",
       "source_location": "L44",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "new_cabal_mobile_agents_beads_issue_tracker",
-      "target": "new_cabal_mobile_agents_quick_reference_44",
-      "confidence_score": 1.0
+      "target": "new_cabal_mobile_agents_quick_reference_44"
     },
     {
       "relation": "contains",
@@ -8743,9 +8743,9 @@
       "source_file": "AGENTS.md",
       "source_location": "L53",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "new_cabal_mobile_agents_beads_issue_tracker",
-      "target": "new_cabal_mobile_agents_rules",
-      "confidence_score": 1.0
+      "target": "new_cabal_mobile_agents_rules"
     },
     {
       "relation": "contains",
@@ -8753,9 +8753,9 @@
       "source_file": "AGENTS.md",
       "source_location": "L46",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "new_cabal_mobile_agents_quick_reference_44",
-      "target": "new_cabal_mobile_agents_codeblock_3",
-      "confidence_score": 1.0
+      "target": "new_cabal_mobile_agents_codeblock_3"
     },
     {
       "relation": "contains",
@@ -8763,9 +8763,9 @@
       "source_file": "AGENTS.md",
       "source_location": "L69",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "new_cabal_mobile_agents_session_completion",
-      "target": "new_cabal_mobile_agents_codeblock_4",
-      "confidence_score": 1.0
+      "target": "new_cabal_mobile_agents_codeblock_4"
     },
     {
       "relation": "contains",
@@ -8773,9 +8773,9 @@
       "source_file": "README.md",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "readme_md",
-      "target": "new_cabal_mobile_readme_cabal_android",
-      "confidence_score": 1.0
+      "target": "new_cabal_mobile_readme_cabal_android"
     },
     {
       "relation": "contains",
@@ -8783,9 +8783,9 @@
       "source_file": "README.md",
       "source_location": "L11",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "new_cabal_mobile_readme_cabal_android",
-      "target": "new_cabal_mobile_readme_table_of_contents",
-      "confidence_score": 1.0
+      "target": "new_cabal_mobile_readme_table_of_contents"
     },
     {
       "relation": "contains",
@@ -8793,9 +8793,9 @@
       "source_file": "README.md",
       "source_location": "L25",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "new_cabal_mobile_readme_cabal_android",
-      "target": "new_cabal_mobile_readme_introduction",
-      "confidence_score": 1.0
+      "target": "new_cabal_mobile_readme_introduction"
     },
     {
       "relation": "contains",
@@ -8803,9 +8803,9 @@
       "source_file": "README.md",
       "source_location": "L37",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "new_cabal_mobile_readme_cabal_android",
-      "target": "new_cabal_mobile_readme_key_features",
-      "confidence_score": 1.0
+      "target": "new_cabal_mobile_readme_key_features"
     },
     {
       "relation": "contains",
@@ -8813,9 +8813,9 @@
       "source_file": "README.md",
       "source_location": "L48",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "new_cabal_mobile_readme_cabal_android",
-      "target": "new_cabal_mobile_readme_architecture",
-      "confidence_score": 1.0
+      "target": "new_cabal_mobile_readme_architecture"
     },
     {
       "relation": "contains",
@@ -8823,9 +8823,9 @@
       "source_file": "README.md",
       "source_location": "L57",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "new_cabal_mobile_readme_cabal_android",
-      "target": "new_cabal_mobile_readme_comparison_with_v2",
-      "confidence_score": 1.0
+      "target": "new_cabal_mobile_readme_comparison_with_v2"
     },
     {
       "relation": "contains",
@@ -8833,9 +8833,9 @@
       "source_file": "README.md",
       "source_location": "L72",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "new_cabal_mobile_readme_cabal_android",
-      "target": "new_cabal_mobile_readme_tech_stack",
-      "confidence_score": 1.0
+      "target": "new_cabal_mobile_readme_tech_stack"
     },
     {
       "relation": "contains",
@@ -8843,9 +8843,9 @@
       "source_file": "README.md",
       "source_location": "L83",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "new_cabal_mobile_readme_cabal_android",
-      "target": "new_cabal_mobile_readme_getting_started",
-      "confidence_score": 1.0
+      "target": "new_cabal_mobile_readme_getting_started"
     },
     {
       "relation": "contains",
@@ -8853,9 +8853,9 @@
       "source_file": "README.md",
       "source_location": "L102",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "new_cabal_mobile_readme_cabal_android",
-      "target": "new_cabal_mobile_readme_p2p_testing",
-      "confidence_score": 1.0
+      "target": "new_cabal_mobile_readme_p2p_testing"
     },
     {
       "relation": "contains",
@@ -8863,9 +8863,9 @@
       "source_file": "README.md",
       "source_location": "L113",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "new_cabal_mobile_readme_cabal_android",
-      "target": "new_cabal_mobile_readme_troubleshooting",
-      "confidence_score": 1.0
+      "target": "new_cabal_mobile_readme_troubleshooting"
     },
     {
       "relation": "contains",
@@ -8873,9 +8873,9 @@
       "source_file": "README.md",
       "source_location": "L128",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "new_cabal_mobile_readme_cabal_android",
-      "target": "new_cabal_mobile_readme_license",
-      "confidence_score": 1.0
+      "target": "new_cabal_mobile_readme_license"
     },
     {
       "relation": "contains",
@@ -8883,9 +8883,9 @@
       "source_file": "README.md",
       "source_location": "L85",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "new_cabal_mobile_readme_getting_started",
-      "target": "new_cabal_mobile_readme_prerequisites",
-      "confidence_score": 1.0
+      "target": "new_cabal_mobile_readme_prerequisites"
     },
     {
       "relation": "contains",
@@ -8893,9 +8893,9 @@
       "source_file": "README.md",
       "source_location": "L89",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "new_cabal_mobile_readme_getting_started",
-      "target": "new_cabal_mobile_readme_build_instructions",
-      "confidence_score": 1.0
+      "target": "new_cabal_mobile_readme_build_instructions"
     },
     {
       "relation": "contains",
@@ -8903,9 +8903,9 @@
       "source_file": "README.md",
       "source_location": "L91",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "new_cabal_mobile_readme_build_instructions",
-      "target": "new_cabal_mobile_readme_codeblock_1",
-      "confidence_score": 1.0
+      "target": "new_cabal_mobile_readme_codeblock_1"
     },
     {
       "relation": "contains",
@@ -8913,9 +8913,9 @@
       "source_file": "README.md",
       "source_location": "L96",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "new_cabal_mobile_readme_build_instructions",
-      "target": "new_cabal_mobile_readme_codeblock_2",
-      "confidence_score": 1.0
+      "target": "new_cabal_mobile_readme_codeblock_2"
     },
     {
       "relation": "contains",
@@ -8923,9 +8923,9 @@
       "source_file": "README.md",
       "source_location": "L115",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "new_cabal_mobile_readme_troubleshooting",
-      "target": "new_cabal_mobile_readme_peers_not_found_emulators",
-      "confidence_score": 1.0
+      "target": "new_cabal_mobile_readme_peers_not_found_emulators"
     },
     {
       "relation": "contains",
@@ -8933,9 +8933,9 @@
       "source_file": "README.md",
       "source_location": "L119",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "new_cabal_mobile_readme_peers_not_found_emulators",
-      "target": "new_cabal_mobile_readme_codeblock_3",
-      "confidence_score": 1.0
+      "target": "new_cabal_mobile_readme_codeblock_3"
     },
     {
       "relation": "contains",
@@ -8943,9 +8943,9 @@
       "source_file": "README_ZIPLINE.md",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "readme_zipline_md",
-      "target": "new_cabal_mobile_readme_zipline_cabal_android_zipline_branch",
-      "confidence_score": 1.0
+      "target": "new_cabal_mobile_readme_zipline_cabal_android_zipline_branch"
     },
     {
       "relation": "contains",
@@ -8953,9 +8953,9 @@
       "source_file": "README_ZIPLINE.md",
       "source_location": "L9",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "new_cabal_mobile_readme_zipline_cabal_android_zipline_branch",
-      "target": "new_cabal_mobile_readme_zipline_why_zipline",
-      "confidence_score": 1.0
+      "target": "new_cabal_mobile_readme_zipline_why_zipline"
     },
     {
       "relation": "contains",
@@ -8963,9 +8963,9 @@
       "source_file": "README_ZIPLINE.md",
       "source_location": "L17",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "new_cabal_mobile_readme_zipline_cabal_android_zipline_branch",
-      "target": "new_cabal_mobile_readme_zipline_table_of_contents",
-      "confidence_score": 1.0
+      "target": "new_cabal_mobile_readme_zipline_table_of_contents"
     },
     {
       "relation": "contains",
@@ -8973,9 +8973,9 @@
       "source_file": "README_ZIPLINE.md",
       "source_location": "L25",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "new_cabal_mobile_readme_zipline_cabal_android_zipline_branch",
-      "target": "new_cabal_mobile_readme_zipline_key_differences_zipline_vs_master",
-      "confidence_score": 1.0
+      "target": "new_cabal_mobile_readme_zipline_key_differences_zipline_vs_master"
     },
     {
       "relation": "contains",
@@ -8983,9 +8983,9 @@
       "source_file": "README_ZIPLINE.md",
       "source_location": "L36",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "new_cabal_mobile_readme_zipline_cabal_android_zipline_branch",
-      "target": "new_cabal_mobile_readme_zipline_architecture",
-      "confidence_score": 1.0
+      "target": "new_cabal_mobile_readme_zipline_architecture"
     },
     {
       "relation": "contains",
@@ -8993,9 +8993,9 @@
       "source_file": "README_ZIPLINE.md",
       "source_location": "L47",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "new_cabal_mobile_readme_zipline_cabal_android_zipline_branch",
-      "target": "new_cabal_mobile_readme_zipline_technical_benefits",
-      "confidence_score": 1.0
+      "target": "new_cabal_mobile_readme_zipline_technical_benefits"
     },
     {
       "relation": "contains",
@@ -9003,9 +9003,9 @@
       "source_file": "README_ZIPLINE.md",
       "source_location": "L55",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "new_cabal_mobile_readme_zipline_cabal_android_zipline_branch",
-      "target": "new_cabal_mobile_readme_zipline_license",
-      "confidence_score": 1.0
+      "target": "new_cabal_mobile_readme_zipline_license"
     },
     {
       "relation": "contains",
@@ -9013,9 +9013,9 @@
       "source_file": "README_ZIPLINE.md",
       "source_location": "L40",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "new_cabal_mobile_readme_zipline_architecture",
-      "target": "new_cabal_mobile_readme_zipline_secure_most_bridges",
-      "confidence_score": 1.0
+      "target": "new_cabal_mobile_readme_zipline_secure_most_bridges"
     },
     {
       "relation": "contains",
@@ -9023,9 +9023,9 @@
       "source_file": "cabal_brand_pack/README.md",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "cabal_brand_pack_readme_md",
-      "target": "cabal_brand_pack_readme_cabal_final_brand_package_v2a_optical_stronger",
-      "confidence_score": 1.0
+      "target": "cabal_brand_pack_readme_cabal_final_brand_package_v2a_optical_stronger"
     },
     {
       "relation": "contains",
@@ -9033,9 +9033,9 @@
       "source_file": "cabal_brand_pack/README.md",
       "source_location": "L5",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "cabal_brand_pack_readme_cabal_final_brand_package_v2a_optical_stronger",
-      "target": "cabal_brand_pack_readme_finalna_decyzja",
-      "confidence_score": 1.0
+      "target": "cabal_brand_pack_readme_finalna_decyzja"
     },
     {
       "relation": "contains",
@@ -9043,9 +9043,9 @@
       "source_file": "cabal_brand_pack/README.md",
       "source_location": "L14",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "cabal_brand_pack_readme_cabal_final_brand_package_v2a_optical_stronger",
-      "target": "cabal_brand_pack_readme_mocniejsza_korekta_poziomego_lockupu",
-      "confidence_score": 1.0
+      "target": "cabal_brand_pack_readme_mocniejsza_korekta_poziomego_lockupu"
     },
     {
       "relation": "contains",
@@ -9053,9 +9053,9 @@
       "source_file": "cabal_brand_pack/README.md",
       "source_location": "L31",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "cabal_brand_pack_readme_cabal_final_brand_package_v2a_optical_stronger",
-      "target": "cabal_brand_pack_readme_struktura",
-      "confidence_score": 1.0
+      "target": "cabal_brand_pack_readme_struktura"
     },
     {
       "relation": "contains",
@@ -9063,9 +9063,9 @@
       "source_file": "cabal_brand_pack/README.md",
       "source_location": "L39",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "cabal_brand_pack_readme_cabal_final_brand_package_v2a_optical_stronger",
-      "target": "cabal_brand_pack_readme_android",
-      "confidence_score": 1.0
+      "target": "cabal_brand_pack_readme_android"
     },
     {
       "relation": "contains",
@@ -9073,9 +9073,9 @@
       "source_file": "cabal_brand_pack/README.md",
       "source_location": "L55",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "cabal_brand_pack_readme_cabal_final_brand_package_v2a_optical_stronger",
-      "target": "cabal_brand_pack_readme_kolorystyka",
-      "confidence_score": 1.0
+      "target": "cabal_brand_pack_readme_kolorystyka"
     },
     {
       "relation": "contains",
@@ -9083,9 +9083,9 @@
       "source_file": "cabal_brand_pack/README.md",
       "source_location": "L25",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "cabal_brand_pack_readme_mocniejsza_korekta_poziomego_lockupu",
-      "target": "cabal_brand_pack_readme_codeblock_1",
-      "confidence_score": 1.0
+      "target": "cabal_brand_pack_readme_codeblock_1"
     },
     {
       "relation": "contains",
@@ -9093,9 +9093,9 @@
       "source_file": "cabal_brand_pack/README.md",
       "source_location": "L33",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "cabal_brand_pack_readme_struktura",
-      "target": "cabal_brand_pack_readme_codeblock_2",
-      "confidence_score": 1.0
+      "target": "cabal_brand_pack_readme_codeblock_2"
     },
     {
       "relation": "contains",
@@ -9103,9 +9103,9 @@
       "source_file": "cabal_brand_pack/README.md",
       "source_location": "L43",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "cabal_brand_pack_readme_android",
-      "target": "cabal_brand_pack_readme_codeblock_3",
-      "confidence_score": 1.0
+      "target": "cabal_brand_pack_readme_codeblock_3"
     },
     {
       "relation": "contains",
@@ -9113,9 +9113,9 @@
       "source_file": "cabal_brand_pack/README.md",
       "source_location": "L51",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "cabal_brand_pack_readme_android",
-      "target": "cabal_brand_pack_readme_codeblock_4",
-      "confidence_score": 1.0
+      "target": "cabal_brand_pack_readme_codeblock_4"
     },
     {
       "relation": "contains",
@@ -9123,9 +9123,9 @@
       "source_file": "cabal_brand_pack/RELEASE_NOTES.md",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "cabal_brand_pack_release_notes_md",
-      "target": "cabal_brand_pack_release_notes_release_notes",
-      "confidence_score": 1.0
+      "target": "cabal_brand_pack_release_notes_release_notes"
     },
     {
       "relation": "contains",
@@ -24659,5 +24659,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "ed9a16a6e36176267f9353c7ff593bf6e260e190"
+  "built_at_commit": "d193b3916635959d89f4cd520527e2e54b1b6c88"
 }

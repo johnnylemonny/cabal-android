@@ -8,19 +8,19 @@
     "hash": "f13378b9ebbe50add4c1aa336da79f1b"
   },
   "D:\\Aplikacje\\Poprawki\\new-cabal-mobile\\app\\build.gradle.kts": {
-    "mtime": 1779740556.098,
-    "hash": "17b5c403357985a068f6405cd63832ce"
+    "mtime": 1779748921.8141105,
+    "hash": "7c65a9900b9185f0ea8dfcc9ac3d75ce"
   },
   "D:\\Aplikacje\\Poprawki\\new-cabal-mobile\\app\\src\\main\\java\\chat\\cabal\\mobile\\CabalApplication.kt": {
     "mtime": 1779400435.5858066,
     "hash": "4040ad3d7d87fa1012d6420a0af6ddfb"
   },
   "D:\\Aplikacje\\Poprawki\\new-cabal-mobile\\app\\src\\main\\java\\chat\\cabal\\mobile\\MainActivity.kt": {
-    "mtime": 1779746303.6646802,
-    "hash": "f0a89353ad04d0e194e5804c236d8441"
+    "mtime": 1779748586.742123,
+    "hash": "81458143f3176df772531a4c441c0120"
   },
   "D:\\Aplikacje\\Poprawki\\new-cabal-mobile\\app\\src\\main\\java\\chat\\cabal\\mobile\\core\\CabalManager.kt": {
-    "mtime": 1779740557.491315,
+    "mtime": 1779747810.5971115,
     "hash": "af0c4d209eecbbd6597ba06e39a94a54"
   },
   "D:\\Aplikacje\\Poprawki\\new-cabal-mobile\\app\\src\\main\\java\\chat\\cabal\\mobile\\core\\CabalSyncService.kt": {
@@ -32,15 +32,15 @@
     "hash": "aedddc18ea5af2b1960d8b51044aa8af"
   },
   "D:\\Aplikacje\\Poprawki\\new-cabal-mobile\\app\\src\\main\\java\\chat\\cabal\\mobile\\core\\SyncEngine.kt": {
-    "mtime": 1779740557.4923224,
+    "mtime": 1779747810.5981169,
     "hash": "e25e72ebc6cf01eecd4512042bec8eab"
   },
   "D:\\Aplikacje\\Poprawki\\new-cabal-mobile\\app\\src\\main\\java\\chat\\cabal\\mobile\\di\\Modules.kt": {
-    "mtime": 1779746303.4413526,
+    "mtime": 1779747810.6001053,
     "hash": "bacc4b61be61d329e030d23fbbb857c9"
   },
   "D:\\Aplikacje\\Poprawki\\new-cabal-mobile\\app\\src\\main\\java\\chat\\cabal\\mobile\\network\\NsdDiscovery.kt": {
-    "mtime": 1779746963.2950766,
+    "mtime": 1779747369.4673522,
     "hash": "41009d3448595d65dfdb37e076fda96c"
   },
   "D:\\Aplikacje\\Poprawki\\new-cabal-mobile\\app\\src\\main\\java\\chat\\cabal\\mobile\\ui\\components\\AddCabalDialog.kt": {
@@ -56,7 +56,7 @@
     "hash": "0aded200f3264d6f12366fc3e2c34e2b"
   },
   "D:\\Aplikacje\\Poprawki\\new-cabal-mobile\\app\\src\\main\\java\\chat\\cabal\\mobile\\ui\\navigation\\NavGraph.kt": {
-    "mtime": 1779740557.4943368,
+    "mtime": 1779747810.6021278,
     "hash": "55db7c2c377d2aecfc6cb7d3476d45c3"
   },
   "D:\\Aplikacje\\Poprawki\\new-cabal-mobile\\app\\src\\main\\java\\chat\\cabal\\mobile\\ui\\screens\\ChatScreen.kt": {
@@ -76,11 +76,11 @@
     "hash": "5ab395aef781b6c1e28ff49c6aa52010"
   },
   "D:\\Aplikacje\\Poprawki\\new-cabal-mobile\\app\\src\\main\\java\\chat\\cabal\\mobile\\ui\\viewmodel\\ChatViewModel.kt": {
-    "mtime": 1779746303.7846198,
+    "mtime": 1779747810.6033702,
     "hash": "d1b87989c4b1ee5cbf158672c3479a46"
   },
   "D:\\Aplikacje\\Poprawki\\new-cabal-mobile\\app\\src\\main\\java\\chat\\cabal\\mobile\\ui\\viewmodel\\ChatViewModelFactory.kt": {
-    "mtime": 1779740557.4973176,
+    "mtime": 1779747810.6053586,
     "hash": "5afc405a2ff063e4b4696379f9847d42"
   },
   "D:\\Aplikacje\\Poprawki\\new-cabal-mobile\\app\\src\\main\\java\\chat\\cabal\\mobile\\ui\\viewmodel\\MainViewModel.kt": {
@@ -92,11 +92,11 @@
     "hash": "33895bb0e70db799be3641c0da1a9c92"
   },
   "D:\\Aplikacje\\Poprawki\\new-cabal-mobile\\cabal_sources (old_repos)\\cabal-core-master\\lib\\crypto.js": {
-    "mtime": 1779740557.5509508,
+    "mtime": 1779747810.6625435,
     "hash": "84097b93c257c21fe7b3cd2be0780287"
   },
   "D:\\Aplikacje\\Poprawki\\new-cabal-mobile\\cabal_sources (old_repos)\\cabal-mobile-2\\src\\frontend\\lib\\utils.js": {
-    "mtime": 1779740557.5539303,
+    "mtime": 1779747810.6645527,
     "hash": "6c424f7c0af8cb50673f27f273067372"
   },
   "D:\\Aplikacje\\Poprawki\\new-cabal-mobile\\cable-network\\build.gradle.kts": {
@@ -108,7 +108,7 @@
     "hash": "ec35d66d3877140ce08f1b3531c9b04d"
   },
   "D:\\Aplikacje\\Poprawki\\new-cabal-mobile\\cable-network\\src\\main\\kotlin\\chat\\cabal\\network\\TcpTransport.kt": {
-    "mtime": 1779746844.189147,
+    "mtime": 1779747816.433601,
     "hash": "8c6cfde926ff1f847026e8d5942fc7b7"
   },
   "D:\\Aplikacje\\Poprawki\\new-cabal-mobile\\cable-protocol\\build.gradle.kts": {
@@ -116,7 +116,7 @@
     "hash": "65985c04439b82bc0db79e0773500c4b"
   },
   "D:\\Aplikacje\\Poprawki\\new-cabal-mobile\\cable-protocol\\src\\main\\kotlin\\chat\\cabal\\protocol\\CableCore.kt": {
-    "mtime": 1779746778.9222236,
+    "mtime": 1779747523.3439958,
     "hash": "caf112617353be0259a42bd4e016a405"
   },
   "D:\\Aplikacje\\Poprawki\\new-cabal-mobile\\cable-protocol\\src\\main\\kotlin\\chat\\cabal\\protocol\\Constants.kt": {
@@ -140,11 +140,11 @@
     "hash": "cc01fce8a955d3184e9cc80366972537"
   },
   "D:\\Aplikacje\\Poprawki\\new-cabal-mobile\\README.md": {
-    "mtime": 1779746726.8939528,
+    "mtime": 1779747808.9524324,
     "hash": "bf0dea6aa27e7e6c7c6e1281f2a6cf2d"
   },
   "D:\\Aplikacje\\Poprawki\\new-cabal-mobile\\README_ZIPLINE.md": {
-    "mtime": 1779740556.096577,
+    "mtime": 1779747808.9534662,
     "hash": "f0235bc2567b9a4041cb89980b671e7e"
   },
   "D:\\Aplikacje\\Poprawki\\new-cabal-mobile\\cabal_brand_pack\\README.md": {
@@ -156,7 +156,7 @@
     "hash": "98b276eeddf2150db1b08066cb3cf34d"
   },
   "D:\\Aplikacje\\Poprawki\\new-cabal-mobile\\banner.png": {
-    "mtime": 1779740557.4994068,
+    "mtime": 1779747810.6075678,
     "hash": "44056a498d3a791024d98e8835461c3c"
   },
   "D:\\Aplikacje\\Poprawki\\new-cabal-mobile\\cabal_brand_pack\\png\\cabal_icon_v2a_final_dark_preview_1024px.png": {
