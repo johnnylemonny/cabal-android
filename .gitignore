@@ -1,0 +1,41 @@
+# Gradle
+.gradle/
+build/
+
+# Android Studio / IntelliJ
+.idea/
+*.iml
+*.iws
+.shelf/
+local.properties
+captures/
+.externalNativeBuild/
+.cxx/
+cmake/
+
+# Android / Mobile
+*.apk
+*.ap_
+*.dex
+*.class
+bin/
+gen/
+
+# Logs
+*.log
+
+# System Files
+.DS_Store
+Thumbs.db
+
+# Project Specific
+graphify-out/
+.artifacts/
+.kotlin/
+.beads/
+cabal_sources (old_repos)/
+
+# Secrets / Sensitive
+*.jks
+*.keystore
+google-services.json
