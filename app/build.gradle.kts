@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.sqldelight)
+    alias(libs.plugins.kotlinx.serialization)
 }
 
 sqldelight {
@@ -42,6 +43,16 @@ android {
     buildFeatures {
         compose = true
     }
+
+    packaging {
+        jniLibs {
+            useLegacyPackaging = true
+        }
+        resources {
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+        }
+    }
+
     compileSdkMinor = 0
     buildToolsVersion = "37.0.0"
     ndkVersion = "28.2.13676358"
@@ -54,20 +65,25 @@ kotlin {
 }
 
 dependencies {
-    implementation(platform(libs.androidx.compose.bom))
     implementation(project(":cable-protocol"))
     implementation(project(":cable-network"))
     implementation(libs.sqldelight.android.driver)
 
+    implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.core.splashscreen)
     implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.lifecycle.viewmodel.compose)
-    implementation(libs.androidx.activity.compose) {
-        // Exclude potential duplicates if pulled in by other libs
+    
+    implementation(libs.androidx.lifecycle.viewmodel.compose) {
         exclude(group = "androidx.activity", module = "activity")
     }
-    implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.activity.compose) {
+        exclude(group = "androidx.activity", module = "activity")
+    }
+    implementation(libs.androidx.navigation.compose) {
+        exclude(group = "androidx.activity", module = "activity")
+    }
+
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
@@ -77,6 +93,8 @@ dependencies {
     implementation(libs.koin.android)
     implementation(libs.koin.androidx.compose)
     implementation(libs.androidx.security)
+    implementation(libs.zipline.android)
+    implementation(libs.kotlinx.serialization.json)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

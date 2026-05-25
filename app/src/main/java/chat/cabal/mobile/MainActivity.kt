@@ -157,12 +157,10 @@ fun MainApp(
     if (showAddDialog) {
         AddCabalDialog(
             onDismiss = { 
-                Log.d("UI", "Dialog dismissed")
                 showAddDialog = false 
             },
             onConfirm = { key, name ->
                 mainViewModel.addCabal(key, name)
-                Log.d("UI", "Dialog confirmed")
                 showAddDialog = false
             }
         )
@@ -220,7 +218,6 @@ fun MainApp(
                     label = { Text("Add Cabal") },
                     selected = false,
                     onClick = { 
-                        Log.d("UI", "Opening Add Cabal")
                         showAddDialog = true 
                     },
                     modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
