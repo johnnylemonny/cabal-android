@@ -1,7 +1,6 @@
 package chat.cabal.protocol
 
 import java.security.PrivateKey
-import java.security.PublicKey
 
 class CableCore(
     val publicKey: ByteArray,
@@ -40,20 +39,9 @@ class CableCore(
             val encryptedBytes = combined.copyOfRange(12, combined.size)
             val decryptedBytes = Crypto.decrypt(cabalSecret, nonce, encryptedBytes)
             String(decryptedBytes, Charsets.UTF_8)
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             "[Decryption Error]"
         }
-    }
-
-    fun createJoinPost(channel: String, links: List<ByteArray> = emptyList()): JoinPost {
-        val post = JoinPost(
-            publicKey = publicKey,
-            links = links,
-            channel = channel,
-            timestamp = System.currentTimeMillis() / 1000
-        )
-        post.signature = Crypto.sign(post.serializePayload(), privateKey)
-        return post
     }
 }
 

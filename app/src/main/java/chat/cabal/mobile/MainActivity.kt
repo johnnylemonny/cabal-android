@@ -113,8 +113,7 @@ class MainActivity : ComponentActivity() {
             discovery.startDiscovery("default") { peerInfo ->
                 Log.d("MainActivity", "Found peer via NSD: ${peerInfo.address}:${peerInfo.port}")
                 lifecycleScope.launch {
-                    val success = transport.connectToPeer(peerInfo.address, peerInfo.port)
-                    if (success) {
+                    if (transport.connectToPeer(peerInfo.address, peerInfo.port)) {
                         Log.i("MainActivity", "Successfully connected to peer: ${peerInfo.address}")
                         syncEngine.onPeerConnected("${peerInfo.address}:${peerInfo.port}")
                     } else {

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="cabal_private_dark">#0B0D12</color>
+    <color name="cabal_private_black">#05070A</color>
+    <color name="cabal_surface_dark">#10131A</color>
+    <color name="cabal_text_light">#F7F8FA</color>
+    <color name="cabal_white">#FFFFFF</color>
+    <color name="cabal_cipher_blue">#6EA8FF</color>
+    <color name="cabal_peer_teal">#00D1B2</color>
+    <color name="cabal_muted">#9AA4B2</color>
+    <color name="ic_launcher_background">#0B0D12</color>
+</resources>

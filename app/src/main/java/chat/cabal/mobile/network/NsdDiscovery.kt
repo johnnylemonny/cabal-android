@@ -3,6 +3,7 @@ package chat.cabal.mobile.network
 import android.content.Context
 import android.net.nsd.NsdManager
 import android.net.nsd.NsdServiceInfo
+import android.os.Build
 import android.util.Log
 import chat.cabal.network.PeerDiscovery
 import chat.cabal.network.PeerInfo
@@ -20,24 +21,44 @@ class NsdDiscovery(private val context: Context) : PeerDiscovery {
             }
             override fun onServiceFound(service: NsdServiceInfo) {
                 if (service.serviceType.contains("cabal")) {
-                    // Using modern API 34+ resolveService with Executor
-                    nsdManager.resolveService(service, context.mainExecutor, object : NsdManager.ResolveListener {
-                        override fun onResolveFailed(serviceInfo: NsdServiceInfo, errorCode: Int) {
-                            Log.e("NsdDiscovery", "Resolve failed: $errorCode")
-                        }
-                        override fun onServiceResolved(serviceInfo: NsdServiceInfo) {
-                            // Using modern hostAddresses (API 34+)
-                            val hostAddress = serviceInfo.hostAddresses.firstOrNull()?.hostAddress
-                            Log.d("NsdDiscovery", "Service resolved: ${serviceInfo.serviceName} at $hostAddress:${serviceInfo.port}")
-                            onPeerFound(
-                                PeerInfo(
-                                    address = hostAddress ?: "",
-                                    port = serviceInfo.port,
-                                    cabalKey = cabalKey
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+                        // Using modern API 34+ resolveService with Executor
+                        nsdManager.resolveService(service, context.mainExecutor, object : NsdManager.ResolveListener {
+                            override fun onResolveFailed(serviceInfo: NsdServiceInfo, errorCode: Int) {
+                                Log.e("NsdDiscovery", "Resolve failed: $errorCode")
+                            }
+                            override fun onServiceResolved(serviceInfo: NsdServiceInfo) {
+                                val hostAddress = serviceInfo.hostAddresses.firstOrNull()?.hostAddress
+                                Log.d("NsdDiscovery", "Service resolved: ${serviceInfo.serviceName} at $hostAddress:${serviceInfo.port}")
+                                onPeerFound(
+                                    PeerInfo(
+                                        address = hostAddress ?: "",
+                                        port = serviceInfo.port,
+                                        cabalKey = cabalKey
+                                    )
                                 )
-                            )
-                        }
-                    })
+                            }
+                        })
+                    } else {
+                        // Fallback for older APIs
+                        @Suppress("DEPRECATION")
+                        nsdManager.resolveService(service, object : NsdManager.ResolveListener {
+                            override fun onResolveFailed(serviceInfo: NsdServiceInfo, errorCode: Int) {
+                                Log.e("NsdDiscovery", "Resolve failed: $errorCode")
+                            }
+                            override fun onServiceResolved(serviceInfo: NsdServiceInfo) {
+                                val hostAddress = serviceInfo.host?.hostAddress
+                                Log.d("NsdDiscovery", "Service resolved: ${serviceInfo.serviceName} at $hostAddress:${serviceInfo.port}")
+                                onPeerFound(
+                                    PeerInfo(
+                                        address = hostAddress ?: "",
+                                        port = serviceInfo.port,
+                                        cabalKey = cabalKey
+                                    )
+                                )
+                            }
+                        })
+                    }
                 }
             }
             override fun onServiceLost(service: NsdServiceInfo) {

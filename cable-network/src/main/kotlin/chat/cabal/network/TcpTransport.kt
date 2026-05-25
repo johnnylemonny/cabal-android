@@ -71,7 +71,9 @@ class TcpTransport(
                 val length = readVarint(receiveChannel)
                 if (length <= 0) break
                 val packet = ByteArray(length.toInt())
-                receiveChannel.readFully(packet)
+                withContext(Dispatchers.IO) {
+                    receiveChannel.readFully(packet)
+                }
                 _messages.emit(remoteId to packet)
             }
         } catch (e: Exception) {
@@ -87,8 +89,8 @@ class TcpTransport(
         activeConnections.values.forEach { socket ->
             try {
                 send(socket, data)
-            } catch (e: Exception) {
-                e.printStackTrace()
+            } catch (_: Exception) {
+                // ignore
             }
         }
     }
@@ -97,8 +99,8 @@ class TcpTransport(
         activeConnections[remoteId]?.let { socket ->
             try {
                 send(socket, data)
-            } catch (e: Exception) {
-                e.printStackTrace()
+            } catch (_: Exception) {
+                // ignore
             }
         }
     }
@@ -124,8 +126,14 @@ class TcpTransport(
     }
     
     fun stop() {
-        serverSocket?.close()
-        activeConnections.values.forEach { it.close() }
+        try {
+            serverSocket?.close()
+        } catch (_: Exception) {}
+        activeConnections.values.forEach { 
+            try {
+                it.close()
+            } catch (_: Exception) {}
+        }
         activeConnections.clear()
         selectorManager.close()
     }

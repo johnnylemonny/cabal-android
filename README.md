@@ -1,8 +1,8 @@
 # Cabal Android
 
-<p align="center">
-  <img src="cabal_brand_pack/png/cabal_lockup_horizontal_final_optical_stronger_dark_2400px.png" alt="Cabal Banner">
-</p>
+<div align="center">
+  <img src="cabal_brand_pack/png/cabal_lockup_horizontal_final_optical_stronger_dark_2400px.png" width="600" alt="Cabal Banner">
+</div>
 
 Cabal is a **privacy-first, peer-to-peer (P2P)** chat application for Android. It is a modern, high-performance rewrite of the original [cabal-mobile](https://github.com/cabal-club/cabal-mobile) client, built from the ground up using **Kotlin**, **Jetpack Compose**, and the **Cable protocol**.
 
@@ -28,9 +28,9 @@ Cabal is decentralized communication for the modern era. No central servers, no 
 
 This project is a native Android implementation designed for the year 2026, targeting **Android 17 (API 37)** and emphasizing security, transparency, and a premium user experience.
 
-<p align="center">
-  <img src="cabal_brand_pack/png/cabal_icon_v2a_final_dark_preview_1024px.png" alt="Cabal Icon">
-</p>
+<div align="center">
+  <img src="cabal_brand_pack/png/cabal_icon_v2a_final_dark_preview_1024px.png" width="200" alt="Cabal Icon">
+</div>
 
 ---
 
@@ -60,12 +60,12 @@ This project is based on the [Cable Protocol Specification](https://github.com/c
 
 | Feature | Original (v2) | This Rewrite (Native) |
 | :--- | :--- | :--- |
-| Framework | React Native | **100% Native Kotlin** |
-| UI Engine | WebView/Native Components | **Jetpack Compose (Material 3)** |
-| Performance | High Overhead | **Low Latency / High Performance** |
-| Startup Time | Slow | **Instant** |
-| Battery Life | Average | **Optimized for Sockets** |
-| Security | JS-based Crypto | **Hardware-backed KeyStore** |
+| **Framework** | React Native | **100% Native Kotlin** |
+| **UI Engine** | WebView/Native Components | **Jetpack Compose (Material 3)** |
+| **Performance** | High Overhead | **Low Latency / High Performance** |
+| **Startup Time** | Slow | **Instant** |
+| **Battery Life** | Average | **Optimized for Sockets** |
+| **Security** | JS-based Crypto | **Hardware-backed KeyStore** |
 
 ---
 
