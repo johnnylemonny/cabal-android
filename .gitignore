@@ -38,6 +38,8 @@ graphify-out/
 .artifacts/
 .kotlin/
 .beads/
+.skills/
+AGENTS.md
 cabal_sources (old_repos)/
 .graphifyignore
 
