@@ -6,11 +6,11 @@ import io.ktor.network.selector.*
 import io.ktor.network.sockets.*
 import io.ktor.utils.io.*
 import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import java.util.concurrent.ConcurrentHashMap
+import java.net.NetworkInterface
 
 class TcpTransport(
     private val scope: CoroutineScope,
@@ -18,16 +18,36 @@ class TcpTransport(
 ) {
     private val selectorManager = SelectorManager(Dispatchers.IO)
     private var serverSocket: ServerSocket? = null
+    
     private val activeConnections = ConcurrentHashMap<String, Socket>()
+    private val writeChannels = ConcurrentHashMap<String, ByteWriteChannel>()
+    private val writeMutexes = ConcurrentHashMap<String, Mutex>()
     
     private val _connectionCount = MutableStateFlow(0)
     val connectionCount = _connectionCount.asStateFlow()
     
-    private val _newConnections = MutableSharedFlow<String>()
+    private val _newConnections = MutableSharedFlow<String>(replay = 5)
     val newConnections = _newConnections.asSharedFlow()
     
-    private val _messages = MutableSharedFlow<Pair<String, ByteArray>>()
+    private val _messages = MutableSharedFlow<Pair<String, ByteArray>>(replay = 10)
     val messages = _messages.asSharedFlow()
+
+    private var myIPs = setOf<String>()
+
+    init {
+        scope.launch(Dispatchers.IO) {
+            myIPs = try {
+                NetworkInterface.getNetworkInterfaces().asSequence()
+                    .flatMap { it.inetAddresses.asSequence() }
+                    .map { it.hostAddress?.removePrefix("/") ?: "" }
+                    .filter { it.isNotEmpty() }
+                    .toSet()
+            } catch (_: Exception) {
+                emptySet()
+            }
+            Log.d("TcpTransport", "Local IPs: $myIPs")
+        }
+    }
 
     fun start() {
         scope.launch(Dispatchers.IO) {
@@ -48,20 +68,21 @@ class TcpTransport(
             try {
                 while (isActive) {
                     val socket = serverSocket?.accept() ?: break
-                    val rawAddress = socket.remoteAddress.toString()
-                    val remoteAddress = normalizeAddress(rawAddress)
+                    val remoteAddress = normalizeAddress(socket.remoteAddress.toString())
                     
+                    if (myIPs.contains(remoteAddress) || remoteAddress == "127.0.0.1" || remoteAddress == "localhost") {
+                        Log.v("TcpTransport", "Ignoring connection from self: $remoteAddress")
+                        socket.close()
+                        continue
+                    }
+
                     if (activeConnections.containsKey(remoteAddress)) {
-                        Log.d("TcpTransport", "Closing duplicate incoming connection from $remoteAddress")
                         socket.close()
                         continue
                     }
                     
-                    Log.i("TcpTransport", "Incoming connection from $remoteAddress")
-                    activeConnections[remoteAddress] = socket
-                    _connectionCount.value = activeConnections.size
-                    _newConnections.emit(remoteAddress)
-                    launch { handleConnection(socket, remoteAddress) }
+                    Log.i("TcpTransport", "Accepted connection from $remoteAddress")
+                    registerConnection(socket, remoteAddress)
                 }
             } catch (_: Exception) {}
         }
@@ -71,13 +92,26 @@ class TcpTransport(
         return address.removePrefix("/").substringBeforeLast(":")
     }
 
+    private fun updateStats() {
+        _connectionCount.value = activeConnections.size
+    }
+
+    private fun registerConnection(socket: Socket, remoteId: String) {
+        activeConnections[remoteId] = socket
+        writeChannels[remoteId] = socket.openWriteChannel(autoFlush = true)
+        writeMutexes[remoteId] = Mutex()
+        updateStats()
+        scope.launch { _newConnections.emit(remoteId) }
+        scope.launch { handleConnection(socket, remoteId) }
+    }
+
     suspend fun connectToPeer(address: String, peerPort: Int): Boolean = withContext(Dispatchers.IO) {
         val normalized = normalizeAddress(address)
+        if (myIPs.contains(normalized) || normalized == "127.0.0.1") return@withContext false
         if (activeConnections.containsKey(normalized)) return@withContext true
         
         var success = tryConnect(address, peerPort, normalized)
-        // Emulator fallback: try the host bridge (10.0.2.2)
-        if (!success && address.startsWith("10.0.2.") && normalized != "10.0.2.2") {
+        if (!success && normalized.startsWith("10.0.2.") && normalized != "10.0.2.2") {
             success = tryConnect("10.0.2.2", peerPort, "10.0.2.2")
         }
         success
@@ -87,12 +121,14 @@ class TcpTransport(
         return@withContext try {
             withTimeout(3000) {
                 val socket = aSocket(selectorManager).tcp().connect(address, port)
-                activeConnections[remoteId] = socket
-                _connectionCount.value = activeConnections.size
-                _newConnections.emit(remoteId)
-                scope.launch { handleConnection(socket, remoteId) }
+                if (activeConnections.containsKey(remoteId)) {
+                    socket.close()
+                    return@withTimeout true
+                }
+                Log.i("TcpTransport", "Connected to $remoteId")
+                registerConnection(socket, remoteId)
+                true
             }
-            true
         } catch (_: Exception) {
             false
         }
@@ -105,7 +141,6 @@ class TcpTransport(
                 val length = readVarint(receiveChannel)
                 if (length <= 0) break
                 val packet = ByteArray(length.toInt())
-                // Ensure we don't block the selector thread
                 withContext(Dispatchers.IO) {
                     receiveChannel.readFully(packet)
                 }
@@ -114,25 +149,31 @@ class TcpTransport(
         } catch (_: Exception) {
         } finally {
             activeConnections.remove(remoteId)
-            _connectionCount.value = activeConnections.size
+            writeChannels.remove(remoteId)
+            writeMutexes.remove(remoteId)
+            updateStats()
             socket.close()
+            Log.d("TcpTransport", "Connection to $remoteId closed")
         }
     }
 
     suspend fun broadcast(data: ByteArray) {
-        activeConnections.values.forEach { socket ->
-            try { send(socket, data) } catch (_: Exception) {}
+        activeConnections.keys.forEach { id ->
+            sendToPeer(id, data)
         }
     }
 
     suspend fun sendToPeer(remoteId: String, data: ByteArray) {
-        activeConnections[remoteId]?.let { try { send(it, data) } catch (_: Exception) {} }
-    }
-
-    private suspend fun send(socket: Socket, data: ByteArray) {
-        val sendChannel = socket.openWriteChannel(autoFlush = true)
-        sendChannel.writeFully(Varint.encode(data.size.toLong()))
-        sendChannel.writeFully(data)
+        val channel = writeChannels[remoteId]
+        val mutex = writeMutexes[remoteId]
+        if (channel != null && mutex != null) {
+            try {
+                mutex.withLock {
+                    channel.writeFully(Varint.encode(data.size.toLong()))
+                    channel.writeFully(data)
+                }
+            } catch (_: Exception) {}
+        }
     }
 
     private suspend fun readVarint(channel: ByteReadChannel): Long {
@@ -140,7 +181,7 @@ class TcpTransport(
         var shift = 0
         while (true) {
             val b = try { channel.readByte().toInt() } catch (_: Exception) { return -1 }
-            result = result or ((b and 0x7F).toLong() shl shift)
+            result = result or ((b.toLong() and 0x7F) shl shift)
             if (b and 0x80 == 0) break
             shift += 7
         }
@@ -152,6 +193,8 @@ class TcpTransport(
         try { serverSocket?.close() } catch (_: Exception) {}
         activeConnections.values.forEach { try { it.close() } catch (_: Exception) {} }
         activeConnections.clear()
+        writeChannels.clear()
+        writeMutexes.clear()
         selectorManager.close()
     }
 }

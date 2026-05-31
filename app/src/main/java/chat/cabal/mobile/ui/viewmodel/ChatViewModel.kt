@@ -27,6 +27,7 @@ class ChatViewModel(
 
     fun sendMessage(text: String) {
         if (text.isBlank()) return
+        android.util.Log.d("ChatViewModel", "Sending message: $text")
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val post = cableCore.createTextPost("general", text)
@@ -45,7 +46,9 @@ class ChatViewModel(
                 
                 syncEngine.broadcastPost(post)
                 database.cabalQueries.updateMessageStatus(1L, hash)
-            } catch (_: Exception) {}
+            } catch (e: Exception) {
+                android.util.Log.e("ChatViewModel", "Failed to send message", e)
+            }
         }
     }
 }

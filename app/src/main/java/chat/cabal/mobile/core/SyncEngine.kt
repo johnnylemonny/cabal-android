@@ -8,6 +8,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import java.nio.ByteBuffer
 
 class SyncEngine(
     private val scope: CoroutineScope,
@@ -36,39 +37,48 @@ class SyncEngine(
                 timeEnd = 0,
                 limit = 100
             )
+            Log.i("SyncEngine", "Handshaking with $remoteId (Requesting History)")
             transport.sendToPeer(remoteId, request.serialize())
         }
     }
 
     private fun handleMessage(remoteId: String, data: ByteArray) {
         if (data.isEmpty()) return
+        
+        // CableMessage: [Type (Varint), CircuitID (4 bytes 0x00), ReqID (4 bytes), ...]
+        // CablePost: [PublicKey (32 bytes), Signature (64 bytes), Payload]
+        
+        var isMessage = false
         try {
-            // Heuristic to distinguish between CableMessage and CablePost
-            // CableMessage: [msgType (Varint), CircuitID (4 bytes), reqId (4 bytes), ...]
-            // CablePost: [publicKey (32 bytes), signature (64 bytes), payload]
-            
-            val isMessage = if (data.size >= 5) {
-                // If bytes 1..4 are zero, it's likely a CableMessage (our implementation uses 0 for CircuitID)
-                data[1].toInt() == 0 && data[2].toInt() == 0 && data[3].toInt() == 0 && data[4].toInt() == 0
-            } else {
-                // Too small for a post, must be a message or fragment
-                true
+            val buffer = ByteBuffer.wrap(data)
+            val type = Varint.decode(buffer).toInt()
+            if (type in 0..8 && buffer.remaining() >= 8) {
+                // Check if next 4 bytes are zero (CircuitID)
+                val c1 = buffer.get().toInt()
+                val c2 = buffer.get().toInt()
+                val c3 = buffer.get().toInt()
+                val c4 = buffer.get().toInt()
+                if (c1 == 0 && c2 == 0 && c3 == 0 && c4 == 0) {
+                    isMessage = true
+                }
             }
+        } catch (_: Exception) {}
 
+        try {
             if (isMessage) {
                 val message = CableParser.parseMessage(data)
-                Log.d("SyncEngine", "Received message: ${message.javaClass.simpleName} from $remoteId")
+                Log.d("SyncEngine", "Parsed CABLE_MESSAGE: ${message.javaClass.simpleName} from $remoteId")
                 when (message) {
                     is PostResponse -> {
-                        Log.d("SyncEngine", "PostResponse contains ${message.posts.size} posts")
+                        Log.i("SyncEngine", "Received PostResponse from $remoteId with ${message.posts.size} items")
                         message.posts.forEach { handlePost(it) }
                     }
                     is PostRequest -> {
                         scope.launch {
                             val results = database.cabalQueries.getMessagesByHashes(message.hashes).executeAsList()
                             if (results.isNotEmpty()) {
-                                val rawPosts = results.map { it.rawPost }
-                                val response = PostResponse(message.reqId, rawPosts)
+                                Log.i("SyncEngine", "Responding to PostRequest with ${results.size} items")
+                                val response = PostResponse(message.reqId, results.map { it.rawPost })
                                 transport.sendToPeer(remoteId, response.serialize())
                             }
                         }
@@ -82,28 +92,29 @@ class SyncEngine(
                                 limit = message.limit.toLong()
                             ).executeAsList()
                             if (results.isNotEmpty()) {
-                                val rawPosts = results.map { it.rawPost }
-                                val response = PostResponse(message.reqId, rawPosts)
+                                Log.i("SyncEngine", "Responding to TimeRangeRequest with ${results.size} items")
+                                val response = PostResponse(message.reqId, results.map { it.rawPost })
                                 transport.sendToPeer(remoteId, response.serialize())
                             }
                         }
                     }
-                    else -> Log.d("SyncEngine", "Unhandled message type from $remoteId")
+                    else -> Log.v("SyncEngine", "Ignored message type: ${message.javaClass.simpleName}")
                 }
             } else {
+                Log.d("SyncEngine", "Treating as direct CABLE_POST from $remoteId")
                 handlePost(data)
             }
         } catch (e: Exception) {
-            Log.e("SyncEngine", "Failed to parse data from $remoteId: ${e.message}")
+            Log.e("SyncEngine", "Failed to handle data from $remoteId: ${e.message}")
         }
     }
 
     private fun handlePost(data: ByteArray) {
         try {
             val post = CableParser.parsePost(data)
-            Log.d("SyncEngine", "Handling post: ${post.javaClass.simpleName} (hash: ${post.hash().toHex().take(8)})")
             if (post is TextPost) {
                 val displayText = try { cableCore.decryptText(post.text) } catch (_: Exception) { post.text }
+                Log.i("SyncEngine", "Storing TextPost from ${post.publicKey.toHex().take(8)}")
                 database.cabalQueries.insertMessage(
                     hash = post.hash(),
                     publicKey = post.publicKey,
@@ -111,15 +122,17 @@ class SyncEngine(
                     timestamp = post.timestamp,
                     text = displayText,
                     rawPost = data,
-                    status = 1L
+                    status = 1L // Received
                 )
             }
         } catch (e: Exception) {
-            Log.e("SyncEngine", "Failed to parse post: ${e.message}")
+            Log.e("SyncEngine", "Could not parse/store post: ${e.message}")
         }
     }
     
     fun broadcastPost(post: CablePost) {
-        scope.launch { transport.broadcast(post.serialize()) }
+        val bytes = post.serialize()
+        Log.i("SyncEngine", "Broadcasting TextPost (${bytes.size} bytes)")
+        scope.launch { transport.broadcast(bytes) }
     }
 }
