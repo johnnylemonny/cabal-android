@@ -29,30 +29,30 @@ class ChatViewModel(
         
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                android.util.Log.d("ChatViewModel", "Sending message: $text")
+                android.util.Log.d("ChatViewModel", "Creating text post: $text")
                 val post = cableCore.createTextPost("general", text)
                 val rawPost = post.serialize()
                 val hash = post.hash()
                 
-                // Save locally
+                // Save locally first
                 database.cabalQueries.insertMessage(
                     hash = hash,
                     publicKey = post.publicKey,
                     channel = post.channel,
                     timestamp = post.timestamp,
-                    text = text, // Local display uses original text
+                    text = text,
                     rawPost = rawPost,
-                    status = 0L // Sending
+                    status = 0L // Status: Sending
                 )
                 
-                // Broadcast to peers
+                // Broadcast
                 syncEngine.broadcastPost(post)
                 
-                // Mark as sent to network
+                // Update status to 1 (Sent)
                 database.cabalQueries.updateMessageStatus(1L, hash)
-                android.util.Log.d("ChatViewModel", "Message sent and saved: ${hash.toHex()}")
+                android.util.Log.i("ChatViewModel", "Message broadcasted and status updated for ${hash.toHex().take(8)}")
             } catch (e: Exception) {
-                android.util.Log.e("ChatViewModel", "Failed to send message", e)
+                android.util.Log.e("ChatViewModel", "CRITICAL: Failed to send message", e)
             }
         }
     }

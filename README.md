@@ -1,7 +1,7 @@
 # Cabal Android
 
 <p align="center">
-  <img src="cabal_brand_pack/png/cabal_lockup_horizontal_final_optical_stronger_dark_2400px.png" style="max-width: 100%; height: auto;" alt="Cabal Banner">
+  <img src="cabal_brand_pack/png/cabal_lockup_horizontal_final_optical_stronger_dark_2400px.png" width="2400" alt="Cabal Banner">
 </p>
 
 Cabal is a **privacy-first, peer-to-peer (P2P)** chat application for Android. It is a modern, high-performance rewrite of the original [cabal-mobile](https://github.com/cabal-club/cabal-mobile) client, built from the ground up using **Kotlin**, **Jetpack Compose**, and the **Cable protocol**.
@@ -29,7 +29,7 @@ Cabal is decentralized communication for the modern era. No central servers, no 
 This project is a native Android implementation designed for the year 2026, targeting **Android 17 (API 37)** and emphasizing security, transparency, and a premium user experience.
 
 <p align="center">
-  <img src="cabal_brand_pack/png/cabal_icon_v2a_final_dark_preview_1024px.png" style="width: 200px; height: auto;" alt="Cabal Icon">
+  <img src="cabal_brand_pack/png/cabal_icon_v2a_final_dark_preview_1024px.png" width="1024" alt="Cabal Icon">
 </p>
 
 ---
@@ -104,8 +104,16 @@ This project is based on the [Cable Protocol Specification](https://github.com/c
 To test the chat functionality between two devices:
 
 1. **Local Network**: Connect two Android devices (or emulators) to the same Wi-Fi network.
-2. **Discovery**: Both devices must have **Local Network Permissions** enabled.
-3. **Synchronization**: Once the app is opened on both devices, they will automatically announce themselves via NSD and establish a TCP connection.
+2. **Synchronization**: Once the app is opened on both devices, they will automatically announce themselves via NSD/UDP and establish a TCP connection.
+3. **Emulator Testing**:
+   Emulators reside in isolated networks. To link them, use ADB port forwarding:
+   ```bash
+   # PC port 13330 -> Emulator 5554
+   adb -s emulator-5554 forward tcp:13330 tcp:13330
+   # Emulator 5556 -> PC port 13330
+   adb -s emulator-5556 reverse tcp:13330 tcp:13330
+   ```
+   Then, in the app on `emulator-5556`, tap the **Link** icon and connect to `10.0.2.2:13330`.
 4. **Chat**: Send a message on one device; it will appear on the second device via the Cable sync cycle.
 
 ---

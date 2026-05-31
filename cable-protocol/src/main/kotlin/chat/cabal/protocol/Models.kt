@@ -15,15 +15,17 @@ data class PostRequest(
 ) : CableMessage {
     override fun serialize(): ByteArray {
         val size = Varint.size(Constants.POST_REQUEST.toLong()) + 
+                  Constants.CIRCUITID_SIZE +
                   Constants.REQID_SIZE + 
                   Varint.size(ttl.toLong()) + 
                   Varint.size(hashes.size.toLong()) + 
                   (hashes.size * Constants.HASH_SIZE)
         val buffer = ByteBuffer.allocate(size)
         buffer.put(Varint.encode(Constants.POST_REQUEST.toLong()))
+        buffer.put(ByteArray(Constants.CIRCUITID_SIZE))
         buffer.put(reqId)
         buffer.put(Varint.encode(ttl.toLong()))
-        buffer.put(Varint.size(hashes.size.toLong()).toByte())
+        buffer.put(Varint.encode(hashes.size.toLong()))
         hashes.forEach { buffer.put(it) }
         return buffer.array()
     }
@@ -47,12 +49,13 @@ data class PostResponse(
     val posts: List<ByteArray>,
 ) : CableMessage {
     override fun serialize(): ByteArray {
-        var size = Varint.size(Constants.POST_RESPONSE.toLong()) + Constants.REQID_SIZE
+        var size = Varint.size(Constants.POST_RESPONSE.toLong()) + Constants.CIRCUITID_SIZE + Constants.REQID_SIZE
         posts.forEach { size += Varint.size(it.size.toLong()) + it.size }
         size += Varint.size(0L)
 
         val buffer = ByteBuffer.allocate(size)
         buffer.put(Varint.encode(Constants.POST_RESPONSE.toLong()))
+        buffer.put(ByteArray(Constants.CIRCUITID_SIZE))
         buffer.put(reqId)
         posts.forEach {
             buffer.put(Varint.encode(it.size.toLong()))
@@ -77,11 +80,13 @@ data class HashResponse(
 ) : CableMessage {
     override fun serialize(): ByteArray {
         val size = Varint.size(Constants.HASH_RESPONSE.toLong()) + 
+                  Constants.CIRCUITID_SIZE +
                   Constants.REQID_SIZE + 
                   Varint.size(hashes.size.toLong()) + 
                   (hashes.size * Constants.HASH_SIZE)
         val buffer = ByteBuffer.allocate(size)
         buffer.put(Varint.encode(Constants.HASH_RESPONSE.toLong()))
+        buffer.put(ByteArray(Constants.CIRCUITID_SIZE))
         buffer.put(reqId)
         buffer.put(Varint.encode(hashes.size.toLong()))
         hashes.forEach { buffer.put(it) }
@@ -105,12 +110,14 @@ data class ChannelListRequest(
 ) : CableMessage {
     override fun serialize(): ByteArray {
         val size = Varint.size(Constants.CHANNEL_LIST_REQUEST.toLong()) + 
+                  Constants.CIRCUITID_SIZE +
                   Constants.REQID_SIZE + 
                   Varint.size(ttl.toLong()) + 
                   Varint.size(offset.toLong()) + 
                   Varint.size(limit.toLong())
         val buffer = ByteBuffer.allocate(size)
         buffer.put(Varint.encode(Constants.CHANNEL_LIST_REQUEST.toLong()))
+        buffer.put(ByteArray(Constants.CIRCUITID_SIZE))
         buffer.put(reqId)
         buffer.put(Varint.encode(ttl.toLong()))
         buffer.put(Varint.encode(offset.toLong()))
@@ -138,6 +145,7 @@ data class TimeRangeRequest(
     override fun serialize(): ByteArray {
         val channelBytes = channel.toByteArray(StandardCharsets.UTF_8)
         val size = Varint.size(Constants.TIME_RANGE_REQUEST.toLong()) + 
+                  Constants.CIRCUITID_SIZE +
                   Constants.REQID_SIZE + 
                   Varint.size(ttl.toLong()) + 
                   Varint.size(channelBytes.size.toLong()) + 
@@ -148,6 +156,7 @@ data class TimeRangeRequest(
         
         val buffer = ByteBuffer.allocate(size)
         buffer.put(Varint.encode(Constants.TIME_RANGE_REQUEST.toLong()))
+        buffer.put(ByteArray(Constants.CIRCUITID_SIZE))
         buffer.put(reqId)
         buffer.put(Varint.encode(ttl.toLong()))
         buffer.put(Varint.encode(channelBytes.size.toLong()))
@@ -516,14 +525,9 @@ object CableParser {
 
     fun parseMessage(data: ByteArray): CableMessage {
         val buffer = ByteBuffer.wrap(data)
-        buffer.mark()
-        val msgLen = Varint.decode(buffer)
-        if (msgLen > data.size) {
-            buffer.reset()
-        }
         val msgType = Varint.decode(buffer).toInt()
         
-        // Skip Circuit ID
+        // Skip Circuit ID (4 bytes)
         buffer.get(ByteArray(Constants.CIRCUITID_SIZE))
         
         val reqId = ByteArray(Constants.REQID_SIZE)
@@ -553,9 +557,9 @@ object CableParser {
             }
             Constants.POST_RESPONSE -> {
                 val posts = mutableListOf<ByteArray>()
-                while (true) {
+                while (buffer.hasRemaining()) {
                     val postLen = Varint.decode(buffer).toInt()
-                    if (postLen == 0) break
+                    if (postLen <= 0) break
                     val p = ByteArray(postLen)
                     buffer.get(p)
                     posts.add(p)
@@ -567,6 +571,17 @@ object CableParser {
                 val offset = Varint.decode(buffer).toInt()
                 val limit = Varint.decode(buffer).toInt()
                 ChannelListRequest(reqId, ttl, offset, limit)
+            }
+            Constants.TIME_RANGE_REQUEST -> {
+                val ttl = Varint.decode(buffer).toInt()
+                val channelLen = Varint.decode(buffer).toInt()
+                val channelBytes = ByteArray(channelLen)
+                buffer.get(channelBytes)
+                val channel = String(channelBytes, StandardCharsets.UTF_8)
+                val timeStart = Varint.decode(buffer)
+                val timeEnd = Varint.decode(buffer)
+                val limit = Varint.decode(buffer).toInt()
+                TimeRangeRequest(reqId, ttl, channel, timeStart, timeEnd, limit)
             }
             else -> throw IllegalArgumentException("Unknown message type: $msgType")
         }

@@ -19,19 +19,23 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import chat.cabal.database.CabalDatabase
 import chat.cabal.mobile.core.*
+import chat.cabal.mobile.network.CompositeDiscovery
 import chat.cabal.mobile.network.NsdDiscovery
+import chat.cabal.mobile.network.UdpDiscovery
 import chat.cabal.mobile.ui.components.AddCabalDialog
 import chat.cabal.mobile.ui.components.PeerAvatar
 import chat.cabal.mobile.ui.navigation.CabalNavGraph
 import chat.cabal.mobile.ui.theme.CabalTheme
 import chat.cabal.mobile.ui.viewmodel.MainViewModel
+import chat.cabal.network.PeerDiscovery
 import chat.cabal.network.TcpTransport
 import chat.cabal.protocol.CableCore
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -42,17 +46,13 @@ class MainActivity : ComponentActivity() {
     private val transport: TcpTransport by inject()
     private val syncEngine: SyncEngine by inject()
     private val mainViewModel: MainViewModel by viewModel()
-    private lateinit var discovery: NsdDiscovery
+    private val scope: CoroutineScope by inject()
+    private lateinit var discovery: PeerDiscovery
 
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
-    ) { permissions ->
-        if (permissions.values.all { it }) {
-            startDiscovery()
-        } else {
-            startDiscovery()
-            Toast.makeText(this, "Permissions required for local sync", Toast.LENGTH_SHORT).show()
-        }
+    ) { _ ->
+        startDiscovery()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -73,7 +73,12 @@ class MainActivity : ComponentActivity() {
         }
         
         transport.start()
-        discovery = NsdDiscovery(this)
+        
+        // Composite discovery using both NSD (mDNS) and UDP Broadcast
+        discovery = CompositeDiscovery(listOf(
+            NsdDiscovery(this),
+            UdpDiscovery(this, scope)
+        ))
 
         checkAndRequestPermissions()
 
@@ -90,15 +95,13 @@ class MainActivity : ComponentActivity() {
         val permissions = mutableListOf<String>()
         
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            permissions.add(Manifest.permission.NEARBY_WIFI_DEVICES)
             permissions.add(Manifest.permission.POST_NOTIFICATIONS)
+            permissions.add(Manifest.permission.NEARBY_WIFI_DEVICES)
         }
         
-        if (Build.VERSION.SDK_INT >= 37) {
-            permissions.add("android.permission.ACCESS_LOCAL_NETWORK")
+        val allGranted = permissions.all { 
+            checkSelfPermission(it) == PackageManager.PERMISSION_GRANTED 
         }
-
-        val allGranted = permissions.all { checkSelfPermission(it) == PackageManager.PERMISSION_GRANTED }
         
         if (allGranted) {
             startDiscovery()
@@ -109,20 +112,16 @@ class MainActivity : ComponentActivity() {
 
     private fun startDiscovery() {
         try {
-            Log.d("MainActivity", "Starting NSD discovery for 'default'")
+            Log.i("MainActivity", "Starting Peer Discovery (NSD + UDP) for 'default'")
             discovery.startDiscovery("default") { peerInfo ->
-                Log.d("MainActivity", "Found peer via NSD: ${peerInfo.address}:${peerInfo.port}")
-                lifecycleScope.launch {
-                    if (transport.connectToPeer(peerInfo.address, peerInfo.port)) {
-                        Log.i("MainActivity", "Successfully connected to peer: ${peerInfo.address}")
-                        syncEngine.onPeerConnected("${peerInfo.address}:${peerInfo.port}")
-                    } else {
-                        Log.w("MainActivity", "Failed to connect to discovered peer: ${peerInfo.address}")
-                    }
+                Log.i("MainActivity", "Peer Discovered: ${peerInfo.address}:${peerInfo.port}")
+                // Ensure this runs on IO thread, not Main thread
+                scope.launch(Dispatchers.IO) {
+                    transport.connectToPeer(peerInfo.address, peerInfo.port)
                 }
             }
-            discovery.announce("default", 13333)
-            Log.d("MainActivity", "NSD announcement sent for port 13333")
+            discovery.announce("default", 13330)
+            Log.d("MainActivity", "NSD announcement sent for port 13330")
         } catch (e: Exception) {
             Log.e("MainActivity", "Discovery error: ${e.message}", e)
         }
@@ -139,14 +138,18 @@ fun MainApp(
     myPublicKeyHex: String,
     mainViewModel: MainViewModel
 ) {
-    val navController = rememberNavController()
-    val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
-    val scope = rememberCoroutineScope()
+    val localNavController = rememberNavController()
+    val localDrawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+    val localComposableScope = rememberCoroutineScope()
+    val localContext = androidx.compose.ui.platform.LocalContext.current
     
     val cabals by mainViewModel.cabals.collectAsState()
     val peerCount by transport.connectionCount.collectAsState()
     var showAddDialog by remember { mutableStateOf(false) }
+    var showLinkDialog by remember { mutableStateOf(false) }
     var selectedCabalKey by remember { mutableStateOf<String?>(null) }
+    var manualIp by remember { mutableStateOf("10.0.2.2") }
+    var manualPort by remember { mutableStateOf("13330") }
 
     LaunchedEffect(cabals) {
         if (selectedCabalKey == null && cabals.isNotEmpty()) {
@@ -165,12 +168,55 @@ fun MainApp(
             }
         )
     }
+
+    if (showLinkDialog) {
+        AlertDialog(
+            onDismissRequest = { showLinkDialog = false },
+            title = { Text("Manual Peer Link") },
+            text = {
+                Column {
+                    Text("Enter IP address of the peer. For emulators, use 10.0.2.2.")
+                    Spacer(Modifier.height(8.dp))
+                    OutlinedTextField(
+                        value = manualIp,
+                        onValueChange = { manualIp = it },
+                        label = { Text("Peer IP") },
+                        singleLine = true
+                    )
+                    Spacer(Modifier.height(8.dp))
+                    OutlinedTextField(
+                        value = manualPort,
+                        onValueChange = { manualPort = it },
+                        label = { Text("Port") },
+                        singleLine = true
+                    )
+                }
+            },
+            confirmButton = {
+                Button(onClick = {
+                    localComposableScope.launch {
+                        val p = manualPort.toIntOrNull() ?: 13330
+                        val success = transport.connectToPeer(manualIp, p)
+                        if (success) {
+                            Toast.makeText(localContext, "Link request sent to $manualIp:$p", Toast.LENGTH_SHORT).show()
+                        } else {
+                            Toast.makeText(localContext, "Could not reach $manualIp:$p", Toast.LENGTH_LONG).show()
+                        }
+                    }
+                    showLinkDialog = false
+                }) { Text("Connect") }
+            },
+            dismissButton = {
+                TextButton(onClick = { showLinkDialog = false }) { Text("Cancel") }
+            }
+        )
+    }
     
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val navBackStackEntry by localNavController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
 
     ModalNavigationDrawer(
-        drawerState = drawerState,
+        drawerState = localDrawerState,
         drawerContent = {
             ModalDrawerSheet {
                 Spacer(Modifier.height(12.dp))
@@ -206,8 +252,8 @@ fun MainApp(
                         selected = (selectedCabalKey == cabal.key),
                         onClick = {
                             selectedCabalKey = cabal.key
-                            navController.navigate("chat")
-                            scope.launch { drawerState.close() }
+                            localNavController.navigate("chat")
+                            localComposableScope.launch { localDrawerState.close() }
                         },
                         modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
                     )
@@ -231,8 +277,8 @@ fun MainApp(
                     label = { Text("About") },
                     selected = (currentRoute == "about"),
                     onClick = {
-                        navController.navigate("about")
-                        scope.launch { drawerState.close() }
+                        localNavController.navigate("about")
+                        localComposableScope.launch { localDrawerState.close() }
                     },
                     modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
                 )
@@ -260,12 +306,18 @@ fun MainApp(
                     },
                     navigationIcon = {
                         IconButton(onClick = {
-                            scope.launch { drawerState.open() }
+                            localComposableScope.launch { localDrawerState.open() }
                         }) {
                             Icon(Icons.Default.Menu, contentDescription = "Menu")
                         }
                     },
                     actions = {
+                        IconButton(onClick = {
+                            showLinkDialog = true
+                        }) {
+                            Icon(Icons.Default.Link, contentDescription = "Manual Link")
+                        }
+
                         if (peerCount > 0) {
                             Icon(
                                 Icons.Default.CloudDone, 
@@ -286,7 +338,7 @@ fun MainApp(
             modifier = Modifier.fillMaxSize()
         ) { innerPadding ->
             CabalNavGraph(
-                navController = navController,
+                navController = localNavController,
                 database = database,
                 cableCore = cableCore,
                 syncEngine = syncEngine,

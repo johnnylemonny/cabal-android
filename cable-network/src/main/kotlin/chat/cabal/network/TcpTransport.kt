@@ -14,7 +14,7 @@ import java.util.concurrent.ConcurrentHashMap
 
 class TcpTransport(
     private val scope: CoroutineScope,
-    private val port: Int = 13333
+    private val port: Int = 13330
 ) {
     private val selectorManager = SelectorManager(Dispatchers.IO)
     private var serverSocket: ServerSocket? = null
@@ -25,41 +25,85 @@ class TcpTransport(
     private val _connectionCount = MutableStateFlow(0)
     val connectionCount = _connectionCount.asStateFlow()
     
+    private val _newConnections = MutableSharedFlow<String>()
+    val newConnections = _newConnections.asSharedFlow()
+    
     private val _messages = MutableSharedFlow<Pair<String, ByteArray>>()
     val messages = _messages.asSharedFlow()
 
     fun start() {
         scope.launch(Dispatchers.IO) {
+            var currentPort = port
+            var bound = false
+            while (!bound && currentPort < port + 10) {
+                try {
+                    Log.d("TcpTransport", "Trying to bind to port $currentPort...")
+                    serverSocket = aSocket(selectorManager).tcp().bind(hostname = "0.0.0.0", port = currentPort)
+                    bound = true
+                    Log.i("TcpTransport", "SERVER ONLINE: Listening on port $currentPort")
+                } catch (_: Exception) {
+                    Log.w("TcpTransport", "Port $currentPort busy, trying next...")
+                    currentPort++
+                }
+            }
+
+            if (!bound) {
+                Log.e("TcpTransport", "FATAL: Could not bind to any port in range $port-${port+10}")
+                return@launch
+            }
+            
             try {
-                serverSocket = aSocket(selectorManager).tcp().bind(port = port)
-                Log.i("TcpTransport", "Server started on port $port")
                 while (isActive) {
                     val socket = serverSocket?.accept() ?: break
-                    val remoteAddress = socket.remoteAddress.toString()
+                    // Normalize remote ID to avoid duplicates from bridge
+                    val remoteAddress = socket.remoteAddress.toString().substringBeforeLast(":")
+                    if (activeConnections.containsKey(remoteAddress)) {
+                        socket.close()
+                        continue
+                    }
+                    
+                    Log.i("TcpTransport", "!!! INCOMING CONNECTION FROM: $remoteAddress")
                     activeConnections[remoteAddress] = socket
                     _connectionCount.value = activeConnections.size
-                    Log.i("TcpTransport", "Accepted connection from $remoteAddress")
+                    _newConnections.emit(remoteAddress)
                     launch { handleConnection(socket, remoteAddress) }
                 }
             } catch (e: Exception) {
-                Log.e("TcpTransport", "Server error", e)
+                Log.e("TcpTransport", "Server accept loop failed", e)
             }
         }
     }
 
-    suspend fun connectToPeer(address: String, peerPort: Int): Boolean {
-        val remoteId = "$address:$peerPort"
-        if (activeConnections.containsKey(remoteId)) return true
+    suspend fun connectToPeer(address: String, peerPort: Int): Boolean = withContext(Dispatchers.IO) {
+        val remoteId = address // Use IP only as ID to avoid bridge duplicates
+        if (activeConnections.containsKey(remoteId)) return@withContext true
         
-        return try {
-            val socket = aSocket(selectorManager).tcp().connect(address, peerPort)
-            activeConnections[remoteId] = socket
-            _connectionCount.value = activeConnections.size
-            scope.launch { handleConnection(socket, remoteId) }
-            Log.i("TcpTransport", "Connected to peer: $remoteId")
+        Log.d("TcpTransport", "Attempting to connect to $address:$peerPort")
+        var success = tryConnect(address, peerPort, remoteId)
+        
+        // Emulator fallback: try the host bridge (10.0.2.2)
+        if (!success && address.startsWith("10.0.2.") && address != "10.0.2.2") {
+            Log.d("TcpTransport", "Connection to $address failed, trying emulator host bridge 10.0.2.2")
+            success = tryConnect("10.0.2.2", peerPort, "10.0.2.2")
+        }
+        
+        success
+    }
+
+    private suspend fun tryConnect(address: String, port: Int, remoteId: String): Boolean = withContext(Dispatchers.IO) {
+        return@withContext try {
+            Log.d("TcpTransport", "Opening socket to $address:$port...")
+            withTimeout(3000) {
+                val socket = aSocket(selectorManager).tcp().connect(address, port)
+                activeConnections[remoteId] = socket
+                _connectionCount.value = activeConnections.size
+                _newConnections.emit(remoteId)
+                scope.launch { handleConnection(socket, remoteId) }
+                Log.i("TcpTransport", "SUCCESS: Connected to $remoteId")
+            }
             true
         } catch (e: Exception) {
-            Log.e("TcpTransport", "Failed to connect to $remoteId: ${e.message}")
+            Log.w("TcpTransport", "FAIL: Connection to $address:$port - ${e.javaClass.simpleName}: ${e.message}")
             false
         }
     }
@@ -76,8 +120,8 @@ class TcpTransport(
                 }
                 _messages.emit(remoteId to packet)
             }
-        } catch (e: Exception) {
-            println("Connection to $remoteId lost: ${e.message}")
+        } catch (_: Exception) {
+            println("Connection to $remoteId lost")
         } finally {
             activeConnections.remove(remoteId)
             _connectionCount.value = activeConnections.size
@@ -125,6 +169,7 @@ class TcpTransport(
         return result
     }
     
+    @Suppress("unused")
     fun stop() {
         try {
             serverSocket?.close()

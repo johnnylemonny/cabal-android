@@ -1,9 +1,7 @@
 # Gradle
 .gradle/
 build/
-app/build/
-cable-network/build/
-cable-protocol/build/
+**/build/
 
 # Android Studio / IntelliJ
 .idea/
@@ -28,6 +26,7 @@ gen/
 
 # Logs
 *.log
+npm-debug.log*
 
 # System Files
 .DS_Store
@@ -42,6 +41,14 @@ graphify-out/
 AGENTS.md
 cabal_sources (old_repos)/
 .graphifyignore
+view5554.xml
+view5556.xml
+screen5554.png
+extract_ast.py
+merge_results.py
+build_graph.py
+label_communities.py
+check_cache.py
 
 # Secrets / Sensitive
 *.jks

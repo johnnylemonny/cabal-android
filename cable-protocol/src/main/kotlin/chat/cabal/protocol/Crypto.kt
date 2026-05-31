@@ -1,18 +1,21 @@
 package chat.cabal.protocol
 
 import org.bouncycastle.crypto.digests.Blake2bDigest
-import org.bouncycastle.crypto.engines.ChaCha7539Engine
 import org.bouncycastle.crypto.modes.ChaCha20Poly1305
 import org.bouncycastle.crypto.params.KeyParameter
 import org.bouncycastle.crypto.params.ParametersWithIV
+import org.bouncycastle.crypto.params.Ed25519PrivateKeyParameters
+import org.bouncycastle.crypto.params.Ed25519PublicKeyParameters
+import org.bouncycastle.crypto.signers.Ed25519Signer
+import org.bouncycastle.crypto.util.PrivateKeyFactory
+import org.bouncycastle.crypto.util.PublicKeyFactory
 import org.bouncycastle.jce.provider.BouncyCastleProvider
 import java.security.*
-import java.security.spec.EdECPublicKeySpec
-import java.security.spec.XECPublicKeySpec
 import javax.crypto.KeyAgreement
 
 object Crypto {
     init {
+        Security.removeProvider("BC")
         Security.addProvider(BouncyCastleProvider())
     }
 
@@ -24,17 +27,20 @@ object Crypto {
     }
 
     fun sign(payload: ByteArray, privateKey: PrivateKey): ByteArray {
-        val sig = Signature.getInstance("Ed25519")
-        sig.initSign(privateKey)
-        sig.update(payload)
-        return sig.sign()
+        val privKeyParams = PrivateKeyFactory.createKey(privateKey.encoded) as Ed25519PrivateKeyParameters
+        val signer = Ed25519Signer()
+        signer.init(true, privKeyParams)
+        signer.update(payload, 0, payload.size)
+        return signer.generateSignature()
     }
 
+    @Suppress("unused")
     fun verify(payload: ByteArray, signature: ByteArray, publicKey: PublicKey): Boolean {
-        val sig = Signature.getInstance("Ed25519")
-        sig.initVerify(publicKey)
-        sig.update(payload)
-        return sig.verify(signature)
+        val pubKeyParams = PublicKeyFactory.createKey(publicKey.encoded) as Ed25519PublicKeyParameters
+        val signer = Ed25519Signer()
+        signer.init(false, pubKeyParams)
+        signer.update(payload, 0, payload.size)
+        return signer.verifySignature(signature)
     }
 
     fun blake2b(data: ByteArray): ByteArray {
@@ -54,6 +60,7 @@ object Crypto {
     /**
      * Performs a Diffie-Hellman key exchange using X25519.
      */
+    @Suppress("unused")
     fun diffieHellman(privateKey: PrivateKey, publicKey: PublicKey): ByteArray {
         val ka = KeyAgreement.getInstance("X25519")
         ka.init(privateKey)

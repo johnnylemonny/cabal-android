@@ -23,7 +23,7 @@ val appModule = module {
     }
     single { CabalDatabase(get()) }
     
-    single { KeyStoreManager() }
+    single { KeyStoreManager(androidContext()) }
     
     single<CoroutineScope> { CoroutineScope(SupervisorJob() + Dispatchers.Default) }
     

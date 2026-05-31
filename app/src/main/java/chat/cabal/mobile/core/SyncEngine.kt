@@ -19,6 +19,10 @@ class SyncEngine(
         transport.messages.onEach { (remoteId, data) ->
             handleMessage(remoteId, data)
         }.launchIn(scope)
+
+        transport.newConnections.onEach { remoteId ->
+            onPeerConnected(remoteId)
+        }.launchIn(scope)
     }
 
     /**
@@ -45,14 +49,23 @@ class SyncEngine(
     }
 
     private fun handleMessage(remoteId: String, data: ByteArray) {
+        if (data.isEmpty()) return
+        
         try {
-            // Try parsing as Message first
-            val message = try { CableParser.parseMessage(data) } catch (e: Exception) { null }
+            // Cable protocol logic:
+            // If the first byte is part of a varint representing a message type (0-8), parse as message.
+            // If data is long enough and looks like a post (starts with 32 bytes of pubkey), parse as post.
             
-            if (message != null) {
+            val typeByte = data[0].toInt()
+            Log.d("SyncEngine", "Received packet from $remoteId, first byte: $typeByte, size: ${data.size}")
+
+            if (typeByte in 0..8 && data.size < 100) { // Messages are usually small
+                val message = CableParser.parseMessage(data)
+                Log.i("SyncEngine", "Parsed Message type: ${message.javaClass.simpleName}")
+                
                 when (message) {
                     is PostResponse -> {
-                        Log.d("SyncEngine", "Received ${message.posts.size} posts from $remoteId")
+                        Log.d("SyncEngine", "Received ${message.posts.size} posts in response from $remoteId")
                         message.posts.forEach { handlePost(it) }
                     }
                     is PostRequest -> {
@@ -78,36 +91,41 @@ class SyncEngine(
                             }
                         }
                     }
-                    else -> {}
+                    else -> Log.w("SyncEngine", "Unhandled message type: ${message.javaClass.simpleName}")
                 }
             } else {
-                // Try parsing as a raw Post
-                try {
-                    handlePost(data)
-                } catch (e: Exception) {
-                    Log.e("SyncEngine", "Failed to parse data as message or post")
-                }
+                // Treat as raw Post (gossip/broadcast)
+                handlePost(data)
             }
-        } catch (e: Exception) {
-            e.printStackTrace()
+        } catch (_: Exception) {
+            // ignore
         }
     }
 
     private fun handlePost(data: ByteArray) {
-        val post = CableParser.parsePost(data)
-        if (post is TextPost) {
-            // E2EE: Decrypt text before storing for local UI
-            val decryptedText = cableCore.decryptText(post.text)
-            
-            database.cabalQueries.insertMessage(
-                hash = post.hash(),
-                publicKey = post.publicKey,
-                channel = post.channel,
-                timestamp = post.timestamp,
-                text = decryptedText,
-                rawPost = data,
-                status = 1L // Received from network
-            )
+        try {
+            val post = CableParser.parsePost(data)
+            if (post is TextPost) {
+                // E2EE: Decrypt text. If it fails, it might be plain text or wrong key.
+                val displayText = try {
+                    cableCore.decryptText(post.text)
+                } catch (_: Exception) {
+                    post.text // Fallback to raw text if decryption fails
+                }
+                
+                database.cabalQueries.insertMessage(
+                    hash = post.hash(),
+                    publicKey = post.publicKey,
+                    channel = post.channel,
+                    timestamp = post.timestamp,
+                    text = displayText,
+                    rawPost = data,
+                    status = 1L // Received from network
+                )
+                Log.i("SyncEngine", "Stored new TextPost from ${post.publicKey.toHex().take(8)}")
+            }
+        } catch (e: Exception) {
+            Log.e("SyncEngine", "Failed to parse/store post: ${e.message}")
         }
     }
     
