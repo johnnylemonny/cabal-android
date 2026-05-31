@@ -1,10 +1,11 @@
-.beads/
+cabal_sources (old_repos)/
+cabal_brand_pack/
+build/
 .gradle/
 .idea/
-.kotlin/
-.skills/
-build/
-cabal_sources (old_repos)/
-graphify-out/
-AGENTS.md
-HANDOVER.md
+capture/
+artifacts/
+*.png
+*.svg
+*.jpg
+*.jpeg

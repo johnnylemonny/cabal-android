@@ -1,10 +1,10 @@
 # Cabal Android (Zipline Branch)
 
 <p align="center">
-  <img src="cabal_brand_pack/png/cabal_lockup_horizontal_final_optical_stronger_dark_2400px.png" alt="Cabal Banner">
+  <img src="cabal_brand_pack/png/cabal_lockup_horizontal_final_optical_stronger_dark_2400px.png" width="2400" alt="Cabal Banner">
 </p>
 
-Cabal is a **privacy-first, peer-to-peer (P2P)** chat application for Android. This specialized branch uses **app.cash.zipline** as its JavaScript engine to ensure full compatibility with modern Android standards and hardware.
+Cabal is a **privacy-first, peer-to-peer (P2P)** chat application for Android. This specialized branch uses **app.cash.zipline** as its JavaScript engine to ensure full compatibility with modern Android standards and hardware (including **16KB page size** devices).
 
 ---
 
@@ -30,7 +30,7 @@ Cabal is decentralized communication for the modern era. No central servers, no 
 This project is a native Android implementation designed for the year 2026, targeting **Android 17 (API 37)** and emphasizing security, transparency, and a premium user experience.
 
 <p align="center">
-  <img src="cabal_brand_pack/png/cabal_icon_v2a_final_dark_preview_1024px.png" alt="Cabal Icon">
+  <img src="cabal_brand_pack/png/cabal_icon_v2a_final_dark_preview_1024px.png" width="1024" alt="Cabal Icon">
 </p>
 
 ---
@@ -45,11 +45,11 @@ Legacy JavaScript engines like `quickjs-android` are physically incompatible wit
 
 ## Key Features
 
-- **100% Serverless**: Direct P2P communication via TCP and mDNS (NSD).
+- **100% Serverless**: Direct P2P communication via TCP and dual-stack discovery (NSD + UDP).
 - **16KB Compatibility**: Engineered for the latest Android memory alignment standards.
 - **E2EE Security**: Messages are signed with **Ed25519** and secured with ChaCha20-Poly1305.
 - **Material 3 UI**: A sleek, modern interface with dynamic colors and adaptive icons.
-- **Identity Management**: Secure identity storage using the **Android KeyStore**.
+- **Identity Management**: Secure identity storage using software-backed Ed25519 (BouncyCastle).
 
 ---
 
@@ -59,24 +59,7 @@ The Zipline branch leverages `ZiplineService` interfaces to create a secure, typ
 
 - **`:app`**: The Android layer. Handles UI (Compose) and Zipline service orchestration.
 - **`:cable-protocol`**: Pure Kotlin interfaces and shared logic.
-- **`:cable-network`**: Handles discovery (NSD) and low-level socket communication using **Ktor**.
-
-### Secure Bridges
-- **`NetworkBridge`**: Real-time TCP broadcasting.
-- **`StorageBridge`**: Interface with the native SQLDelight `kv_store`.
-- **`UIBridge`**: Triggers Compose UI updates upon receiving new chat events.
-
----
-
-## Comparison with v2
-
-| Feature | Original (v2) | This Rewrite (Zipline) |
-| :--- | :--- | :--- |
-| **Framework** | React Native | **100% Native Kotlin** |
-| **UI Engine** | WebView/Native Components | **Jetpack Compose (Material 3)** |
-| **Performance** | High Overhead | **Ultra-Low Latency** |
-| **JS Engine** | Standard JSC | **Zipline (16KB support)** |
-| **Android 17** | Incompatible | **Fully Ready** |
+- **`:cable-network`**: Handles discovery (NSD/UDP) and low-level socket communication using **Ktor**.
 
 ---
 
@@ -84,7 +67,7 @@ The Zipline branch leverages `ZiplineService` interfaces to create a secure, typ
 
 - **Kotlin 2.3.21** (K2 Compiler)
 - **Jetpack Compose** for UI
-- **Zipline 1.18.0** for JS Bridge
+- **Zipline 1.27.0** for JS Bridge
 - **SQLDelight 2.3.2** for local SQLite storage
 - **Ktor 3.5.0** for P2P networking
 - **Koin 4.2.1** for Dependency Injection
@@ -116,24 +99,17 @@ The Zipline branch leverages `ZiplineService` interfaces to create a secure, typ
 To test the chat functionality between two devices:
 
 1. **Local Network**: Connect two Android devices (or emulators) to the same Wi-Fi network.
-2. **Discovery**: Both devices must have **Local Network Permissions** enabled.
-3. **Synchronization**: Once the app is opened on both devices, they will automatically announce themselves via NSD and establish a TCP connection.
-4. **Chat**: Send a message on one device; it will appear on the second device via the Cable sync cycle.
-
----
-
-## Troubleshooting
-
-### Peers Not Found (Emulators)
-Emulators on the same machine often cannot "see" each other via mDNS (NSD) because they reside in separate virtual networks.
-1. **IP Routing**: By default, an emulator cannot reach another emulator via its internal IP (e.g., `10.0.2.15`).
-2. **ADB Port Forwarding**: To connect two emulators on the same PC:
+2. **Synchronization**: Once the app is opened on both devices, they will automatically announce themselves via NSD/UDP and establish a TCP connection.
+3. **Emulator Testing**:
+   Emulators reside in isolated networks. To link them, use ADB port forwarding:
    ```bash
-   # On the first emulator
-   adb -s emulator-5554 forward tcp:13333 tcp:13333
+   # PC port 13330 -> Emulator 5554
+   adb -s emulator-5554 forward tcp:13330 tcp:13330
+   # Emulator 5556 -> PC port 13330
+   adb -s emulator-5556 reverse tcp:13330 tcp:13330
    ```
-   Then the other emulator can connect to `10.0.2.2:13333`.
-3. **Physical Hardware**: P2P discovery and sync work automatically when using real Android devices on the same Wi-Fi network with Local Network Permissions enabled.
+   Then, in the app on `emulator-5556`, tap the **Link (🔗)** icon and connect to `10.0.2.2:13330`.
+4. **Chat**: Send a message on one device; it will appear on the second device via the Cable sync cycle.
 
 ---
 

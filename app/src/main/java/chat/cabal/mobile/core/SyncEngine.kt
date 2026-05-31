@@ -1,128 +1,105 @@
 package chat.cabal.mobile.core
 
-import android.util.Log
 import chat.cabal.database.CabalDatabase
+import chat.cabal.database.Message
 import chat.cabal.network.TcpTransport
+import chat.cabal.protocol.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import kotlinx.serialization.Serializable
-import kotlinx.serialization.json.Json
-
-@Serializable
-data class JsChatMessage(
-    val channel: String,
-    val publicKey: String,
-    val hash: String,
-    val post: JsPost
-)
-
-@Serializable
-data class JsPost(
-    val text: String? = null,
-    val timestamp: Long,
-    val postType: Int
-)
 
 class SyncEngine(
     private val scope: CoroutineScope,
-    database: CabalDatabase,
+    private val database: CabalDatabase,
     private val transport: TcpTransport,
-    private val quickJs: QuickJsEngine,
-    private val keyStoreManager: KeyStoreManager
+    private val cableCore: CableCore
 ) {
-    private val json = Json { ignoreUnknownKeys = true }
-
     init {
-        quickJs.setBridges(
-            network = object : QuickJsEngine.NetworkBridge {
-                override fun broadcast(dataHex: String) {
-                    scope.launch {
-                        transport.broadcast(dataHex.decodeHex())
-                    }
-                }
-                override fun close() {}
-            },
-            storage = object : QuickJsEngine.StorageBridge {
-                override fun get(keyHex: String): String? {
-                    return try {
-                        database.cabalQueries.getKV(keyHex).executeAsOneOrNull()
-                    } catch (e: Exception) {
-                        Log.e("SyncEngine", "Failed to get KV: $keyHex", e)
-                        null
-                    }
-                }
-
-                override fun put(keyHex: String, valueHex: String) {
-                    try {
-                        database.cabalQueries.putKV(keyHex, valueHex)
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                    }
-                }
-                override fun close() {}
-            },
-            ui = object : QuickJsEngine.UIBridge {
-                override fun onChatMessage(json: String) {
-                    try {
-                        val msg = this@SyncEngine.json.decodeFromString<JsChatMessage>(json)
-                        if (msg.post.postType == 0) { // TEXT_POST
-                            database.cabalQueries.insertMessage(
-                                hash = msg.hash.decodeHex(),
-                                publicKey = msg.publicKey.decodeHex(),
-                                channel = msg.channel,
-                                timestamp = msg.post.timestamp,
-                                text = msg.post.text ?: "",
-                                rawPost = ByteArray(0), // We don't store raw bytes in this bridge for now
-                                status = 1L
-                            )
-                        }
-                    } catch (e: Exception) {
-                        Log.e("SyncEngine", "Failed to parse JS message: $json")
-                        e.printStackTrace()
-                    }
-                }
-                override fun close() {}
-            }
-        )
-
-        // Initialize Cable in JS
-        val kp = keyStoreManager.getOrCreateKeyPair()
-        val publicKeyEncoded = kp.public.encoded
-        val pub = if (publicKeyEncoded != null) {
-            publicKeyEncoded.takeLast(32).toByteArray().toHex()
-        } else {
-            // Fallback for non-exportable keys or KeyStore issues
-            Log.w("SyncEngine", "Hardware key not exportable, using fallback identity for JS bridge")
-            "00".repeat(32) // In a real app, we'd handle this properly
-        }
-        
-        val privateKeyEncoded = kp.private.encoded
-        val sec = if (privateKeyEncoded != null) {
-            privateKeyEncoded.takeLast(64).toByteArray().toHex()
-        } else {
-            "00".repeat(64)
-        }
-        quickJs.initCable(pub, sec)
-
-        // Listen for network messages
         transport.messages.onEach { (remoteId, data) ->
-            quickJs.handleIncomingData(data.toHex())
+            handleMessage(remoteId, data)
+        }.launchIn(scope)
+
+        transport.newConnections.onEach { remoteId ->
+            onPeerConnected(remoteId)
         }.launchIn(scope)
     }
 
-    fun postText(channel: String, text: String) {
-        quickJs.postText(channel, text)
+    fun onPeerConnected(remoteId: String) {
+        scope.launch {
+            val now = System.currentTimeMillis() / 1000
+            val request = TimeRangeRequest(
+                reqId = Crypto.randomBytes(4),
+                ttl = 1,
+                channel = "general",
+                timeStart = now - 86400,
+                timeEnd = 0,
+                limit = 100
+            )
+            transport.sendToPeer(remoteId, request.serialize())
+        }
     }
 
-    /**
-     * Initial sync with a new peer.
-     * Logic is now handled in JS when it receives "new-peer" event if we trigger it.
-     */
-    fun onPeerConnected(remoteId: String) {
-        Log.d("SyncEngine", "Peer connected: $remoteId")
-        // We could notify JS here if needed, but CableCore usually handles swarm events.
-        // For now, JS handles the protocol responses.
+    private fun handleMessage(remoteId: String, data: ByteArray) {
+        if (data.isEmpty()) return
+        try {
+            val typeByte = data[0].toInt()
+            if (typeByte in 0..8 && data.size < 100) {
+                val message = CableParser.parseMessage(data)
+                when (message) {
+                    is PostResponse -> message.posts.forEach { handlePost(it) }
+                    is PostRequest -> {
+                        scope.launch {
+                            val results = database.cabalQueries.getMessagesByHashes(message.hashes).executeAsList()
+                            if (results.isNotEmpty()) {
+                                val rawPosts = results.map { it.rawPost }
+                                val response = PostResponse(message.reqId, rawPosts)
+                                transport.sendToPeer(remoteId, response.serialize())
+                            }
+                        }
+                    }
+                    is TimeRangeRequest -> {
+                        scope.launch {
+                            val results = database.cabalQueries.getMessagesInRange(
+                                channel = message.channel,
+                                timeStart = message.timeStart,
+                                timeEnd = message.timeEnd,
+                                limit = message.limit.toLong()
+                            ).executeAsList()
+                            if (results.isNotEmpty()) {
+                                val rawPosts = results.map { it.rawPost }
+                                val response = PostResponse(message.reqId, rawPosts)
+                                transport.sendToPeer(remoteId, response.serialize())
+                            }
+                        }
+                    }
+                    else -> {}
+                }
+            } else {
+                handlePost(data)
+            }
+        } catch (_: Exception) {}
+    }
+
+    private fun handlePost(data: ByteArray) {
+        try {
+            val post = CableParser.parsePost(data)
+            if (post is TextPost) {
+                val displayText = try { cableCore.decryptText(post.text) } catch (_: Exception) { post.text }
+                database.cabalQueries.insertMessage(
+                    hash = post.hash(),
+                    publicKey = post.publicKey,
+                    channel = post.channel,
+                    timestamp = post.timestamp,
+                    text = displayText,
+                    rawPost = data,
+                    status = 1L
+                )
+            }
+        } catch (_: Exception) {}
+    }
+    
+    fun broadcastPost(post: CablePost) {
+        scope.launch { transport.broadcast(post.serialize()) }
     }
 }

@@ -14,52 +14,75 @@ import java.util.concurrent.ConcurrentHashMap
 
 class TcpTransport(
     private val scope: CoroutineScope,
-    private val port: Int = 13333
+    private val port: Int = 13330
 ) {
     private val selectorManager = SelectorManager(Dispatchers.IO)
     private var serverSocket: ServerSocket? = null
-    
-    // Active connections: RemoteAddress -> Socket
     private val activeConnections = ConcurrentHashMap<String, Socket>()
     
     private val _connectionCount = MutableStateFlow(0)
     val connectionCount = _connectionCount.asStateFlow()
+    
+    private val _newConnections = MutableSharedFlow<String>()
+    val newConnections = _newConnections.asSharedFlow()
     
     private val _messages = MutableSharedFlow<Pair<String, ByteArray>>()
     val messages = _messages.asSharedFlow()
 
     fun start() {
         scope.launch(Dispatchers.IO) {
+            var currentPort = port
+            var bound = false
+            while (!bound && currentPort < port + 10) {
+                try {
+                    serverSocket = aSocket(selectorManager).tcp().bind("0.0.0.0", currentPort)
+                    bound = true
+                    Log.i("TcpTransport", "SERVER ONLINE: Listening on port $currentPort")
+                } catch (_: Exception) {
+                    currentPort++
+                }
+            }
+
+            if (!bound) return@launch
+            
             try {
-                serverSocket = aSocket(selectorManager).tcp().bind(port = port)
-                Log.i("TcpTransport", "Server started on port $port")
                 while (isActive) {
                     val socket = serverSocket?.accept() ?: break
-                    val remoteAddress = socket.remoteAddress.toString()
+                    val remoteAddress = socket.remoteAddress.toString().substringBeforeLast(":")
+                    if (activeConnections.containsKey(remoteAddress)) {
+                        socket.close()
+                        continue
+                    }
+                    
                     activeConnections[remoteAddress] = socket
                     _connectionCount.value = activeConnections.size
-                    Log.i("TcpTransport", "Accepted connection from $remoteAddress")
+                    _newConnections.emit(remoteAddress)
                     launch { handleConnection(socket, remoteAddress) }
                 }
-            } catch (e: Exception) {
-                Log.e("TcpTransport", "Server error", e)
-            }
+            } catch (_: Exception) {}
         }
     }
 
-    suspend fun connectToPeer(address: String, peerPort: Int): Boolean {
-        val remoteId = "$address:$peerPort"
-        if (activeConnections.containsKey(remoteId)) return true
-        
-        return try {
-            val socket = aSocket(selectorManager).tcp().connect(address, peerPort)
-            activeConnections[remoteId] = socket
-            _connectionCount.value = activeConnections.size
-            scope.launch { handleConnection(socket, remoteId) }
-            Log.i("TcpTransport", "Connected to peer: $remoteId")
+    suspend fun connectToPeer(address: String, peerPort: Int): Boolean = withContext(Dispatchers.IO) {
+        if (activeConnections.containsKey(address)) return@withContext true
+        var success = tryConnect(address, peerPort, address)
+        if (!success && address.startsWith("10.0.2.") && address != "10.0.2.2") {
+            success = tryConnect("10.0.2.2", peerPort, "10.0.2.2")
+        }
+        success
+    }
+
+    private suspend fun tryConnect(address: String, port: Int, remoteId: String): Boolean = withContext(Dispatchers.IO) {
+        return@withContext try {
+            withTimeout(3000) {
+                val socket = aSocket(selectorManager).tcp().connect(address, port)
+                activeConnections[remoteId] = socket
+                _connectionCount.value = activeConnections.size
+                _newConnections.emit(remoteId)
+                scope.launch { handleConnection(socket, remoteId) }
+            }
             true
-        } catch (e: Exception) {
-            Log.e("TcpTransport", "Failed to connect to $remoteId: ${e.message}")
+        } catch (_: Exception) {
             false
         }
     }
@@ -76,8 +99,7 @@ class TcpTransport(
                 }
                 _messages.emit(remoteId to packet)
             }
-        } catch (e: Exception) {
-            Log.e("TcpTransport", "Connection to $remoteId lost: ${e.message}")
+        } catch (_: Exception) {
         } finally {
             activeConnections.remove(remoteId)
             _connectionCount.value = activeConnections.size
@@ -87,28 +109,17 @@ class TcpTransport(
 
     suspend fun broadcast(data: ByteArray) {
         activeConnections.values.forEach { socket ->
-            try {
-                send(socket, data)
-            } catch (_: Exception) {
-                // ignore
-            }
+            try { send(socket, data) } catch (_: Exception) {}
         }
     }
 
     suspend fun sendToPeer(remoteId: String, data: ByteArray) {
-        activeConnections[remoteId]?.let { socket ->
-            try {
-                send(socket, data)
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
+        activeConnections[remoteId]?.let { try { send(it, data) } catch (_: Exception) {} }
     }
 
     private suspend fun send(socket: Socket, data: ByteArray) {
         val sendChannel = socket.openWriteChannel(autoFlush = true)
-        val len = Varint.encode(data.size.toLong())
-        sendChannel.writeFully(len)
+        sendChannel.writeFully(Varint.encode(data.size.toLong()))
         sendChannel.writeFully(data)
     }
 
@@ -116,24 +127,18 @@ class TcpTransport(
         var result = 0L
         var shift = 0
         while (true) {
-            val b = try { channel.readByte().toInt() } catch (e: Exception) { return -1 }
+            val b = try { channel.readByte().toInt() } catch (_: Exception) { return -1 }
             result = result or ((b and 0x7F).toLong() shl shift)
             if (b and 0x80 == 0) break
             shift += 7
-            if (shift > 63) throw IllegalArgumentException("Varint too long")
         }
         return result
     }
     
+    @Suppress("unused")
     fun stop() {
-        try {
-            serverSocket?.close()
-        } catch (_: Exception) {}
-        activeConnections.values.forEach { 
-            try {
-                it.close()
-            } catch (_: Exception) {}
-        }
+        try { serverSocket?.close() } catch (_: Exception) {}
+        activeConnections.values.forEach { try { it.close() } catch (_: Exception) {} }
         activeConnections.clear()
         selectorManager.close()
     }
