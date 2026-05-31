@@ -8,6 +8,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import java.nio.ByteBuffer
 
 class SyncEngine(
     private val scope: CoroutineScope,
@@ -25,80 +26,86 @@ class SyncEngine(
         }.launchIn(scope)
     }
 
-    /**
-     * Initial sync with a new peer.
-     */
     fun onPeerConnected(remoteId: String) {
         scope.launch {
-            // Request messages from the last 24 hours in the "general" channel
             val now = System.currentTimeMillis() / 1000
-            val oneDayAgo = now - (24 * 60 * 60)
-            
             val request = TimeRangeRequest(
                 reqId = Crypto.randomBytes(4),
                 ttl = 1,
                 channel = "general",
-                timeStart = oneDayAgo,
-                timeEnd = 0, // 0 means "up to now"
+                timeStart = now - 86400,
+                timeEnd = 0,
                 limit = 100
             )
-            
+            Log.i("SyncEngine", "Handshaking with $remoteId (Requesting History)")
             transport.sendToPeer(remoteId, request.serialize())
-            Log.d("SyncEngine", "Requested history from $remoteId")
         }
     }
 
     private fun handleMessage(remoteId: String, data: ByteArray) {
         if (data.isEmpty()) return
         
+        // CableMessage: [Type (Varint), CircuitID (4 bytes 0x00), ReqID (4 bytes), ...]
+        // CablePost: [PublicKey (32 bytes), Signature (64 bytes), Payload]
+        
+        var isMessage = false
         try {
-            // Cable protocol logic:
-            // If the first byte is part of a varint representing a message type (0-8), parse as message.
-            // If data is long enough and looks like a post (starts with 32 bytes of pubkey), parse as post.
-            
-            val typeByte = data[0].toInt()
-            Log.d("SyncEngine", "Received packet from $remoteId, first byte: $typeByte, size: ${data.size}")
+            val buffer = ByteBuffer.wrap(data)
+            val type = Varint.decode(buffer).toInt()
+            if (type in 0..8 && buffer.remaining() >= 8) {
+                // Check if next 4 bytes are zero (CircuitID)
+                val c1 = buffer.get().toInt()
+                val c2 = buffer.get().toInt()
+                val c3 = buffer.get().toInt()
+                val c4 = buffer.get().toInt()
+                if (c1 == 0 && c2 == 0 && c3 == 0 && c4 == 0) {
+                    isMessage = true
+                }
+            }
+        } catch (_: Exception) {}
 
-            if (typeByte in 0..8 && data.size < 100) { // Messages are usually small
+        try {
+            if (isMessage) {
                 val message = CableParser.parseMessage(data)
-                Log.i("SyncEngine", "Parsed Message type: ${message.javaClass.simpleName}")
-                
+                Log.d("SyncEngine", "Parsed CABLE_MESSAGE: ${message.javaClass.simpleName} from $remoteId")
                 when (message) {
                     is PostResponse -> {
-                        Log.d("SyncEngine", "Received ${message.posts.size} posts in response from $remoteId")
+                        Log.i("SyncEngine", "Received PostResponse from $remoteId with ${message.posts.size} items")
                         message.posts.forEach { handlePost(it) }
                     }
                     is PostRequest -> {
                         scope.launch {
-                            val posts = database.cabalQueries.getMessagesByHashes(message.hashes).executeAsList()
-                            if (posts.isNotEmpty()) {
-                                val response = PostResponse(message.reqId, posts.map { it.rawPost })
+                            val results = database.cabalQueries.getMessagesByHashes(message.hashes).executeAsList()
+                            if (results.isNotEmpty()) {
+                                Log.i("SyncEngine", "Responding to PostRequest with ${results.size} items")
+                                val response = PostResponse(message.reqId, results.map { it.rawPost })
                                 transport.sendToPeer(remoteId, response.serialize())
                             }
                         }
                     }
                     is TimeRangeRequest -> {
                         scope.launch {
-                            val posts = database.cabalQueries.getMessagesInRange(
+                            val results = database.cabalQueries.getMessagesInRange(
                                 channel = message.channel,
                                 timeStart = message.timeStart,
                                 timeEnd = message.timeEnd,
                                 limit = message.limit.toLong()
                             ).executeAsList()
-                            if (posts.isNotEmpty()) {
-                                val response = PostResponse(message.reqId, posts.map { it.rawPost })
+                            if (results.isNotEmpty()) {
+                                Log.i("SyncEngine", "Responding to TimeRangeRequest with ${results.size} items")
+                                val response = PostResponse(message.reqId, results.map { it.rawPost })
                                 transport.sendToPeer(remoteId, response.serialize())
                             }
                         }
                     }
-                    else -> Log.w("SyncEngine", "Unhandled message type: ${message.javaClass.simpleName}")
+                    else -> Log.v("SyncEngine", "Ignored message type: ${message.javaClass.simpleName}")
                 }
             } else {
-                // Treat as raw Post (gossip/broadcast)
+                Log.d("SyncEngine", "Treating as direct CABLE_POST from $remoteId")
                 handlePost(data)
             }
-        } catch (_: Exception) {
-            // ignore
+        } catch (e: Exception) {
+            Log.e("SyncEngine", "Failed to handle data from $remoteId: ${e.message}")
         }
     }
 
@@ -106,13 +113,8 @@ class SyncEngine(
         try {
             val post = CableParser.parsePost(data)
             if (post is TextPost) {
-                // E2EE: Decrypt text. If it fails, it might be plain text or wrong key.
-                val displayText = try {
-                    cableCore.decryptText(post.text)
-                } catch (_: Exception) {
-                    post.text // Fallback to raw text if decryption fails
-                }
-                
+                val displayText = try { cableCore.decryptText(post.text) } catch (_: Exception) { post.text }
+                Log.i("SyncEngine", "Storing TextPost from ${post.publicKey.toHex().take(8)}")
                 database.cabalQueries.insertMessage(
                     hash = post.hash(),
                     publicKey = post.publicKey,
@@ -120,18 +122,17 @@ class SyncEngine(
                     timestamp = post.timestamp,
                     text = displayText,
                     rawPost = data,
-                    status = 1L // Received from network
+                    status = 1L // Received
                 )
-                Log.i("SyncEngine", "Stored new TextPost from ${post.publicKey.toHex().take(8)}")
             }
         } catch (e: Exception) {
-            Log.e("SyncEngine", "Failed to parse/store post: ${e.message}")
+            Log.e("SyncEngine", "Could not parse/store post: ${e.message}")
         }
     }
     
     fun broadcastPost(post: CablePost) {
-        scope.launch {
-            transport.broadcast(post.serialize())
-        }
+        val bytes = post.serialize()
+        Log.i("SyncEngine", "Broadcasting TextPost (${bytes.size} bytes)")
+        scope.launch { transport.broadcast(bytes) }
     }
 }

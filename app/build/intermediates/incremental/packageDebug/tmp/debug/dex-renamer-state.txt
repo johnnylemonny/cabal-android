@@ -1,4 +1,4 @@
-#Sun May 31 17:08:06 CEST 2026
+#Sun May 31 20:15:53 CEST 2026
 base.0=D\:\\Aplikacje\\Poprawki\\new-cabal-mobile\\app\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\classes.dex
 base.1=D\:\\Aplikacje\\Poprawki\\new-cabal-mobile\\app\\build\\intermediates\\dex\\debug\\mergeLibDexDebug\\3\\classes.dex
 base.10=D\:\\Aplikacje\\Poprawki\\new-cabal-mobile\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\6\\classes.dex

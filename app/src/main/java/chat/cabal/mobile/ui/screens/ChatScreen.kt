@@ -6,6 +6,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Send
 import androidx.compose.material3.*
@@ -13,6 +15,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import chat.cabal.mobile.ui.components.MessageBubble
 import chat.cabal.mobile.ui.viewmodel.ChatViewModel
@@ -28,6 +31,14 @@ fun ChatScreen(
     var textState by remember { mutableStateOf("") }
     val listState = rememberLazyListState()
     val haptic = LocalHapticFeedback.current
+
+    val onSend = {
+        if (textState.isNotBlank()) {
+            haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+            viewModel.sendMessage(textState)
+            textState = ""
+        }
+    }
 
     LaunchedEffect(messages.size) {
         if (messages.isNotEmpty()) {
@@ -75,6 +86,8 @@ fun ChatScreen(
                     modifier = Modifier.weight(1f),
                     placeholder = { Text("Write a message...") },
                     shape = MaterialTheme.shapes.extraLarge,
+                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Send),
+                    keyboardActions = KeyboardActions(onSend = { onSend() }),
                     colors = TextFieldDefaults.colors(
                         focusedIndicatorColor = androidx.compose.ui.graphics.Color.Transparent,
                         unfocusedIndicatorColor = androidx.compose.ui.graphics.Color.Transparent,
@@ -82,13 +95,7 @@ fun ChatScreen(
                     )
                 )
                 FloatingActionButton(
-                    onClick = { 
-                        if (textState.isNotBlank()) {
-                            haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                            viewModel.sendMessage(textState)
-                            textState = ""
-                        }
-                    },
+                    onClick = { onSend() },
                     containerColor = MaterialTheme.colorScheme.primary,
                     contentColor = MaterialTheme.colorScheme.onPrimary,
                     shape = androidx.compose.foundation.shape.CircleShape,
