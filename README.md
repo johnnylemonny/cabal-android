@@ -1,5 +1,3 @@
-# Cabal Android (Zipline Branch)
-
 <p align="center">
   <img src="cabal_brand_pack/png/cabal_lockup_horizontal_final_optical_stronger_dark_2400px.png" width="2400" alt="Cabal Banner">
 </p>
@@ -14,11 +12,9 @@ Cabal is a **privacy-first, peer-to-peer (P2P)** chat application for Android. T
 - [Why Zipline?](#why-zipline)
 - [Key Features](#key-features)
 - [Architecture](#architecture)
-- [Comparison with v2](#comparison-with-v2)
 - [Tech Stack](#tech-stack)
 - [Getting Started](#getting-started)
 - [P2P Testing](#p2p-testing)
-- [Troubleshooting](#troubleshooting)
 - [License](#license)
 
 ---

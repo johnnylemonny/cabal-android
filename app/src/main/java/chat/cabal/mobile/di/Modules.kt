@@ -10,7 +10,6 @@ import chat.cabal.mobile.ui.viewmodel.MainViewModel
 import chat.cabal.network.TcpTransport
 import chat.cabal.protocol.CableCore
 import chat.cabal.protocol.Crypto
-import chat.cabal.mobile.core.toHex
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob

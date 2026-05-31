@@ -1,6 +1,7 @@
 package chat.cabal.mobile.core
 
 import android.content.Context
+import androidx.core.content.edit
 import android.util.Base64
 import android.util.Log
 import java.security.*
@@ -32,10 +33,10 @@ class KeyStoreManager(private val context: Context) {
         val kpg = KeyPairGenerator.getInstance("Ed25519")
         val kp = kpg.generateKeyPair()
         
-        prefs.edit()
-            .putString(KEY_PUB, Base64.encodeToString(kp.public.encoded, Base64.DEFAULT))
-            .putString(KEY_PRIV, Base64.encodeToString(kp.private.encoded, Base64.DEFAULT))
-            .apply()
+        prefs.edit {
+            putString(KEY_PUB, Base64.encodeToString(kp.public.encoded, Base64.DEFAULT))
+            putString(KEY_PRIV, Base64.encodeToString(kp.private.encoded, Base64.DEFAULT))
+        }
             
         Log.i(TAG, "New Ed25519 identity generated and saved")
         return kp

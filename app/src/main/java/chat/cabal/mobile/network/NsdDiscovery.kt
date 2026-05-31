@@ -46,6 +46,7 @@ class NsdDiscovery(private val context: Context) : PeerDiscovery {
                             }
                         })
                     } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+                        @Suppress("DEPRECATION")
                         nsdManager.resolveService(service, context.mainExecutor, object : NsdManager.ResolveListener {
                             override fun onResolveFailed(si: NsdServiceInfo, errorCode: Int) {}
                             override fun onServiceResolved(si: NsdServiceInfo) {

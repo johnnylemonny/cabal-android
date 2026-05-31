@@ -48,12 +48,16 @@ class TcpTransport(
             try {
                 while (isActive) {
                     val socket = serverSocket?.accept() ?: break
-                    val remoteAddress = socket.remoteAddress.toString().substringBeforeLast(":")
+                    val rawAddress = socket.remoteAddress.toString()
+                    val remoteAddress = normalizeAddress(rawAddress)
+                    
                     if (activeConnections.containsKey(remoteAddress)) {
+                        Log.d("TcpTransport", "Closing duplicate incoming connection from $remoteAddress")
                         socket.close()
                         continue
                     }
                     
+                    Log.i("TcpTransport", "Incoming connection from $remoteAddress")
                     activeConnections[remoteAddress] = socket
                     _connectionCount.value = activeConnections.size
                     _newConnections.emit(remoteAddress)
@@ -63,10 +67,17 @@ class TcpTransport(
         }
     }
 
+    private fun normalizeAddress(address: String): String {
+        return address.removePrefix("/").substringBeforeLast(":")
+    }
+
     suspend fun connectToPeer(address: String, peerPort: Int): Boolean = withContext(Dispatchers.IO) {
-        if (activeConnections.containsKey(address)) return@withContext true
-        var success = tryConnect(address, peerPort, address)
-        if (!success && address.startsWith("10.0.2.") && address != "10.0.2.2") {
+        val normalized = normalizeAddress(address)
+        if (activeConnections.containsKey(normalized)) return@withContext true
+        
+        var success = tryConnect(address, peerPort, normalized)
+        // Emulator fallback: try the host bridge (10.0.2.2)
+        if (!success && address.startsWith("10.0.2.") && normalized != "10.0.2.2") {
             success = tryConnect("10.0.2.2", peerPort, "10.0.2.2")
         }
         success
@@ -94,6 +105,7 @@ class TcpTransport(
                 val length = readVarint(receiveChannel)
                 if (length <= 0) break
                 val packet = ByteArray(length.toInt())
+                // Ensure we don't block the selector thread
                 withContext(Dispatchers.IO) {
                     receiveChannel.readFully(packet)
                 }

@@ -131,10 +131,10 @@ fun MainApp(
     myPublicKeyHex: String,
     mainViewModel: MainViewModel
 ) {
-    val localNavController = rememberNavController()
-    val localDrawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
-    val localComposableScope = rememberCoroutineScope()
-    val localContext = androidx.compose.ui.platform.LocalContext.current
+    val navHostController = rememberNavController()
+    val scaffoldDrawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+    val appCoroutineScope = rememberCoroutineScope()
+    val appUIContext = androidx.compose.ui.platform.LocalContext.current
     
     val cabals by mainViewModel.cabals.collectAsState()
     val peerCount by transport.connectionCount.collectAsState()
@@ -185,13 +185,13 @@ fun MainApp(
             },
             confirmButton = {
                 Button(onClick = {
-                    localComposableScope.launch {
+                    appCoroutineScope.launch {
                         val p = manualPort.toIntOrNull() ?: 13330
                         val success = transport.connectToPeer(manualIp, p)
                         if (success) {
-                            Toast.makeText(localContext, "Link request sent to $manualIp:$p", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(appUIContext, "Link request sent to $manualIp:$p", Toast.LENGTH_SHORT).show()
                         } else {
-                            Toast.makeText(localContext, "Could not reach $manualIp:$p", Toast.LENGTH_LONG).show()
+                            Toast.makeText(appUIContext, "Could not reach $manualIp:$p", Toast.LENGTH_LONG).show()
                         }
                     }
                     showLinkDialog = false
@@ -203,11 +203,11 @@ fun MainApp(
         )
     }
     
-    val navBackStackEntry by localNavController.currentBackStackEntryAsState()
+    val navBackStackEntry by navHostController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
 
     ModalNavigationDrawer(
-        drawerState = localDrawerState,
+        drawerState = scaffoldDrawerState,
         drawerContent = {
             ModalDrawerSheet {
                 Spacer(Modifier.height(12.dp))
@@ -232,8 +232,8 @@ fun MainApp(
                         selected = (selectedCabalKey == cabal.key),
                         onClick = {
                             selectedCabalKey = cabal.key
-                            localNavController.navigate("chat")
-                            localComposableScope.launch { localDrawerState.close() }
+                            navHostController.navigate("chat")
+                            appCoroutineScope.launch { scaffoldDrawerState.close() }
                         },
                         modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
                     )
@@ -255,8 +255,8 @@ fun MainApp(
                     label = { Text("About") },
                     selected = (currentRoute == "about"),
                     onClick = {
-                        localNavController.navigate("about")
-                        localComposableScope.launch { localDrawerState.close() }
+                        navHostController.navigate("about")
+                        appCoroutineScope.launch { scaffoldDrawerState.close() }
                     },
                     modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
                 )
@@ -281,7 +281,7 @@ fun MainApp(
                         }
                     },
                     navigationIcon = {
-                        IconButton(onClick = { localComposableScope.launch { localDrawerState.open() } }) {
+                        IconButton(onClick = { appCoroutineScope.launch { scaffoldDrawerState.open() } }) {
                             Icon(Icons.Default.Menu, contentDescription = "Menu")
                         }
                     },
@@ -300,7 +300,7 @@ fun MainApp(
             modifier = Modifier.fillMaxSize()
         ) { innerPadding ->
             CabalNavGraph(
-                navController = localNavController,
+                navController = navHostController,
                 database = database,
                 cableCore = cableCore,
                 syncEngine = syncEngine,

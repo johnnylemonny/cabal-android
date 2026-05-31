@@ -1,7 +1,7 @@
 package chat.cabal.mobile.core
 
+import android.util.Log
 import chat.cabal.database.CabalDatabase
-import chat.cabal.database.Message
 import chat.cabal.network.TcpTransport
 import chat.cabal.protocol.*
 import kotlinx.coroutines.CoroutineScope
@@ -43,11 +43,26 @@ class SyncEngine(
     private fun handleMessage(remoteId: String, data: ByteArray) {
         if (data.isEmpty()) return
         try {
-            val typeByte = data[0].toInt()
-            if (typeByte in 0..8 && data.size < 100) {
+            // Heuristic to distinguish between CableMessage and CablePost
+            // CableMessage: [msgType (Varint), CircuitID (4 bytes), reqId (4 bytes), ...]
+            // CablePost: [publicKey (32 bytes), signature (64 bytes), payload]
+            
+            val isMessage = if (data.size >= 5) {
+                // If bytes 1..4 are zero, it's likely a CableMessage (our implementation uses 0 for CircuitID)
+                data[1].toInt() == 0 && data[2].toInt() == 0 && data[3].toInt() == 0 && data[4].toInt() == 0
+            } else {
+                // Too small for a post, must be a message or fragment
+                true
+            }
+
+            if (isMessage) {
                 val message = CableParser.parseMessage(data)
+                Log.d("SyncEngine", "Received message: ${message.javaClass.simpleName} from $remoteId")
                 when (message) {
-                    is PostResponse -> message.posts.forEach { handlePost(it) }
+                    is PostResponse -> {
+                        Log.d("SyncEngine", "PostResponse contains ${message.posts.size} posts")
+                        message.posts.forEach { handlePost(it) }
+                    }
                     is PostRequest -> {
                         scope.launch {
                             val results = database.cabalQueries.getMessagesByHashes(message.hashes).executeAsList()
@@ -73,17 +88,20 @@ class SyncEngine(
                             }
                         }
                     }
-                    else -> {}
+                    else -> Log.d("SyncEngine", "Unhandled message type from $remoteId")
                 }
             } else {
                 handlePost(data)
             }
-        } catch (_: Exception) {}
+        } catch (e: Exception) {
+            Log.e("SyncEngine", "Failed to parse data from $remoteId: ${e.message}")
+        }
     }
 
     private fun handlePost(data: ByteArray) {
         try {
             val post = CableParser.parsePost(data)
+            Log.d("SyncEngine", "Handling post: ${post.javaClass.simpleName} (hash: ${post.hash().toHex().take(8)})")
             if (post is TextPost) {
                 val displayText = try { cableCore.decryptText(post.text) } catch (_: Exception) { post.text }
                 database.cabalQueries.insertMessage(
@@ -96,7 +114,9 @@ class SyncEngine(
                     status = 1L
                 )
             }
-        } catch (_: Exception) {}
+        } catch (e: Exception) {
+            Log.e("SyncEngine", "Failed to parse post: ${e.message}")
+        }
     }
     
     fun broadcastPost(post: CablePost) {

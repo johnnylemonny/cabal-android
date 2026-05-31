@@ -34,6 +34,7 @@ object Crypto {
         return signer.generateSignature()
     }
 
+    @Suppress("unused")
     fun verify(payload: ByteArray, signature: ByteArray, publicKey: PublicKey): Boolean {
         val pubKeyParams = PublicKeyFactory.createKey(publicKey.encoded) as Ed25519PublicKeyParameters
         val signer = Ed25519Signer()
