@@ -11,6 +11,7 @@ import androidx.navigation.compose.composable
 import chat.cabal.database.CabalDatabase
 import chat.cabal.mobile.core.SyncEngine
 import chat.cabal.mobile.ui.screens.ChatScreen
+import chat.cabal.mobile.ui.screens.WelcomeScreen
 import chat.cabal.mobile.ui.viewmodel.ChatViewModelFactory
 import chat.cabal.protocol.CableCore
 
@@ -25,9 +26,16 @@ fun CabalNavGraph(
 ) {
     NavHost(
         navController = navController,
-        startDestination = "chat",
+        startDestination = "welcome",
         modifier = modifier
     ) {
+        composable("welcome") {
+            WelcomeScreen(onEnter = {
+                navController.navigate("chat") {
+                    popUpTo("welcome") { inclusive = true }
+                }
+            })
+        }
         composable("chat") {
             ChatScreen(
                 viewModel = viewModel(

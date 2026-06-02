@@ -16,7 +16,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.draw.alpha
+import androidx.compose.foundation.background
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import chat.cabal.mobile.R
 import chat.cabal.mobile.ui.components.MessageBubble
 import chat.cabal.mobile.ui.viewmodel.ChatViewModel
 import chat.cabal.mobile.core.toHex
@@ -50,32 +58,71 @@ fun ChatScreen(
         modifier = modifier
             .fillMaxSize()
             .imePadding()
+            .background(MaterialTheme.colorScheme.background)
     ) {
-        LazyColumn(
-            state = listState,
-            modifier = Modifier.weight(1f),
-            contentPadding = PaddingValues(bottom = 8.dp)
-        ) {
-            items(messages, key = { it.hash.toHex() }) { message ->
-                val authorHex = message.publicKey.toHex()
-                Box(modifier = Modifier.animateItem()) {
-                    MessageBubble(
-                        text = message.text,
-                        authorHex = authorHex,
-                        isMine = authorHex == myPublicKeyHex,
-                        status = message.status
+        if (messages.isEmpty()) {
+            Box(
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxWidth(),
+                contentAlignment = androidx.compose.ui.Alignment.Center
+            ) {
+                Column(
+                    horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally,
+                    modifier = Modifier.padding(32.dp)
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_cabal_splash_icon),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .size(100.dp)
+                            .alpha(0.1f),
+                        tint = MaterialTheme.colorScheme.onBackground
                     )
+                    Spacer(Modifier.height(16.dp))
+                    Text(
+                        text = "No messages yet",
+                        style = MaterialTheme.typography.headlineMedium,
+                        color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.3f),
+                        fontWeight = FontWeight.Bold
+                    )
+                    Spacer(Modifier.height(8.dp))
+                    Text(
+                        text = "Invite your peers or start typing to begin the conversation.",
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.2f),
+                        textAlign = TextAlign.Center
+                    )
+                }
+            }
+        } else {
+            LazyColumn(
+                state = listState,
+                modifier = Modifier.weight(1f),
+                contentPadding = PaddingValues(top = 8.dp, bottom = 8.dp)
+            ) {
+                items(messages, key = { it.hash.toHex() }) { message ->
+                    val authorHex = message.publicKey.toHex()
+                    Box(modifier = Modifier.animateItem()) {
+                        MessageBubble(
+                            text = message.text,
+                            authorHex = authorHex,
+                            isMine = authorHex == myPublicKeyHex,
+                            status = message.status
+                        )
+                    }
                 }
             }
         }
         
         Surface(
-            tonalElevation = 2.dp,
+            tonalElevation = 8.dp,
+            shadowElevation = 8.dp,
             modifier = Modifier.fillMaxWidth()
         ) {
             Row(
                 modifier = Modifier
-                    .padding(8.dp)
+                    .padding(horizontal = 12.dp, vertical = 8.dp)
                     .navigationBarsPadding(),
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
@@ -84,11 +131,19 @@ fun ChatScreen(
                     value = textState,
                     onValueChange = { textState = it },
                     modifier = Modifier.weight(1f),
-                    placeholder = { Text("Write a message...") },
+                    placeholder = { 
+                        Text(
+                            "Secure message...", 
+                            style = MaterialTheme.typography.bodyLarge,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f)
+                        ) 
+                    },
                     shape = MaterialTheme.shapes.extraLarge,
                     keyboardOptions = KeyboardOptions(imeAction = ImeAction.Send),
                     keyboardActions = KeyboardActions(onSend = { onSend() }),
                     colors = TextFieldDefaults.colors(
+                        focusedContainerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f),
+                        unfocusedContainerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.3f),
                         focusedIndicatorColor = androidx.compose.ui.graphics.Color.Transparent,
                         unfocusedIndicatorColor = androidx.compose.ui.graphics.Color.Transparent,
                         disabledIndicatorColor = androidx.compose.ui.graphics.Color.Transparent
@@ -99,9 +154,13 @@ fun ChatScreen(
                     containerColor = MaterialTheme.colorScheme.primary,
                     contentColor = MaterialTheme.colorScheme.onPrimary,
                     shape = androidx.compose.foundation.shape.CircleShape,
-                    elevation = FloatingActionButtonDefaults.elevation(0.dp, 0.dp)
+                    elevation = FloatingActionButtonDefaults.elevation(defaultElevation = 0.dp, pressedElevation = 4.dp)
                 ) {
-                    Icon(Icons.AutoMirrored.Filled.Send, contentDescription = "Send")
+                    Icon(
+                        Icons.AutoMirrored.Filled.Send, 
+                        contentDescription = "Send",
+                        modifier = Modifier.size(24.dp)
+                    )
                 }
             }
         }

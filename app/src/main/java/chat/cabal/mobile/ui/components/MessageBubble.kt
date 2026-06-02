@@ -17,6 +17,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.filled.DoneAll
 import androidx.compose.material.icons.filled.Schedule
+import chat.cabal.mobile.ui.theme.CabalMuted
 
 @Composable
 fun MessageBubble(
@@ -28,49 +29,57 @@ fun MessageBubble(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 8.dp, vertical = 4.dp),
+            .padding(horizontal = 12.dp, vertical = 2.dp),
         horizontalArrangement = if (isMine) Arrangement.End else Arrangement.Start,
         verticalAlignment = Alignment.Bottom
     ) {
         if (!isMine) {
-            PeerAvatar(authorHex, modifier = Modifier.padding(end = 8.dp).size(32.dp))
+            PeerAvatar(authorHex, modifier = Modifier.padding(bottom = 2.dp).size(28.dp))
+            Spacer(Modifier.width(8.dp))
         }
         
         Column(
-            horizontalAlignment = if (isMine) Alignment.End else Alignment.Start
+            horizontalAlignment = if (isMine) Alignment.End else Alignment.Start,
+            modifier = Modifier.weight(1f, fill = false)
         ) {
             if (!isMine) {
                 Text(
-                    text = authorHex.take(8),
-                    style = MaterialTheme.typography.labelSmall,
+                    text = authorHex.take(12).uppercase(),
+                    style = MaterialTheme.typography.labelSmall.copy(
+                        letterSpacing = 1.sp,
+                        fontWeight = androidx.compose.ui.text.font.FontWeight.Bold
+                    ),
                     color = MaterialTheme.colorScheme.secondary,
-                    modifier = Modifier.padding(start = 4.dp, bottom = 2.dp)
+                    modifier = Modifier.padding(start = 6.dp, bottom = 2.dp)
                 )
             }
             Box(
                 modifier = Modifier
                     .clip(
                         RoundedCornerShape(
-                            topStart = 16.dp,
-                            topEnd = 16.dp,
-                            bottomStart = if (isMine) 16.dp else 4.dp,
-                            bottomEnd = if (isMine) 4.dp else 16.dp
+                            topStart = 18.dp,
+                            topEnd = 18.dp,
+                            bottomStart = if (isMine) 18.dp else 4.dp,
+                            bottomEnd = if (isMine) 4.dp else 18.dp
                         )
                     )
                     .background(
-                        if (isMine) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surfaceVariant
+                        if (isMine) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surface
                     )
-                    .padding(horizontal = 12.dp, vertical = 8.dp)
+                    .padding(horizontal = 14.dp, vertical = 10.dp)
             ) {
-                Row(verticalAlignment = Alignment.Bottom) {
+                Row(
+                    verticalAlignment = Alignment.Bottom,
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
                     Text(
                         text = text,
-                        color = if (isMine) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurfaceVariant,
-                        style = MaterialTheme.typography.bodyLarge.copy(fontSize = 15.sp),
+                        color = if (isMine) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurface,
+                        style = MaterialTheme.typography.bodyLarge,
                         modifier = Modifier.weight(1f, fill = false)
                     )
+                    
                     if (isMine) {
-                        Spacer(Modifier.width(4.dp))
                         Icon(
                             imageVector = when (status) {
                                 0L -> Icons.Default.Schedule
@@ -78,8 +87,8 @@ fun MessageBubble(
                                 else -> Icons.Default.DoneAll
                             },
                             contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.7f),
-                            modifier = Modifier.size(12.dp)
+                            tint = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.6f),
+                            modifier = Modifier.size(14.dp).padding(bottom = 2.dp)
                         )
                     }
                 }

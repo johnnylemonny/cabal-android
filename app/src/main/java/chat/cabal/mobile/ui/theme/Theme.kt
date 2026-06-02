@@ -9,18 +9,37 @@ import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
+    primary = CabalPrimary,
+    secondary = CabalSecondary,
+    tertiary = CabalTertiary,
+    background = CabalPrivateDark,
+    surface = CabalSurfaceDark,
+    onPrimary = CabalPrivateBlack,
+    onSecondary = CabalPrivateBlack,
+    onTertiary = CabalPrivateBlack,
+    onBackground = CabalTextLight,
+    onSurface = CabalTextLight,
+    surfaceVariant = CabalPrivateBlack,
+    onSurfaceVariant = CabalMuted
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
+    primary = CabalPrimary,
+    secondary = CabalSecondary,
+    tertiary = CabalTertiary,
+    background = CabalWhite,
+    surface = Color(0xFFF0F2F5),
+    onPrimary = CabalWhite,
+    onSecondary = CabalWhite,
+    onTertiary = CabalWhite,
+    onBackground = CabalPrivateBlack,
+    onSurface = CabalPrivateBlack,
+    surfaceVariant = Color(0xFFE4E6EB),
+    onSurfaceVariant = Color(0xFF65676B)
 )
 
 @Composable

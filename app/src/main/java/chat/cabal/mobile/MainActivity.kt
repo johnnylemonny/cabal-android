@@ -17,7 +17,12 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.compose.ui.draw.clip
+import androidx.compose.foundation.background
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
@@ -30,6 +35,7 @@ import chat.cabal.mobile.ui.components.AddCabalDialog
 import chat.cabal.mobile.ui.components.PeerAvatar
 import chat.cabal.mobile.ui.navigation.CabalNavGraph
 import chat.cabal.mobile.ui.theme.CabalTheme
+import chat.cabal.mobile.ui.theme.CabalMuted
 import chat.cabal.mobile.ui.viewmodel.MainViewModel
 import chat.cabal.network.PeerDiscovery
 import chat.cabal.network.TcpTransport
@@ -218,44 +224,61 @@ fun MainApp(
     ModalNavigationDrawer(
         drawerState = localDrawerState,
         drawerContent = {
-            ModalDrawerSheet {
-                Spacer(Modifier.height(12.dp))
+            ModalDrawerSheet(
+                drawerContainerColor = MaterialTheme.colorScheme.background,
+                drawerContentColor = MaterialTheme.colorScheme.onBackground
+            ) {
+                Spacer(Modifier.height(24.dp))
                 Row(
                     verticalAlignment = androidx.compose.ui.Alignment.CenterVertically,
-                    modifier = Modifier.padding(horizontal = 28.dp, vertical = 16.dp)
+                    modifier = Modifier.padding(horizontal = 24.dp, vertical = 20.dp)
                 ) {
-                    PeerAvatar(myPublicKeyHex, modifier = Modifier.size(48.dp))
+                    PeerAvatar(myPublicKeyHex, modifier = Modifier.size(56.dp))
                     Spacer(Modifier.width(16.dp))
                     Column {
                         Text(
                             "My Identity",
-                            style = MaterialTheme.typography.titleLarge
+                            style = MaterialTheme.typography.titleLarge,
+                            fontWeight = FontWeight.Bold
                         )
                         Text(
-                            myPublicKeyHex.take(12) + "...",
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.secondary
+                            myPublicKeyHex.take(16).uppercase() + "...",
+                            style = MaterialTheme.typography.labelSmall,
+                            color = MaterialTheme.colorScheme.secondary,
+                            letterSpacing = 1.sp
                         )
                     }
                 }
-                HorizontalDivider()
+                HorizontalDivider(
+                    modifier = Modifier.padding(horizontal = 24.dp),
+                    color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
+                )
+                Spacer(Modifier.height(16.dp))
                 Text(
-                    "My Cabals",
+                    "CABALS",
                     style = MaterialTheme.typography.labelMedium,
-                    modifier = Modifier.padding(horizontal = 28.dp, vertical = 16.dp)
+                    color = MaterialTheme.colorScheme.primary,
+                    fontWeight = FontWeight.Bold,
+                    letterSpacing = 2.sp,
+                    modifier = Modifier.padding(horizontal = 28.dp, vertical = 8.dp)
                 )
                 
                 cabals.forEach { cabal ->
                     NavigationDrawerItem(
                         icon = { Icon(Icons.Default.Group, contentDescription = null) },
-                        label = { Text(cabal.name) },
+                        label = { Text(cabal.name, fontWeight = if (selectedCabalKey == cabal.key) FontWeight.Bold else FontWeight.Normal) },
                         selected = (selectedCabalKey == cabal.key),
                         onClick = {
                             selectedCabalKey = cabal.key
                             localNavController.navigate("chat")
                             localComposableScope.launch { localDrawerState.close() }
                         },
-                        modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
+                        colors = NavigationDrawerItemDefaults.colors(
+                            selectedContainerColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.3f),
+                            selectedIconColor = MaterialTheme.colorScheme.primary,
+                            selectedTextColor = MaterialTheme.colorScheme.primary
+                        ),
+                        modifier = Modifier.padding(horizontal = 12.dp, vertical = 2.dp)
                     )
                 }
                 
@@ -266,11 +289,14 @@ fun MainApp(
                     onClick = { 
                         showAddDialog = true 
                     },
-                    modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
+                    modifier = Modifier.padding(horizontal = 12.dp, vertical = 2.dp)
                 )
 
                 Spacer(Modifier.weight(1f))
-                HorizontalDivider()
+                HorizontalDivider(
+                    modifier = Modifier.padding(horizontal = 24.dp),
+                    color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
+                )
                 
                 NavigationDrawerItem(
                     icon = { Icon(Icons.Default.Info, contentDescription = null) },
@@ -280,9 +306,8 @@ fun MainApp(
                         localNavController.navigate("about")
                         localComposableScope.launch { localDrawerState.close() }
                     },
-                    modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
+                    modifier = Modifier.padding(horizontal = 12.dp, vertical = 12.dp)
                 )
-                Spacer(Modifier.height(12.dp))
             }
         }
     ) {
@@ -294,13 +319,39 @@ fun MainApp(
                             cabals.find { it.key == selectedCabalKey }?.name ?: "General"
                         }
                         Column {
-                            Text(titleText)
-                            if (currentRoute != "about") {
+                            Row(verticalAlignment = androidx.compose.ui.Alignment.CenterVertically) {
+                                if (currentRoute != "about") {
+                                    Icon(
+                                        painter = painterResource(id = chat.cabal.mobile.R.drawable.ic_cabal_mark_v2a_foreground),
+                                        contentDescription = null,
+                                        modifier = Modifier.size(24.dp),
+                                        tint = MaterialTheme.colorScheme.primary
+                                    )
+                                    Spacer(Modifier.width(8.dp))
+                                }
                                 Text(
-                                    text = if (peerCount > 0) "$peerCount peers connected" else "Searching for peers...",
-                                    style = MaterialTheme.typography.labelSmall,
-                                    color = if (peerCount > 0) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.secondary
+                                    text = titleText,
+                                    fontWeight = FontWeight.Bold,
+                                    style = MaterialTheme.typography.titleLarge
                                 )
+                            }
+                            if (currentRoute != "about") {
+                                Row(verticalAlignment = androidx.compose.ui.Alignment.CenterVertically) {
+                                    Box(
+                                        modifier = Modifier
+                                            .size(8.dp)
+                                            .clip(androidx.compose.foundation.shape.CircleShape)
+                                            .background(if (peerCount > 0) MaterialTheme.colorScheme.secondary else CabalMuted)
+                                    )
+                                    Spacer(Modifier.width(6.dp))
+                                    Text(
+                                        text = if (peerCount > 0) "$peerCount PEERS ONLINE" else "SEARCHING...",
+                                        style = MaterialTheme.typography.labelSmall,
+                                        fontWeight = FontWeight.Bold,
+                                        letterSpacing = 1.sp,
+                                        color = if (peerCount > 0) MaterialTheme.colorScheme.secondary else CabalMuted
+                                    )
+                                }
                             }
                         }
                     },
