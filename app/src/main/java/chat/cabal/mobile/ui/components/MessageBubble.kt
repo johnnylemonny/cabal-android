@@ -10,6 +10,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
@@ -29,13 +31,13 @@ fun MessageBubble(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 12.dp, vertical = 2.dp),
+            .padding(horizontal = 16.dp, vertical = 4.dp),
         horizontalArrangement = if (isMine) Arrangement.End else Arrangement.Start,
         verticalAlignment = Alignment.Bottom
     ) {
         if (!isMine) {
-            PeerAvatar(authorHex, modifier = Modifier.padding(bottom = 2.dp).size(28.dp))
-            Spacer(Modifier.width(8.dp))
+            PeerAvatar(authorHex, modifier = Modifier.padding(bottom = 2.dp).size(32.dp))
+            Spacer(Modifier.width(12.dp))
         }
         
         Column(
@@ -46,36 +48,26 @@ fun MessageBubble(
                 Text(
                     text = authorHex.take(12).uppercase(),
                     style = MaterialTheme.typography.labelSmall.copy(
-                        letterSpacing = 1.sp,
-                        fontWeight = androidx.compose.ui.text.font.FontWeight.Bold
+                        letterSpacing = 1.2.sp,
+                        fontWeight = FontWeight.Bold
                     ),
-                    color = MaterialTheme.colorScheme.secondary,
-                    modifier = Modifier.padding(start = 6.dp, bottom = 2.dp)
+                    color = MaterialTheme.colorScheme.secondary.copy(alpha = 0.8f),
+                    modifier = Modifier.padding(start = 8.dp, bottom = 4.dp)
                 )
             }
-            Box(
-                modifier = Modifier
-                    .clip(
-                        RoundedCornerShape(
-                            topStart = 18.dp,
-                            topEnd = 18.dp,
-                            bottomStart = if (isMine) 18.dp else 4.dp,
-                            bottomEnd = if (isMine) 4.dp else 18.dp
-                        )
-                    )
-                    .background(
-                        if (isMine) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surface
-                    )
-                    .padding(horizontal = 14.dp, vertical = 10.dp)
+            CabalGlassBubble(
+                isMine = isMine
             ) {
                 Row(
                     verticalAlignment = Alignment.Bottom,
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    horizontalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
                     Text(
                         text = text,
-                        color = if (isMine) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurface,
-                        style = MaterialTheme.typography.bodyLarge,
+                        color = MaterialTheme.colorScheme.onBackground,
+                        style = MaterialTheme.typography.bodyLarge.copy(
+                            lineHeight = 22.sp
+                        ),
                         modifier = Modifier.weight(1f, fill = false)
                     )
                     
@@ -87,8 +79,8 @@ fun MessageBubble(
                                 else -> Icons.Default.DoneAll
                             },
                             contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.6f),
-                            modifier = Modifier.size(14.dp).padding(bottom = 2.dp)
+                            tint = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.5f),
+                            modifier = Modifier.size(16.dp).padding(bottom = 2.dp)
                         )
                     }
                 }

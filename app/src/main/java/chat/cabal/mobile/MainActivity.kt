@@ -23,6 +23,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.draw.clip
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.ui.graphics.Color
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
@@ -36,6 +41,8 @@ import chat.cabal.mobile.ui.components.PeerAvatar
 import chat.cabal.mobile.ui.navigation.CabalNavGraph
 import chat.cabal.mobile.ui.theme.CabalTheme
 import chat.cabal.mobile.ui.theme.CabalMuted
+import chat.cabal.mobile.ui.theme.CabalDeepBlack
+import chat.cabal.mobile.ui.theme.CabalGlassSurface
 import chat.cabal.mobile.ui.viewmodel.MainViewModel
 import chat.cabal.network.PeerDiscovery
 import chat.cabal.network.TcpTransport
@@ -225,48 +232,73 @@ fun MainApp(
         drawerState = localDrawerState,
         drawerContent = {
             ModalDrawerSheet(
-                drawerContainerColor = MaterialTheme.colorScheme.background,
-                drawerContentColor = MaterialTheme.colorScheme.onBackground
+                drawerContainerColor = CabalDeepBlack,
+                drawerContentColor = MaterialTheme.colorScheme.onBackground,
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .width(320.dp)
+                    .border(
+                        width = 0.5.dp,
+                        color = Color.White.copy(alpha = 0.1f),
+                        shape = RoundedCornerShape(topEnd = 32.dp, bottomEnd = 32.dp)
+                    ),
+                drawerShape = RoundedCornerShape(topEnd = 32.dp, bottomEnd = 32.dp)
             ) {
-                Spacer(Modifier.height(24.dp))
+                Spacer(Modifier.height(32.dp))
                 Row(
                     verticalAlignment = androidx.compose.ui.Alignment.CenterVertically,
-                    modifier = Modifier.padding(horizontal = 24.dp, vertical = 20.dp)
+                    modifier = Modifier.padding(horizontal = 24.dp, vertical = 24.dp)
                 ) {
-                    PeerAvatar(myPublicKeyHex, modifier = Modifier.size(56.dp))
-                    Spacer(Modifier.width(16.dp))
+                    PeerAvatar(myPublicKeyHex, modifier = Modifier.size(64.dp))
+                    Spacer(Modifier.width(20.dp))
                     Column {
                         Text(
                             "My Identity",
                             style = MaterialTheme.typography.titleLarge,
-                            fontWeight = FontWeight.Bold
+                            fontWeight = FontWeight.ExtraBold,
+                            color = MaterialTheme.colorScheme.onBackground
                         )
                         Text(
-                            myPublicKeyHex.take(16).uppercase() + "...",
+                            myPublicKeyHex.take(16).uppercase(),
                             style = MaterialTheme.typography.labelSmall,
                             color = MaterialTheme.colorScheme.secondary,
-                            letterSpacing = 1.sp
+                            letterSpacing = 1.5.sp
                         )
                     }
                 }
+                
                 HorizontalDivider(
                     modifier = Modifier.padding(horizontal = 24.dp),
-                    color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
+                    color = Color.White.copy(alpha = 0.05f)
                 )
-                Spacer(Modifier.height(16.dp))
+                
+                Spacer(Modifier.height(24.dp))
+                
                 Text(
-                    "CABALS",
+                    "PEER NETWORKS",
                     style = MaterialTheme.typography.labelMedium,
                     color = MaterialTheme.colorScheme.primary,
-                    fontWeight = FontWeight.Bold,
-                    letterSpacing = 2.sp,
-                    modifier = Modifier.padding(horizontal = 28.dp, vertical = 8.dp)
+                    fontWeight = FontWeight.Black,
+                    letterSpacing = 2.5.sp,
+                    modifier = Modifier.padding(horizontal = 28.dp, vertical = 12.dp)
                 )
                 
                 cabals.forEach { cabal ->
                     NavigationDrawerItem(
-                        icon = { Icon(Icons.Default.Group, contentDescription = null) },
-                        label = { Text(cabal.name, fontWeight = if (selectedCabalKey == cabal.key) FontWeight.Bold else FontWeight.Normal) },
+                        icon = { 
+                            Icon(
+                                if (selectedCabalKey == cabal.key) Icons.Default.CloudDone else Icons.Default.Group, 
+                                contentDescription = null,
+                                modifier = Modifier.size(24.dp)
+                            ) 
+                        },
+                        label = { 
+                            Text(
+                                cabal.name.uppercase(), 
+                                fontWeight = if (selectedCabalKey == cabal.key) FontWeight.ExtraBold else FontWeight.Medium,
+                                letterSpacing = 1.sp
+                            ) 
+                        },
                         selected = (selectedCabalKey == cabal.key),
                         onClick = {
                             selectedCabalKey = cabal.key
@@ -274,39 +306,47 @@ fun MainApp(
                             localComposableScope.launch { localDrawerState.close() }
                         },
                         colors = NavigationDrawerItemDefaults.colors(
-                            selectedContainerColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.3f),
+                            selectedContainerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.15f),
                             selectedIconColor = MaterialTheme.colorScheme.primary,
-                            selectedTextColor = MaterialTheme.colorScheme.primary
+                            selectedTextColor = MaterialTheme.colorScheme.primary,
+                            unselectedContainerColor = Color.Transparent,
+                            unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f),
+                            unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f)
                         ),
-                        modifier = Modifier.padding(horizontal = 12.dp, vertical = 2.dp)
+                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp)
                     )
                 }
                 
                 NavigationDrawerItem(
                     icon = { Icon(Icons.Default.Add, contentDescription = null) },
-                    label = { Text("Add Cabal") },
+                    label = { Text("NEW CABAL", fontWeight = FontWeight.Bold, letterSpacing = 1.sp) },
                     selected = false,
                     onClick = { 
                         showAddDialog = true 
                     },
-                    modifier = Modifier.padding(horizontal = 12.dp, vertical = 2.dp)
+                    colors = NavigationDrawerItemDefaults.colors(
+                        unselectedIconColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.7f),
+                        unselectedTextColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.7f)
+                    ),
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp)
                 )
 
                 Spacer(Modifier.weight(1f))
+                
                 HorizontalDivider(
                     modifier = Modifier.padding(horizontal = 24.dp),
-                    color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
+                    color = Color.White.copy(alpha = 0.05f)
                 )
                 
                 NavigationDrawerItem(
                     icon = { Icon(Icons.Default.Info, contentDescription = null) },
-                    label = { Text("About") },
+                    label = { Text("PROTOCOL INFO", fontWeight = FontWeight.Bold, letterSpacing = 1.sp) },
                     selected = (currentRoute == "about"),
                     onClick = {
                         localNavController.navigate("about")
                         localComposableScope.launch { localDrawerState.close() }
                     },
-                    modifier = Modifier.padding(horizontal = 12.dp, vertical = 12.dp)
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp)
                 )
             }
         }
@@ -315,8 +355,8 @@ fun MainApp(
             topBar = {
                 TopAppBar(
                     title = { 
-                        val titleText = if (currentRoute == "about") "About" else {
-                            cabals.find { it.key == selectedCabalKey }?.name ?: "General"
+                        val titleText = if (currentRoute == "about") "PROTOCOL INFO" else {
+                            cabals.find { it.key == selectedCabalKey }?.name?.uppercase() ?: "GENERAL"
                         }
                         Column {
                             Row(verticalAlignment = androidx.compose.ui.Alignment.CenterVertically) {
@@ -324,30 +364,34 @@ fun MainApp(
                                     Icon(
                                         painter = painterResource(id = chat.cabal.mobile.R.drawable.ic_cabal_mark_v2a_foreground),
                                         contentDescription = null,
-                                        modifier = Modifier.size(24.dp),
+                                        modifier = Modifier.size(28.dp),
                                         tint = MaterialTheme.colorScheme.primary
                                     )
-                                    Spacer(Modifier.width(8.dp))
+                                    Spacer(Modifier.width(10.dp))
                                 }
                                 Text(
                                     text = titleText,
-                                    fontWeight = FontWeight.Bold,
-                                    style = MaterialTheme.typography.titleLarge
+                                    fontWeight = FontWeight.Black,
+                                    style = MaterialTheme.typography.titleLarge,
+                                    letterSpacing = 1.5.sp
                                 )
                             }
                             if (currentRoute != "about") {
-                                Row(verticalAlignment = androidx.compose.ui.Alignment.CenterVertically) {
+                                Row(
+                                    verticalAlignment = androidx.compose.ui.Alignment.CenterVertically,
+                                    modifier = Modifier.padding(top = 2.dp)
+                                ) {
                                     Box(
                                         modifier = Modifier
-                                            .size(8.dp)
+                                            .size(6.dp)
                                             .clip(androidx.compose.foundation.shape.CircleShape)
                                             .background(if (peerCount > 0) MaterialTheme.colorScheme.secondary else CabalMuted)
                                     )
-                                    Spacer(Modifier.width(6.dp))
+                                    Spacer(Modifier.width(8.dp))
                                     Text(
-                                        text = if (peerCount > 0) "$peerCount PEERS ONLINE" else "SEARCHING...",
+                                        text = if (peerCount > 0) "$peerCount PEERS SYNCING" else "NETWORK SCANNING...",
                                         style = MaterialTheme.typography.labelSmall,
-                                        fontWeight = FontWeight.Bold,
+                                        fontWeight = FontWeight.ExtraBold,
                                         letterSpacing = 1.sp,
                                         color = if (peerCount > 0) MaterialTheme.colorScheme.secondary else CabalMuted
                                     )

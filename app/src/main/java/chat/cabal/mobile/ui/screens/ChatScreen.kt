@@ -17,7 +17,11 @@ import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -26,6 +30,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import chat.cabal.mobile.R
 import chat.cabal.mobile.ui.components.MessageBubble
+import chat.cabal.mobile.ui.theme.CabalDeepBlack
+import chat.cabal.mobile.ui.theme.CabalGlassSurface
 import chat.cabal.mobile.ui.viewmodel.ChatViewModel
 import chat.cabal.mobile.core.toHex
 
@@ -99,7 +105,8 @@ fun ChatScreen(
             LazyColumn(
                 state = listState,
                 modifier = Modifier.weight(1f),
-                contentPadding = PaddingValues(top = 8.dp, bottom = 8.dp)
+                contentPadding = PaddingValues(top = 16.dp, bottom = 16.dp),
+                verticalArrangement = Arrangement.spacedBy(4.dp)
             ) {
                 items(messages, key = { it.hash.toHex() }) { message ->
                     val authorHex = message.publicKey.toHex()
@@ -116,15 +123,23 @@ fun ChatScreen(
         }
         
         Surface(
-            tonalElevation = 8.dp,
-            shadowElevation = 8.dp,
-            modifier = Modifier.fillMaxWidth()
+            tonalElevation = 12.dp,
+            shadowElevation = 12.dp,
+            color = CabalGlassSurface,
+            modifier = Modifier
+                .fillMaxWidth()
+                .border(
+                    width = 0.5.dp,
+                    color = Color.White.copy(alpha = 0.1f),
+                    shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp)
+                )
+                .clip(RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp))
         ) {
             Row(
                 modifier = Modifier
-                    .padding(horizontal = 12.dp, vertical = 8.dp)
+                    .padding(horizontal = 16.dp, vertical = 12.dp)
                     .navigationBarsPadding(),
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
                 verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
             ) {
                 TextField(
@@ -133,28 +148,29 @@ fun ChatScreen(
                     modifier = Modifier.weight(1f),
                     placeholder = { 
                         Text(
-                            "Secure message...", 
+                            "Message encrypted...", 
                             style = MaterialTheme.typography.bodyLarge,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f)
+                            color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.4f)
                         ) 
                     },
-                    shape = MaterialTheme.shapes.extraLarge,
+                    shape = RoundedCornerShape(28.dp),
                     keyboardOptions = KeyboardOptions(imeAction = ImeAction.Send),
                     keyboardActions = KeyboardActions(onSend = { onSend() }),
                     colors = TextFieldDefaults.colors(
-                        focusedContainerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f),
-                        unfocusedContainerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.3f),
-                        focusedIndicatorColor = androidx.compose.ui.graphics.Color.Transparent,
-                        unfocusedIndicatorColor = androidx.compose.ui.graphics.Color.Transparent,
-                        disabledIndicatorColor = androidx.compose.ui.graphics.Color.Transparent
+                        focusedContainerColor = Color.White.copy(alpha = 0.05f),
+                        unfocusedContainerColor = Color.White.copy(alpha = 0.03f),
+                        focusedIndicatorColor = Color.Transparent,
+                        unfocusedIndicatorColor = Color.Transparent,
+                        disabledIndicatorColor = Color.Transparent,
+                        focusedTextColor = MaterialTheme.colorScheme.onBackground
                     )
                 )
                 FloatingActionButton(
                     onClick = { onSend() },
                     containerColor = MaterialTheme.colorScheme.primary,
-                    contentColor = MaterialTheme.colorScheme.onPrimary,
+                    contentColor = CabalDeepBlack,
                     shape = androidx.compose.foundation.shape.CircleShape,
-                    elevation = FloatingActionButtonDefaults.elevation(defaultElevation = 0.dp, pressedElevation = 4.dp)
+                    elevation = FloatingActionButtonDefaults.elevation(defaultElevation = 4.dp, pressedElevation = 0.dp)
                 ) {
                     Icon(
                         Icons.AutoMirrored.Filled.Send, 
