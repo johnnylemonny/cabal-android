@@ -1,4 +1,7 @@
 chat.cabal.mobile
+array com_google_android_gms_fonts_certs
+array com_google_android_gms_fonts_certs_dev
+array com_google_android_gms_fonts_certs_prod
 color cabal_cipher_blue
 color cabal_muted
 color cabal_peer_teal
@@ -10,6 +13,11 @@ color cabal_white
 color ic_launcher_background
 drawable ic_cabal_mark_v2a_foreground
 drawable ic_cabal_splash_icon
+font inter_bold
+font inter_extrabold
+font inter_medium
+font inter_regular
+font inter_semibold
 mipmap ic_launcher
 mipmap ic_launcher_round
 string app_name

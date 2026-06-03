@@ -1,15 +1,12 @@
 package chat.cabal.mobile.ui.components
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -19,7 +16,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.filled.DoneAll
 import androidx.compose.material.icons.filled.Schedule
-import chat.cabal.mobile.ui.theme.CabalMuted
+import chat.cabal.mobile.ui.theme.CabalPeerTeal
 
 @Composable
 fun MessageBubble(
@@ -36,13 +33,13 @@ fun MessageBubble(
         verticalAlignment = Alignment.Bottom
     ) {
         if (!isMine) {
-            PeerAvatar(authorHex, modifier = Modifier.padding(bottom = 2.dp).size(32.dp))
+            PeerAvatar(authorHex, modifier = Modifier.size(36.dp))
             Spacer(Modifier.width(12.dp))
         }
         
         Column(
             horizontalAlignment = if (isMine) Alignment.End else Alignment.Start,
-            modifier = Modifier.weight(1f, fill = false)
+            modifier = Modifier.widthIn(max = 280.dp)
         ) {
             if (!isMine) {
                 Text(
@@ -51,8 +48,8 @@ fun MessageBubble(
                         letterSpacing = 1.2.sp,
                         fontWeight = FontWeight.Bold
                     ),
-                    color = MaterialTheme.colorScheme.secondary.copy(alpha = 0.8f),
-                    modifier = Modifier.padding(start = 8.dp, bottom = 4.dp)
+                    color = CabalPeerTeal.copy(alpha = 0.8f),
+                    modifier = Modifier.padding(start = 12.dp, bottom = 4.dp)
                 )
             }
             CabalGlassBubble(
@@ -64,7 +61,7 @@ fun MessageBubble(
                 ) {
                     Text(
                         text = text,
-                        color = MaterialTheme.colorScheme.onBackground,
+                        color = Color.White,
                         style = MaterialTheme.typography.bodyLarge.copy(
                             lineHeight = 22.sp
                         ),
@@ -79,7 +76,7 @@ fun MessageBubble(
                                 else -> Icons.Default.DoneAll
                             },
                             contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.5f),
+                            tint = Color.White.copy(alpha = 0.5f),
                             modifier = Modifier.size(16.dp).padding(bottom = 2.dp)
                         )
                     }

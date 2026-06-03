@@ -8,11 +8,31 @@
         "source": "chat.cabal.mobile.app-main-5:/drawable/ic_cabal_mark_v2a_foreground.xml"
     },
     {
+        "merged": "chat.cabal.mobile.app-debug-3:/font_inter_semibold.ttf.flat",
+        "source": "chat.cabal.mobile.app-main-5:/font/inter_semibold.ttf"
+    },
+    {
+        "merged": "chat.cabal.mobile.app-debug-3:/font_inter_regular.ttf.flat",
+        "source": "chat.cabal.mobile.app-main-5:/font/inter_regular.ttf"
+    },
+    {
         "merged": "chat.cabal.mobile.app-debug-3:/mipmap-anydpi-v26_ic_launcher_round.xml.flat",
         "source": "chat.cabal.mobile.app-main-5:/mipmap-anydpi-v26/ic_launcher_round.xml"
     },
     {
         "merged": "chat.cabal.mobile.app-debug-3:/drawable_ic_cabal_splash_icon.xml.flat",
         "source": "chat.cabal.mobile.app-main-5:/drawable/ic_cabal_splash_icon.xml"
+    },
+    {
+        "merged": "chat.cabal.mobile.app-debug-3:/font_inter_extrabold.ttf.flat",
+        "source": "chat.cabal.mobile.app-main-5:/font/inter_extrabold.ttf"
+    },
+    {
+        "merged": "chat.cabal.mobile.app-debug-3:/font_inter_bold.ttf.flat",
+        "source": "chat.cabal.mobile.app-main-5:/font/inter_bold.ttf"
+    },
+    {
+        "merged": "chat.cabal.mobile.app-debug-3:/font_inter_medium.ttf.flat",
+        "source": "chat.cabal.mobile.app-main-5:/font/inter_medium.ttf"
     }
 ]

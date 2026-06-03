@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merger version="3"><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="main$Generated" generated="true" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="D:\Aplikacje\Poprawki\new-cabal-mobile\app\src\main\res"/></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="main" generated-set="main$Generated" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~:!&lt;dir>navigation"><source path="D:\Aplikacje\Poprawki\new-cabal-mobile\app\src\main\res"><file name="ic_cabal_mark_v2a_foreground" path="D:\Aplikacje\Poprawki\new-cabal-mobile\app\src\main\res\drawable\ic_cabal_mark_v2a_foreground.xml" qualifiers="" type="drawable"/><file name="ic_cabal_splash_icon" path="D:\Aplikacje\Poprawki\new-cabal-mobile\app\src\main\res\drawable\ic_cabal_splash_icon.xml" qualifiers="" type="drawable"/><file name="inter_bold" path="D:\Aplikacje\Poprawki\new-cabal-mobile\app\src\main\res\font\inter_bold.ttf" qualifiers="" type="font"/><file name="inter_extrabold" path="D:\Aplikacje\Poprawki\new-cabal-mobile\app\src\main\res\font\inter_extrabold.ttf" qualifiers="" type="font"/><file name="inter_medium" path="D:\Aplikacje\Poprawki\new-cabal-mobile\app\src\main\res\font\inter_medium.ttf" qualifiers="" type="font"/><file name="inter_regular" path="D:\Aplikacje\Poprawki\new-cabal-mobile\app\src\main\res\font\inter_regular.ttf" qualifiers="" type="font"/><file name="inter_semibold" path="D:\Aplikacje\Poprawki\new-cabal-mobile\app\src\main\res\font\inter_semibold.ttf" qualifiers="" type="font"/><file name="ic_launcher" path="D:\Aplikacje\Poprawki\new-cabal-mobile\app\src\main\res\mipmap-anydpi-v26\ic_launcher.xml" qualifiers="anydpi-v26" type="mipmap"/><file name="ic_launcher_round" path="D:\Aplikacje\Poprawki\new-cabal-mobile\app\src\main\res\mipmap-anydpi-v26\ic_launcher_round.xml" qualifiers="anydpi-v26" type="mipmap"/><file path="D:\Aplikacje\Poprawki\new-cabal-mobile\app\src\main\res\values\colors_cabal.xml" qualifiers=""><color name="cabal_private_dark">#0B0D12</color><color name="cabal_private_black">#05070A</color><color name="cabal_surface_dark">#10131A</color><color name="cabal_text_light">#F7F8FA</color><color name="cabal_white">#FFFFFF</color><color name="cabal_cipher_blue">#6EA8FF</color><color name="cabal_peer_teal">#00D1B2</color><color name="cabal_muted">#9AA4B2</color><color name="ic_launcher_background">#0B0D12</color></file><file path="D:\Aplikacje\Poprawki\new-cabal-mobile\app\src\main\res\values\font_certs.xml" qualifiers=""><array name="com_google_android_gms_fonts_certs">
+<resources>
+    <array name="com_google_android_gms_fonts_certs">
         <item>@array/com_google_android_gms_fonts_certs_dev</item>
         <item>@array/com_google_android_gms_fonts_certs_prod</item>
-    </array><string-array name="com_google_android_gms_fonts_certs_dev">
+    </array>
+    <string-array name="com_google_android_gms_fonts_certs_dev">
         <item>
             MIIEqDCCA5CgAwIBAgIJANWFu96f6jeyMA0GCSqGSIb3DQEBBQUAMIGUMQswCQYDVQQGEwJVUzETMBEG
             C1UECAwKQ2FsaWZvcm5pYTEWMBQGA1UEBwwNTW91bnRhaW4gVmlldzEQMA4GA1UECgwHR29vZ2xl
@@ -42,7 +44,8 @@
             zJzJzJzJzJzJzJzJzJzJzJzJzJzJzJzJzJzJzJzJzJzJzJzJzJzJzJzJzJzJzJzJzJzJzJzJzJzJ
             zJzJzJzJzL
         </item>
-    </string-array><string-array name="com_google_android_gms_fonts_certs_prod">
+    </string-array>
+    <string-array name="com_google_android_gms_fonts_certs_prod">
         <item>
             MIIEqDCCA5CgAwIBAgIJANWFu96f6jeyMA0GCSqGSIb3DQEBBQUAMIGUMQswCQYDVQQGEwJVUzETMBEG
             C1UECAwKQ2FsaWZvcm5pYTEWMBQGA1UEBwwNTW91bnRhaW4gVmlldzEQMA4GA1UECgwHR29vZ2xl
@@ -77,13 +80,5 @@
             zJzJzJzJzJzJzJzJzJzJzJzJzJzJzJzJzJzJzJzJzJzJzJzJzJzJzJzJzJzJzJzJzJzJzJzJzJzJ
             zJzJzJzJzJzJzJzJzJzJzJzJzJzJzJzJzJzJzJzJzJzJzJzJzJzJzJzJzJzJzJzJzJzJzJzJzJzX
         </item>
-    </string-array></file><file path="D:\Aplikacje\Poprawki\new-cabal-mobile\app\src\main\res\values\strings.xml" qualifiers=""><string name="app_name">Cabal Mobile</string></file><file path="D:\Aplikacje\Poprawki\new-cabal-mobile\app\src\main\res\values\themes.xml" qualifiers=""><style name="Theme.CabalMobile" parent="Theme.AppCompat.DayNight.NoActionBar">
-        <item name="android:statusBarColor">@color/cabal_private_dark</item>
-        <item name="android:navigationBarColor">@color/cabal_private_dark</item>
-        <item name="android:windowLightStatusBar">false</item>
-
-        
-        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_cabal_splash_icon</item>
-        <item name="windowSplashScreenBackground">@color/cabal_private_dark</item>
-        <item name="postSplashScreenTheme">@style/Theme.CabalMobile</item>
-    </style></file></source></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="debug$Generated" generated="true" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="D:\Aplikacje\Poprawki\new-cabal-mobile\app\src\debug\res"/></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="debug" generated-set="debug$Generated" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~:!&lt;dir>navigation"><source path="D:\Aplikacje\Poprawki\new-cabal-mobile\app\src\debug\res"/></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="generated$Generated" generated="true" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"/><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="generated" generated-set="generated$Generated" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~:!&lt;dir>navigation"/><mergedItems/></merger>
+    </string-array>
+</resources>

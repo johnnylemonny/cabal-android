@@ -17,6 +17,7 @@ securityCrypto = "1.1.0"
 splashscreen = "1.2.0"
 zipline = "1.27.0"
 kotlinxSerialization = "1.11.0"
+google-fonts = "1.11.2"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -46,6 +47,7 @@ sqldelight-coroutines-extensions = { group = "app.cash.sqldelight", name = "coro
 bouncycastle-bcprov = { group = "org.bouncycastle", name = "bcprov-jdk18on", version.ref = "bouncycastle" }
 androidx-security = { group = "androidx.security", name = "security-crypto", version.ref = "securityCrypto" }
 zipline-android = { group = "app.cash.zipline", name = "zipline-android", version.ref = "zipline" }
+androidx-ui-text-google-fonts = { group = "androidx.compose.ui", name = "ui-text-google-fonts", version.ref = "google-fonts" }
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerialization" }
 
 [plugins]

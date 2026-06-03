@@ -1,5 +1,6 @@
 package chat.cabal.mobile.ui.navigation
 
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -41,7 +42,8 @@ fun CabalNavGraph(
                 viewModel = viewModel(
                     factory = ChatViewModelFactory(database, cableCore, syncEngine)
                 ),
-                myPublicKeyHex = myPublicKeyHex
+                myPublicKeyHex = myPublicKeyHex,
+                modifier = Modifier.fillMaxSize()
             )
         }
         composable("about") {

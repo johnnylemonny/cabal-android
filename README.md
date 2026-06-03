@@ -1,8 +1,6 @@
-# Cabal Android
-
-<p align="center">
+<div style="text-align: center;">
   <img src="cabal_brand_pack/png/cabal_lockup_horizontal_final_optical_stronger_dark_2400px.png" width="2400" alt="Cabal Banner">
-</p>
+</div>
 
 Cabal is a **privacy-first, peer-to-peer (P2P)** chat application for Android. It is a modern, high-performance rewrite of the original [cabal-mobile](https://github.com/cabal-club/cabal-mobile) client, built from the ground up using **Kotlin**, **Jetpack Compose**, and the **Cable protocol**.
 
@@ -28,9 +26,9 @@ Cabal is decentralized communication for the modern era. No central servers, no 
 
 This project is a native Android implementation designed for the year 2026, targeting **Android 17 (API 37)** and emphasizing security, transparency, and a premium user experience.
 
-<p align="center">
+<div style="text-align: center;">
   <img src="cabal_brand_pack/png/cabal_icon_v2a_final_dark_preview_1024px.png" width="1024" alt="Cabal Icon">
-</p>
+</div>
 
 ---
 
@@ -39,7 +37,8 @@ This project is a native Android implementation designed for the year 2026, targ
 - **100% Serverless**: Direct P2P communication via TCP and mDNS (NSD).
 - **History Sync**: Automatic protocol-level reconciliation of missing messages between peers.
 - **E2EE Security**: Messages are signed with **Ed25519** and encrypted where applicable.
-- **Material 3 UI**: A sleek, modern interface with dynamic colors and adaptive icons.
+- **Material 3 UI**: A sleek, high-end "Deep Dark" interface with Glassmorphism effects and modern typography.
+- **Inter Font**: Full integration of the premium Inter font family for a professional look.
 - **Privacy First**: No Google Play Services required. Zero telemetry.
 - **Identity Management**: Secure identity storage using the **Android KeyStore**.
 
@@ -72,11 +71,13 @@ This project is based on the [Cable Protocol Specification](https://github.com/c
 ## Tech Stack
 
 - **Kotlin 2.3.21** (K2 Compiler)
-- **Jetpack Compose** for UI
+- **Jetpack Compose (Material 3)** for High-End UI
+- **Inter Font Family** (Native integration)
 - **SQLDelight 2.3.2** for local SQLite storage
+- **Zipline 1.27.0** (JS Engine for Android 17 compatibility)
 - **Ktor 3.5.0** for P2P networking
 - **Koin 4.2.1** for Dependency Injection
-- **Android 17 Ready** (supports 16KB page sizes)
+- **Android 17 Ready** (16KB page size aligned)
 
 ---
 

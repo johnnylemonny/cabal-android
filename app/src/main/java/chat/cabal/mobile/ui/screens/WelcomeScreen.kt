@@ -1,6 +1,5 @@
 package chat.cabal.mobile.ui.screens
 
-import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -8,6 +7,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -22,7 +23,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import chat.cabal.mobile.R
-import chat.cabal.mobile.ui.theme.CabalDeepBlack
+import chat.cabal.mobile.ui.theme.*
 
 @Composable
 fun WelcomeScreen(
@@ -30,25 +31,14 @@ fun WelcomeScreen(
 ) {
     var visible by remember { mutableStateOf(false) }
     
-    val infiniteTransition = rememberInfiniteTransition(label = "background")
-    val backgroundOffset by infiniteTransition.animateFloat(
-        initialValue = 0f,
-        targetValue = 1000f,
-        animationSpec = infiniteRepeatable(
-            animation = tween(20000, easing = LinearEasing),
-            repeatMode = RepeatMode.Reverse
-        ),
-        label = "offset"
-    )
-
     val scale by animateFloatAsState(
-        targetValue = if (visible) 1f else 0.85f,
-        animationSpec = spring(dampingRatio = 0.65f, stiffness = Spring.StiffnessLow),
+        targetValue = if (visible) 1f else 0.9f,
+        animationSpec = spring(dampingRatio = 0.7f, stiffness = Spring.StiffnessLow),
         label = "scale"
     )
     val alpha by animateFloatAsState(
         targetValue = if (visible) 1f else 0f,
-        animationSpec = tween(durationMillis = 1200),
+        animationSpec = tween(durationMillis = 1000),
         label = "alpha"
     )
 
@@ -59,32 +49,21 @@ fun WelcomeScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(
-                Brush.radialGradient(
-                    colors = listOf(
-                        Color(0xFF0B0D12),
-                        CabalDeepBlack
-                    ),
-                    center = Offset(backgroundOffset, backgroundOffset),
-                    radius = 2000f
-                )
-            ),
+            .background(CabalDeepBlack),
         contentAlignment = Alignment.Center
     ) {
-        // Subtle animated background "aurora"
+        // High-end radial background
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .alpha(0.15f)
                 .background(
-                    Brush.linearGradient(
+                    Brush.radialGradient(
                         colors = listOf(
-                            MaterialTheme.colorScheme.primary,
-                            MaterialTheme.colorScheme.secondary,
-                            Color.Transparent
+                            Color(0xFF1E2430),
+                            CabalDeepBlack
                         ),
-                        start = Offset(backgroundOffset, 0f),
-                        end = Offset(0f, backgroundOffset)
+                        center = Offset(540f, 600f),
+                        radius = 1800f
                     )
                 )
         )
@@ -96,15 +75,18 @@ fun WelcomeScreen(
                 .scale(scale)
                 .alpha(alpha)
         ) {
-            Box(contentAlignment = Alignment.Center) {
-                // Glow effect behind logo
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier.size(180.dp)
+            ) {
+                // Outer glow
                 Box(
                     modifier = Modifier
-                        .size(180.dp)
+                        .size(140.dp)
                         .background(
                             Brush.radialGradient(
                                 listOf(
-                                    MaterialTheme.colorScheme.primary.copy(alpha = 0.2f),
+                                    CabalCipherBlue.copy(alpha = 0.25f),
                                     Color.Transparent
                                 )
                             )
@@ -113,8 +95,8 @@ fun WelcomeScreen(
                 Image(
                     painter = painterResource(id = R.drawable.ic_cabal_splash_icon),
                     contentDescription = "Cabal Logo",
-                    modifier = Modifier.size(140.dp),
-                    colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground)
+                    modifier = Modifier.size(120.dp),
+                    colorFilter = ColorFilter.tint(Color.White)
                 )
             }
             
@@ -124,27 +106,29 @@ fun WelcomeScreen(
                 text = "CABAL",
                 style = MaterialTheme.typography.displayLarge,
                 fontWeight = FontWeight.Black,
-                letterSpacing = 6.sp,
-                color = MaterialTheme.colorScheme.onBackground
+                letterSpacing = 10.sp,
+                color = Color.White
             )
             
-            Spacer(Modifier.height(12.dp))
+            Spacer(Modifier.height(16.dp))
             
             Text(
-                text = "DECENTRALIZED • PRIVATE • P2P",
+                text = "PRIVATE • P2P • ENCRYPTED",
                 style = MaterialTheme.typography.labelMedium,
-                color = MaterialTheme.colorScheme.primary,
+                color = CabalPeerTeal,
                 fontWeight = FontWeight.ExtraBold,
                 letterSpacing = 3.sp
             )
             
-            Spacer(Modifier.height(56.dp))
+            Spacer(Modifier.height(64.dp))
             
             Text(
-                text = "The future of secure communication.\nNo central servers. Pure peer-to-peer.",
-                style = MaterialTheme.typography.bodyLarge.copy(lineHeight = 24.sp),
+                text = "A modern communication protocol.\nNo central servers. Pure privacy.",
+                style = MaterialTheme.typography.bodyLarge.copy(
+                    lineHeight = 26.sp
+                ),
                 textAlign = TextAlign.Center,
-                color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.8f)
+                color = CabalMuted
             )
             
             Spacer(Modifier.height(80.dp))
@@ -153,14 +137,14 @@ fun WelcomeScreen(
                 onClick = onEnter,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(60.dp),
+                    .height(64.dp),
                 shape = RoundedCornerShape(20.dp),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.primary,
+                    containerColor = CabalCipherBlue,
                     contentColor = CabalDeepBlack
                 ),
                 elevation = ButtonDefaults.buttonElevation(
-                    defaultElevation = 8.dp,
+                    defaultElevation = 12.dp,
                     pressedElevation = 2.dp
                 )
             ) {

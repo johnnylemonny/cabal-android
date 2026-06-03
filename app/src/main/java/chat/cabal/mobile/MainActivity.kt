@@ -16,6 +16,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -40,9 +42,7 @@ import chat.cabal.mobile.ui.components.AddCabalDialog
 import chat.cabal.mobile.ui.components.PeerAvatar
 import chat.cabal.mobile.ui.navigation.CabalNavGraph
 import chat.cabal.mobile.ui.theme.CabalTheme
-import chat.cabal.mobile.ui.theme.CabalMuted
-import chat.cabal.mobile.ui.theme.CabalDeepBlack
-import chat.cabal.mobile.ui.theme.CabalGlassSurface
+import chat.cabal.mobile.ui.theme.*
 import chat.cabal.mobile.ui.viewmodel.MainViewModel
 import chat.cabal.network.PeerDiscovery
 import chat.cabal.network.TcpTransport
@@ -232,19 +232,19 @@ fun MainApp(
         drawerState = localDrawerState,
         drawerContent = {
             ModalDrawerSheet(
-                drawerContainerColor = CabalDeepBlack,
-                drawerContentColor = MaterialTheme.colorScheme.onBackground,
+                drawerContainerColor = CabalSurfaceDark, // Slightly lighter than background for definition
+                drawerContentColor = Color.White,
                 modifier = Modifier
                     .fillMaxHeight()
                     .width(320.dp)
                     .border(
-                        width = 0.5.dp,
-                        color = Color.White.copy(alpha = 0.1f),
+                        width = 1.dp,
+                        color = Color.White.copy(alpha = 0.08f),
                         shape = RoundedCornerShape(topEnd = 32.dp, bottomEnd = 32.dp)
                     ),
                 drawerShape = RoundedCornerShape(topEnd = 32.dp, bottomEnd = 32.dp)
             ) {
-                Spacer(Modifier.height(32.dp))
+                Spacer(Modifier.height(48.dp))
                 Row(
                     verticalAlignment = androidx.compose.ui.Alignment.CenterVertically,
                     modifier = Modifier.padding(horizontal = 24.dp, vertical = 24.dp)
@@ -256,31 +256,29 @@ fun MainApp(
                             "My Identity",
                             style = MaterialTheme.typography.titleLarge,
                             fontWeight = FontWeight.ExtraBold,
-                            color = MaterialTheme.colorScheme.onBackground
+                            color = Color.White
                         )
                         Text(
                             myPublicKeyHex.take(16).uppercase(),
                             style = MaterialTheme.typography.labelSmall,
-                            color = MaterialTheme.colorScheme.secondary,
+                            color = CabalPeerTeal,
                             letterSpacing = 1.5.sp
                         )
                     }
                 }
                 
                 HorizontalDivider(
-                    modifier = Modifier.padding(horizontal = 24.dp),
+                    modifier = Modifier.padding(horizontal = 24.dp, vertical = 8.dp),
                     color = Color.White.copy(alpha = 0.05f)
                 )
-                
-                Spacer(Modifier.height(24.dp))
                 
                 Text(
                     "PEER NETWORKS",
                     style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.colorScheme.primary,
+                    color = CabalCipherBlue.copy(alpha = 0.7f),
                     fontWeight = FontWeight.Black,
                     letterSpacing = 2.5.sp,
-                    modifier = Modifier.padding(horizontal = 28.dp, vertical = 12.dp)
+                    modifier = Modifier.padding(horizontal = 28.dp, vertical = 16.dp)
                 )
                 
                 cabals.forEach { cabal ->
@@ -306,12 +304,12 @@ fun MainApp(
                             localComposableScope.launch { localDrawerState.close() }
                         },
                         colors = NavigationDrawerItemDefaults.colors(
-                            selectedContainerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.15f),
-                            selectedIconColor = MaterialTheme.colorScheme.primary,
-                            selectedTextColor = MaterialTheme.colorScheme.primary,
+                            selectedContainerColor = CabalCipherBlue.copy(alpha = 0.15f),
+                            selectedIconColor = CabalCipherBlue,
+                            selectedTextColor = CabalCipherBlue,
                             unselectedContainerColor = Color.Transparent,
-                            unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f),
-                            unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f)
+                            unselectedIconColor = Color.White.copy(alpha = 0.5f),
+                            unselectedTextColor = Color.White.copy(alpha = 0.5f)
                         ),
                         modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp)
                     )
@@ -325,8 +323,8 @@ fun MainApp(
                         showAddDialog = true 
                     },
                     colors = NavigationDrawerItemDefaults.colors(
-                        unselectedIconColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.7f),
-                        unselectedTextColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.7f)
+                        unselectedIconColor = CabalPeerTeal.copy(alpha = 0.8f),
+                        unselectedTextColor = CabalPeerTeal.copy(alpha = 0.8f)
                     ),
                     modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp)
                 )
@@ -346,6 +344,12 @@ fun MainApp(
                         localNavController.navigate("about")
                         localComposableScope.launch { localDrawerState.close() }
                     },
+                    colors = NavigationDrawerItemDefaults.colors(
+                        unselectedIconColor = CabalMuted,
+                        unselectedTextColor = CabalMuted,
+                        selectedIconColor = CabalCipherBlue,
+                        selectedTextColor = CabalCipherBlue
+                    ),
                     modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp)
                 )
             }
@@ -353,83 +357,92 @@ fun MainApp(
     ) {
         Scaffold(
             topBar = {
-                TopAppBar(
-                    title = { 
-                        val titleText = if (currentRoute == "about") "PROTOCOL INFO" else {
-                            cabals.find { it.key == selectedCabalKey }?.name?.uppercase() ?: "GENERAL"
-                        }
-                        Column {
-                            Row(verticalAlignment = androidx.compose.ui.Alignment.CenterVertically) {
-                                if (currentRoute != "about") {
-                                    Icon(
-                                        painter = painterResource(id = chat.cabal.mobile.R.drawable.ic_cabal_mark_v2a_foreground),
-                                        contentDescription = null,
-                                        modifier = Modifier.size(28.dp),
-                                        tint = MaterialTheme.colorScheme.primary
+                if (currentRoute != "welcome") {
+                    TopAppBar(
+                        colors = TopAppBarDefaults.topAppBarColors(
+                            containerColor = Color.Transparent,
+                            titleContentColor = MaterialTheme.colorScheme.onBackground,
+                            navigationIconContentColor = MaterialTheme.colorScheme.onBackground,
+                            actionIconContentColor = MaterialTheme.colorScheme.onBackground
+                        ),
+                        title = { 
+                            val titleText = if (currentRoute == "about") "PROTOCOL INFO" else {
+                                cabals.find { it.key == selectedCabalKey }?.name?.uppercase() ?: "GENERAL"
+                            }
+                            Column {
+                                Row(verticalAlignment = androidx.compose.ui.Alignment.CenterVertically) {
+                                    if (currentRoute != "about") {
+                                        Icon(
+                                            painter = painterResource(id = R.drawable.ic_cabal_mark_v2a_foreground),
+                                            contentDescription = null,
+                                            modifier = Modifier.size(28.dp),
+                                            tint = MaterialTheme.colorScheme.primary
+                                        )
+                                        Spacer(Modifier.width(10.dp))
+                                    }
+                                    Text(
+                                        text = titleText,
+                                        fontWeight = FontWeight.Black,
+                                        style = MaterialTheme.typography.titleLarge,
+                                        letterSpacing = 1.5.sp
                                     )
-                                    Spacer(Modifier.width(10.dp))
                                 }
-                                Text(
-                                    text = titleText,
-                                    fontWeight = FontWeight.Black,
-                                    style = MaterialTheme.typography.titleLarge,
-                                    letterSpacing = 1.5.sp
+                                if (currentRoute != "about") {
+                                    Row(
+                                        verticalAlignment = androidx.compose.ui.Alignment.CenterVertically,
+                                        modifier = Modifier.padding(top = 2.dp)
+                                    ) {
+                                        Box(
+                                            modifier = Modifier
+                                                .size(6.dp)
+                                                .clip(androidx.compose.foundation.shape.CircleShape)
+                                                .background(if (peerCount > 0) MaterialTheme.colorScheme.secondary else CabalMuted)
+                                        )
+                                        Spacer(Modifier.width(8.dp))
+                                        Text(
+                                            text = if (peerCount > 0) "$peerCount PEERS SYNCING" else "NETWORK SCANNING...",
+                                            style = MaterialTheme.typography.labelSmall,
+                                            fontWeight = FontWeight.ExtraBold,
+                                            letterSpacing = 1.sp,
+                                            color = if (peerCount > 0) MaterialTheme.colorScheme.secondary else CabalMuted
+                                        )
+                                    }
+                                }
+                            }
+                        },
+                        navigationIcon = {
+                            IconButton(onClick = {
+                                localComposableScope.launch { localDrawerState.open() }
+                            }) {
+                                Icon(Icons.Default.Menu, contentDescription = "Menu")
+                            }
+                        },
+                        actions = {
+                            IconButton(onClick = {
+                                showLinkDialog = true
+                            }) {
+                                Icon(Icons.Default.Link, contentDescription = "Manual Link")
+                            }
+
+                            if (peerCount > 0) {
+                                Icon(
+                                    Icons.Default.CloudDone, 
+                                    contentDescription = "Connected",
+                                    tint = MaterialTheme.colorScheme.primary,
+                                    modifier = Modifier.padding(end = 16.dp)
+                                )
+                            } else {
+                                CircularProgressIndicator(
+                                    modifier = Modifier.size(20.dp).padding(end = 16.dp),
+                                    strokeWidth = 2.dp,
+                                    color = MaterialTheme.colorScheme.secondary
                                 )
                             }
-                            if (currentRoute != "about") {
-                                Row(
-                                    verticalAlignment = androidx.compose.ui.Alignment.CenterVertically,
-                                    modifier = Modifier.padding(top = 2.dp)
-                                ) {
-                                    Box(
-                                        modifier = Modifier
-                                            .size(6.dp)
-                                            .clip(androidx.compose.foundation.shape.CircleShape)
-                                            .background(if (peerCount > 0) MaterialTheme.colorScheme.secondary else CabalMuted)
-                                    )
-                                    Spacer(Modifier.width(8.dp))
-                                    Text(
-                                        text = if (peerCount > 0) "$peerCount PEERS SYNCING" else "NETWORK SCANNING...",
-                                        style = MaterialTheme.typography.labelSmall,
-                                        fontWeight = FontWeight.ExtraBold,
-                                        letterSpacing = 1.sp,
-                                        color = if (peerCount > 0) MaterialTheme.colorScheme.secondary else CabalMuted
-                                    )
-                                }
-                            }
                         }
-                    },
-                    navigationIcon = {
-                        IconButton(onClick = {
-                            localComposableScope.launch { localDrawerState.open() }
-                        }) {
-                            Icon(Icons.Default.Menu, contentDescription = "Menu")
-                        }
-                    },
-                    actions = {
-                        IconButton(onClick = {
-                            showLinkDialog = true
-                        }) {
-                            Icon(Icons.Default.Link, contentDescription = "Manual Link")
-                        }
-
-                        if (peerCount > 0) {
-                            Icon(
-                                Icons.Default.CloudDone, 
-                                contentDescription = "Connected",
-                                tint = MaterialTheme.colorScheme.primary,
-                                modifier = Modifier.padding(end = 16.dp)
-                            )
-                        } else {
-                            CircularProgressIndicator(
-                                modifier = Modifier.size(20.dp).padding(end = 16.dp),
-                                strokeWidth = 2.dp,
-                                color = MaterialTheme.colorScheme.secondary
-                            )
-                        }
-                    }
-                )
+                    )
+                }
             },
+            containerColor = MaterialTheme.colorScheme.background,
             modifier = Modifier.fillMaxSize()
         ) { innerPadding ->
             CabalNavGraph(
