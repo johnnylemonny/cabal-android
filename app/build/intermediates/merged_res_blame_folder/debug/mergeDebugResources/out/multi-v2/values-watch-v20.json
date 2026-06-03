@@ -4,7 +4,7 @@
             "outputFile": "chat.cabal.mobile.app-mergeDebugResources-1:/values-watch-v20/values-watch-v20.xml",
             "map": [
                 {
-                    "source": "D:\\DEV\\gradle\\caches\\9.5.1\\transforms\\229de72f4df3e0d9f07f5c4cd38eeb0d\\transformed\\core-splashscreen-1.2.0\\res\\values-watch-v20\\values-watch-v20.xml",
+                    "source": "D:\\DEV\\gradle\\caches\\9.5.1\\transforms\\a8175cdeb1e95f289666de40b4608546\\transformed\\core-splashscreen-1.2.0\\res\\values-watch-v20\\values-watch-v20.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9",
                         "startColumns": "4,4,4,4,4,4,4,4",
@@ -14,7 +14,7 @@
                     }
                 },
                 {
-                    "source": "D:\\DEV\\gradle\\caches\\9.5.1\\transforms\\dfc8c480de6eccc8432fdcb4f8518af1\\transformed\\appcompat-1.7.1\\res\\values-watch-v20\\values-watch-v20.xml",
+                    "source": "D:\\DEV\\gradle\\caches\\9.5.1\\transforms\\8adc19f0bf87e0f8f10c8dc349d3b7e5\\transformed\\appcompat-1.7.1\\res\\values-watch-v20\\values-watch-v20.xml",
                     "from": {
                         "startLines": "2,5,8",
                         "startColumns": "4,4,4",

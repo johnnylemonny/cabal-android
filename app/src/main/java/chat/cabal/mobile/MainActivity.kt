@@ -18,6 +18,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -158,33 +159,33 @@ fun MainApp(
     
     val cabals by mainViewModel.cabals.collectAsState()
     val peerCount by transport.connectionCount.collectAsState()
-    var showAddDialog by remember { mutableStateOf(false) }
-    var showLinkDialog by remember { mutableStateOf(false) }
-    var selectedCabalKey by remember { mutableStateOf<String?>(null) }
+    val showAddDialog = remember { mutableStateOf(false) }
+    val showLinkDialog = remember { mutableStateOf(false) }
+    val selectedCabalKey = remember { mutableStateOf<String?>(null) }
     var manualIp by remember { mutableStateOf("10.0.2.2") }
     var manualPort by remember { mutableStateOf("13330") }
 
     LaunchedEffect(cabals) {
-        if (selectedCabalKey == null && cabals.isNotEmpty()) {
-            selectedCabalKey = cabals.first().key
+        if (selectedCabalKey.value == null && cabals.isNotEmpty()) {
+            selectedCabalKey.value = cabals.first().key
         }
     }
     
-    if (showAddDialog) {
+    if (showAddDialog.value) {
         AddCabalDialog(
             onDismiss = { 
-                showAddDialog = false 
+                showAddDialog.value = false 
             },
             onConfirm = { key, name ->
                 mainViewModel.addCabal(key, name)
-                showAddDialog = false
+                showAddDialog.value = false
             }
         )
     }
 
-    if (showLinkDialog) {
+    if (showLinkDialog.value) {
         AlertDialog(
-            onDismissRequest = { showLinkDialog = false },
+            onDismissRequest = { showLinkDialog.value = false },
             title = { Text("Manual Peer Link") },
             text = {
                 Column {
@@ -216,11 +217,11 @@ fun MainApp(
                             Toast.makeText(localContext, "Could not reach $manualIp:$p", Toast.LENGTH_LONG).show()
                         }
                     }
-                    showLinkDialog = false
+                    showLinkDialog.value = false
                 }) { Text("Connect") }
             },
             dismissButton = {
-                TextButton(onClick = { showLinkDialog = false }) { Text("Cancel") }
+                TextButton(onClick = { showLinkDialog.value = false }) { Text("Cancel") }
             }
         )
     }
@@ -246,7 +247,7 @@ fun MainApp(
             ) {
                 Spacer(Modifier.height(48.dp))
                 Row(
-                    verticalAlignment = androidx.compose.ui.Alignment.CenterVertically,
+                    verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier.padding(horizontal = 24.dp, vertical = 24.dp)
                 ) {
                     PeerAvatar(myPublicKeyHex, modifier = Modifier.size(64.dp))
@@ -285,7 +286,7 @@ fun MainApp(
                     NavigationDrawerItem(
                         icon = { 
                             Icon(
-                                if (selectedCabalKey == cabal.key) Icons.Default.CloudDone else Icons.Default.Group, 
+                                if (selectedCabalKey.value == cabal.key) Icons.Default.CloudDone else Icons.Default.Group, 
                                 contentDescription = null,
                                 modifier = Modifier.size(24.dp)
                             ) 
@@ -293,13 +294,13 @@ fun MainApp(
                         label = { 
                             Text(
                                 cabal.name.uppercase(), 
-                                fontWeight = if (selectedCabalKey == cabal.key) FontWeight.ExtraBold else FontWeight.Medium,
+                                fontWeight = if (selectedCabalKey.value == cabal.key) FontWeight.ExtraBold else FontWeight.Medium,
                                 letterSpacing = 1.sp
                             ) 
                         },
-                        selected = (selectedCabalKey == cabal.key),
+                        selected = (selectedCabalKey.value == cabal.key),
                         onClick = {
-                            selectedCabalKey = cabal.key
+                            selectedCabalKey.value = cabal.key
                             localNavController.navigate("chat")
                             localComposableScope.launch { localDrawerState.close() }
                         },
@@ -308,8 +309,8 @@ fun MainApp(
                             selectedIconColor = CabalCipherBlue,
                             selectedTextColor = CabalCipherBlue,
                             unselectedContainerColor = Color.Transparent,
-                            unselectedIconColor = Color.White.copy(alpha = 0.5f),
-                            unselectedTextColor = Color.White.copy(alpha = 0.5f)
+                            unselectedIconColor = CabalMuted,
+                            unselectedTextColor = CabalMuted
                         ),
                         modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp)
                     )
@@ -320,7 +321,7 @@ fun MainApp(
                     label = { Text("NEW CABAL", fontWeight = FontWeight.Bold, letterSpacing = 1.sp) },
                     selected = false,
                     onClick = { 
-                        showAddDialog = true 
+                        showAddDialog.value = true 
                     },
                     colors = NavigationDrawerItemDefaults.colors(
                         unselectedIconColor = CabalPeerTeal.copy(alpha = 0.8f),
@@ -333,7 +334,7 @@ fun MainApp(
                 
                 HorizontalDivider(
                     modifier = Modifier.padding(horizontal = 24.dp),
-                    color = Color.White.copy(alpha = 0.05f)
+                    color = Color.White.copy(alpha = 0.1f)
                 )
                 
                 NavigationDrawerItem(
@@ -367,10 +368,10 @@ fun MainApp(
                         ),
                         title = { 
                             val titleText = if (currentRoute == "about") "PROTOCOL INFO" else {
-                                cabals.find { it.key == selectedCabalKey }?.name?.uppercase() ?: "GENERAL"
+                                cabals.find { it.key == selectedCabalKey.value }?.name?.uppercase() ?: "GENERAL"
                             }
                             Column {
-                                Row(verticalAlignment = androidx.compose.ui.Alignment.CenterVertically) {
+                                Row(verticalAlignment = Alignment.CenterVertically) {
                                     if (currentRoute != "about") {
                                         Icon(
                                             painter = painterResource(id = R.drawable.ic_cabal_mark_v2a_foreground),
@@ -389,7 +390,7 @@ fun MainApp(
                                 }
                                 if (currentRoute != "about") {
                                     Row(
-                                        verticalAlignment = androidx.compose.ui.Alignment.CenterVertically,
+                                        verticalAlignment = Alignment.CenterVertically,
                                         modifier = Modifier.padding(top = 2.dp)
                                     ) {
                                         Box(
@@ -419,7 +420,7 @@ fun MainApp(
                         },
                         actions = {
                             IconButton(onClick = {
-                                showLinkDialog = true
+                                showLinkDialog.value = true
                             }) {
                                 Icon(Icons.Default.Link, contentDescription = "Manual Link")
                             }

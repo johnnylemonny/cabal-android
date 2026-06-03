@@ -7,8 +7,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -29,21 +27,21 @@ import chat.cabal.mobile.ui.theme.*
 fun WelcomeScreen(
     onEnter: () -> Unit
 ) {
-    var visible by remember { mutableStateOf(false) }
+    val visible = remember { mutableStateOf(false) }
     
     val scale by animateFloatAsState(
-        targetValue = if (visible) 1f else 0.9f,
+        targetValue = if (visible.value) 1f else 0.9f,
         animationSpec = spring(dampingRatio = 0.7f, stiffness = Spring.StiffnessLow),
         label = "scale"
     )
     val alpha by animateFloatAsState(
-        targetValue = if (visible) 1f else 0f,
+        targetValue = if (visible.value) 1f else 0f,
         animationSpec = tween(durationMillis = 1000),
         label = "alpha"
     )
 
     LaunchedEffect(Unit) {
-        visible = true
+        visible.value = true
     }
 
     Box(
