@@ -339,7 +339,7 @@ fun MainApp(
                 
                 NavigationDrawerItem(
                     icon = { Icon(Icons.Default.Info, contentDescription = null) },
-                    label = { Text("PROTOCOL INFO", fontWeight = FontWeight.Bold, letterSpacing = 1.sp) },
+                    label = { Text("ABOUT CABAL", fontWeight = FontWeight.Bold, letterSpacing = 1.sp) },
                     selected = (currentRoute == "about"),
                     onClick = {
                         localNavController.navigate("about")
@@ -367,7 +367,7 @@ fun MainApp(
                             actionIconContentColor = MaterialTheme.colorScheme.onBackground
                         ),
                         title = { 
-                            val titleText = if (currentRoute == "about") "PROTOCOL INFO" else {
+                            val titleText = if (currentRoute == "about") "ABOUT CABAL" else {
                                 cabals.find { it.key == selectedCabalKey.value }?.name?.uppercase() ?: "GENERAL"
                             }
                             Column {

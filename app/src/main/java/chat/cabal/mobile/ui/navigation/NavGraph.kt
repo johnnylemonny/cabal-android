@@ -11,6 +11,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import chat.cabal.database.CabalDatabase
 import chat.cabal.mobile.core.SyncEngine
+import chat.cabal.mobile.ui.screens.AboutScreen
 import chat.cabal.mobile.ui.screens.ChatScreen
 import chat.cabal.mobile.ui.screens.WelcomeScreen
 import chat.cabal.mobile.ui.viewmodel.ChatViewModelFactory
@@ -50,12 +51,4 @@ fun CabalNavGraph(
             AboutScreen()
         }
     }
-}
-
-@Composable
-fun AboutScreen() {
-    androidx.compose.material3.Text(
-        text = "Cabal Mobile v1.0\nA decentralized P2P chat client.\nFOSS - MIT License",
-        modifier = Modifier.padding(16.dp)
-    )
 }
