@@ -34,6 +34,10 @@ gen/
 *.flat
 capture.png
 output.json
+intermediates/
+outputs/
+reports/
+tmp/
 
 # Logs
 *.log

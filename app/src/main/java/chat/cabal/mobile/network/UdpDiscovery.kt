@@ -10,6 +10,7 @@ import java.net.DatagramPacket
 import java.net.DatagramSocket
 import java.net.InetAddress
 import java.net.SocketException
+import kotlin.time.Duration.Companion.seconds
 
 class UdpDiscovery(
     private val context: Context,
@@ -76,19 +77,27 @@ class UdpDiscovery(
         announceJob = scope.launch(Dispatchers.IO) {
             val message = "CABAL|$cabalKey|$port".toByteArray()
             val broadcastAddress = InetAddress.getByName("255.255.255.255")
+            val emulatorAddress = InetAddress.getByName("10.0.2.2") // Special address for Android Emulators
             
             while (isActive) {
                 try {
                     val sendSocket = DatagramSocket()
                     sendSocket.broadcast = true
+                    
+                    // Standard broadcast
                     val packet = DatagramPacket(message, message.size, broadcastAddress, udpPort)
                     sendSocket.send(packet)
+                    
+                    // Special ping for other emulators (loopback to host which might route to other emulators)
+                    val emuPacket = DatagramPacket(message, message.size, emulatorAddress, udpPort)
+                    sendSocket.send(emuPacket)
+                    
                     sendSocket.close()
-                    Log.v(TAG, "Broadcast announcement sent")
+                    Log.v(TAG, "Broadcast announcement sent (Standard + Emulator Link)")
                 } catch (e: Exception) {
                     Log.e(TAG, "Announce error", e)
                 }
-                delay(5000) // Announce every 5 seconds
+                delay(5.seconds) // Announce every 5 seconds
             }
         }
     }

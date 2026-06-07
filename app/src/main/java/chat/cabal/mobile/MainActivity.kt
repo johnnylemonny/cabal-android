@@ -6,7 +6,6 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -16,7 +15,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -39,7 +37,6 @@ import chat.cabal.mobile.core.*
 import chat.cabal.mobile.network.CompositeDiscovery
 import chat.cabal.mobile.network.NsdDiscovery
 import chat.cabal.mobile.network.UdpDiscovery
-import chat.cabal.mobile.ui.components.AddCabalDialog
 import chat.cabal.mobile.ui.components.PeerAvatar
 import chat.cabal.mobile.ui.navigation.CabalNavGraph
 import chat.cabal.mobile.ui.theme.CabalTheme
@@ -113,6 +110,10 @@ class MainActivity : ComponentActivity() {
             permissions.add(Manifest.permission.NEARBY_WIFI_DEVICES)
         }
         
+        if (Build.VERSION.SDK_INT >= 35) { // Build.VERSION_CODES.VANILLA_ICE_CREAM
+            permissions.add("android.permission.ACCESS_LOCAL_NETWORK")
+        }
+        
         val allGranted = permissions.all { 
             checkSelfPermission(it) == PackageManager.PERMISSION_GRANTED 
         }
@@ -155,76 +156,12 @@ fun MainApp(
     val localNavController = rememberNavController()
     val localDrawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val localComposableScope = rememberCoroutineScope()
-    val localContext = androidx.compose.ui.platform.LocalContext.current
     
     val cabals by mainViewModel.cabals.collectAsState()
     val peerCount by transport.connectionCount.collectAsState()
     val showAddDialog = remember { mutableStateOf(false) }
     val showLinkDialog = remember { mutableStateOf(false) }
     val selectedCabalKey = remember { mutableStateOf<String?>(null) }
-    var manualIp by remember { mutableStateOf("10.0.2.2") }
-    var manualPort by remember { mutableStateOf("13330") }
-
-    LaunchedEffect(cabals) {
-        if (selectedCabalKey.value == null && cabals.isNotEmpty()) {
-            selectedCabalKey.value = cabals.first().key
-        }
-    }
-    
-    if (showAddDialog.value) {
-        AddCabalDialog(
-            onDismiss = { 
-                showAddDialog.value = false 
-            },
-            onConfirm = { key, name ->
-                mainViewModel.addCabal(key, name)
-                showAddDialog.value = false
-            }
-        )
-    }
-
-    if (showLinkDialog.value) {
-        AlertDialog(
-            onDismissRequest = { showLinkDialog.value = false },
-            title = { Text("Manual Peer Link") },
-            text = {
-                Column {
-                    Text("Enter IP address of the peer. For emulators, use 10.0.2.2.")
-                    Spacer(Modifier.height(8.dp))
-                    OutlinedTextField(
-                        value = manualIp,
-                        onValueChange = { manualIp = it },
-                        label = { Text("Peer IP") },
-                        singleLine = true
-                    )
-                    Spacer(Modifier.height(8.dp))
-                    OutlinedTextField(
-                        value = manualPort,
-                        onValueChange = { manualPort = it },
-                        label = { Text("Port") },
-                        singleLine = true
-                    )
-                }
-            },
-            confirmButton = {
-                Button(onClick = {
-                    localComposableScope.launch {
-                        val p = manualPort.toIntOrNull() ?: 13330
-                        val success = transport.connectToPeer(manualIp, p)
-                        if (success) {
-                            Toast.makeText(localContext, "Link request sent to $manualIp:$p", Toast.LENGTH_SHORT).show()
-                        } else {
-                            Toast.makeText(localContext, "Could not reach $manualIp:$p", Toast.LENGTH_LONG).show()
-                        }
-                    }
-                    showLinkDialog.value = false
-                }) { Text("Connect") }
-            },
-            dismissButton = {
-                TextButton(onClick = { showLinkDialog.value = false }) { Text("Cancel") }
-            }
-        )
-    }
     
     val navBackStackEntry by localNavController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
