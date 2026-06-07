@@ -9,13 +9,12 @@ Cabal is a **privacy-first, peer-to-peer (P2P)** chat application for Android. I
 ## 📖 Table of Contents
 
 - [Introduction](#introduction)
-- [Key Features](#key-features)
+- [Key Features](#key-features-v040)
 - [Architecture](#architecture)
 - [Comparison with v2](#comparison-with-v2)
 - [Tech Stack](#tech-stack)
 - [Getting Started](#getting-started)
 - [P2P Testing](#p2p-testing)
-- [Troubleshooting](#troubleshooting)
 - [License](#license)
 
 ---
@@ -32,15 +31,16 @@ This project is a native Android implementation designed for the year 2026, targ
 
 ---
 
-## Key Features
+## Key Features (v0.4.0)
 
 - **100% Serverless**: Direct P2P communication via TCP and mDNS (NSD).
-- **History Sync**: Automatic protocol-level reconciliation of missing messages between peers.
-- **E2EE Security**: Messages are signed with **Ed25519** and encrypted where applicable.
-- **Material 3 UI**: A sleek, high-end "Deep Dark" interface with Glassmorphism effects and modern typography.
-- **Inter Font**: Full integration of the premium Inter font family for a professional look.
-- **Privacy First**: No Google Play Services required. Zero telemetry.
-- **Identity Management**: Secure identity storage using the **Android KeyStore**.
+- **Multiple Cabals**: Create or join multiple independent peer networks.
+- **Biometric Lock**: Secure your messages with hardware-backed biometric authentication.
+- **Identity Backup**: BIP39-compatible 12-word seed phrase for account recovery.
+- **Threaded Chat**: Reply to specific messages and navigate threads easily.
+- **Material 3 UI**: A sleek, high-end "Deep Dark" interface with Glassmorphism effects.
+- **History Sync**: Automatic protocol-level reconciliation of missing messages.
+- **E2EE Security**: Messages are signed with **Ed25519** and encrypted for the cabal group.
 
 ---
 
@@ -64,17 +64,16 @@ This project is based on the [Cable Protocol Specification](https://github.com/c
 | **Performance** | High Overhead | **Low Latency / High Performance** |
 | **Startup Time** | Slow | **Instant** |
 | **Battery Life** | Average | **Optimized for Sockets** |
-| **Security** | JS-based Crypto | **Hardware-backed KeyStore** |
+| **Security** | JS-based Crypto | **Hardware-backed KeyStore / Biometrics** |
 
 ---
 
 ## Tech Stack
 
-- **Kotlin 2.3.21** (K2 Compiler)
-- **Jetpack Compose (Material 3)** for High-End UI
+- **Kotlin 2.0+** (K2 Compiler)
+- **Jetpack Compose (Material 3)**
 - **Inter Font Family** (Native integration)
 - **SQLDelight 2.3.2** for local SQLite storage
-- **Zipline 1.27.0** (JS Engine for Android 17 compatibility)
 - **Ktor 3.5.0** for P2P networking
 - **Koin 4.2.1** for Dependency Injection
 - **Android 17 Ready** (16KB page size aligned)
@@ -114,23 +113,7 @@ To test the chat functionality between two devices:
    # Emulator 5556 -> PC port 13330
    adb -s emulator-5556 reverse tcp:13330 tcp:13330
    ```
-   Then, in the app on `emulator-5556`, tap the **Link** icon and connect to `10.0.2.2:13330`.
-4. **Chat**: Send a message on one device; it will appear on the second device via the Cable sync cycle.
-
----
-
-## Troubleshooting
-
-### Peers Not Found (Emulators)
-Emulators on the same machine often cannot "see" each other via mDNS (NSD) because they reside in separate virtual networks.
-1. **IP Routing**: By default, an emulator cannot reach another emulator via its internal IP (e.g., `10.0.2.15`).
-2. **ADB Port Forwarding**: To connect two emulators on the same PC:
-   ```bash
-   # On the first emulator
-   adb -s emulator-5554 forward tcp:13333 tcp:13333
-   ```
-   Then the other emulator can connect to `10.0.2.2:13333`.
-3. **Physical Hardware**: P2P discovery and sync work automatically when using real Android devices on the same Wi-Fi network with Local Network Permissions enabled.
+   Then, in the app on `emulator-5556`, use the **Manual Link** feature to connect to `10.0.2.2:13330`.
 
 ---
 

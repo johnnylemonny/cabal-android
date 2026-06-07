@@ -3,14 +3,42 @@ CREATE TABLE cabal (
     name TEXT NOT NULL
 );
 
+CREATE TABLE peer (
+    publicKey BLOB NOT NULL PRIMARY KEY,
+    name TEXT,
+    status TEXT,
+    lastSeen INTEGER NOT NULL,
+    isIgnored INTEGER NOT NULL DEFAULT 0,
+    isVerified INTEGER NOT NULL DEFAULT 0,
+    role INTEGER NOT NULL DEFAULT 2
+);
+
+CREATE TABLE channel (
+    name TEXT NOT NULL PRIMARY KEY,
+    topic TEXT,
+    isJoined INTEGER NOT NULL DEFAULT 0
+);
+
 CREATE TABLE message (
     hash BLOB NOT NULL PRIMARY KEY,
     publicKey BLOB NOT NULL,
     channel TEXT NOT NULL,
     timestamp INTEGER NOT NULL,
     text TEXT NOT NULL,
-    rawPost BLOB NOT NULL, -- The original signed post bytes
-    status INTEGER NOT NULL DEFAULT 0 -- 0: Sending, 1: Sent to network, 2: Confirmed
+    rawPost BLOB NOT NULL,
+    status INTEGER NOT NULL DEFAULT 0,
+    parentHash BLOB,
+    isEdited INTEGER NOT NULL DEFAULT 0,
+    isDeleted INTEGER NOT NULL DEFAULT 0,
+    ttl INTEGER
+);
+
+CREATE TABLE link_preview (
+    url TEXT NOT NULL PRIMARY KEY,
+    title TEXT,
+    description TEXT,
+    image BLOB,
+    timestamp INTEGER NOT NULL
 );
 
 CREATE INDEX message_channel_timestamp ON message(channel, timestamp);
@@ -22,16 +50,26 @@ VALUES (?, ?);
 getAllCabals:
 SELECT * FROM cabal;
 
+-- Message Queries
 insertMessage:
-INSERT OR IGNORE INTO message(hash, publicKey, channel, timestamp, text, rawPost, status)
-VALUES (?, ?, ?, ?, ?, ?, ?);
+INSERT OR IGNORE INTO message(hash, publicKey, channel, timestamp, text, rawPost, status, parentHash, isEdited, isDeleted, ttl)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
 
 updateMessageStatus:
 UPDATE message SET status = ? WHERE hash = ?;
 
+updateMessageContent:
+UPDATE message SET text = ?, isEdited = 1 WHERE hash = ?;
+
+markMessageDeleted:
+UPDATE message SET text = "[DELETED]", isDeleted = 1 WHERE hash = ?;
+
+deleteExpiredMessages:
+DELETE FROM message WHERE ttl > 0 AND ttl <= ?;
+
 getMessagesByChannel:
 SELECT * FROM message
-WHERE channel = ?
+WHERE channel = ? AND isDeleted = 0
 ORDER BY timestamp ASC;
 
 getMessagesByHashes:
@@ -43,3 +81,45 @@ SELECT * FROM message
 WHERE channel = :channel AND timestamp >= :timeStart AND (timestamp <= :timeEnd OR :timeEnd = 0)
 ORDER BY timestamp ASC
 LIMIT :limit;
+
+-- Peer Queries
+insertOrUpdatePeer:
+INSERT OR REPLACE INTO peer(publicKey, name, status, lastSeen, isIgnored, isVerified, role)
+VALUES (?, ?, ?, ?, ?, ?, ?);
+
+getPeer:
+SELECT * FROM peer WHERE publicKey = ?;
+
+getAllPeers:
+SELECT * FROM peer ORDER BY lastSeen DESC;
+
+updatePeerIgnore:
+UPDATE peer SET isIgnored = ? WHERE publicKey = ?;
+
+updatePeerVerification:
+UPDATE peer SET isVerified = ? WHERE publicKey = ?;
+
+-- Channel Queries
+insertChannel:
+INSERT OR IGNORE INTO channel(name, topic, isJoined)
+VALUES (?, ?, ?);
+
+updateChannelTopic:
+UPDATE channel SET topic = ? WHERE name = ?;
+
+updateChannelJoinStatus:
+UPDATE channel SET isJoined = ? WHERE name = ?;
+
+getAllChannels:
+SELECT * FROM channel ORDER BY name ASC;
+
+getJoinedChannels:
+SELECT * FROM channel WHERE isJoined = 1;
+
+-- Link Preview Queries
+insertLinkPreview:
+INSERT OR REPLACE INTO link_preview(url, title, description, image, timestamp)
+VALUES (?, ?, ?, ?, ?);
+
+getLinkPreview:
+SELECT * FROM link_preview WHERE url = ?;

@@ -68,6 +68,8 @@ dependencies {
     implementation(project(":cable-protocol"))
     implementation(project(":cable-network"))
     implementation(libs.sqldelight.android.driver)
+    implementation(libs.ktor.client.core)
+    implementation(libs.ktor.client.cio)
 
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.core.ktx)
@@ -94,6 +96,8 @@ dependencies {
     implementation(libs.koin.android)
     implementation(libs.koin.androidx.compose)
     implementation(libs.androidx.security)
+    implementation(libs.androidx.biometric)
+    implementation(libs.androidx.work)
     implementation(libs.zipline.android)
     implementation(libs.kotlinx.serialization.json)
 

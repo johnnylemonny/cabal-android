@@ -2,9 +2,10 @@ package chat.cabal.mobile.core
 
 import android.app.*
 import android.content.Intent
+import android.content.pm.ServiceInfo
+import android.os.Build
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
-import chat.cabal.mobile.R
 
 class CabalSyncService : Service() {
     private val CHANNEL_ID = "CabalSyncChannel"
@@ -23,10 +24,13 @@ class CabalSyncService : Service() {
             .setOngoing(true)
             .build()
 
-        startForeground(1, notification)
-        
-        // Adaptive energy saving: in a real app, use PowerManager to check idle state
-        // For now, simple log and potentially decrease poll rates in future
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+            startForeground(1, notification, ServiceInfo.FOREGROUND_SERVICE_TYPE_DATA_SYNC)
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            startForeground(1, notification, ServiceInfo.FOREGROUND_SERVICE_TYPE_DATA_SYNC)
+        } else {
+            startForeground(1, notification)
+        }
         
         return START_STICKY
     }
@@ -34,11 +38,13 @@ class CabalSyncService : Service() {
     override fun onBind(intent: Intent?): IBinder? = null
 
     private fun createNotificationChannel() {
-        val serviceChannel = NotificationChannel(
-            CHANNEL_ID, "Cabal Sync Service Channel",
-            NotificationManager.IMPORTANCE_LOW
-        )
-        val manager = getSystemService(NotificationManager::class.java)
-        manager.createNotificationChannel(serviceChannel)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val serviceChannel = NotificationChannel(
+                CHANNEL_ID, "Cabal Sync Service Channel",
+                NotificationManager.IMPORTANCE_LOW
+            )
+            val manager = getSystemService(NotificationManager::class.java)
+            manager.createNotificationChannel(serviceChannel)
+        }
     }
 }

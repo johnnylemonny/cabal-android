@@ -5,7 +5,7 @@ import java.security.PrivateKey
 class CableCore(
     val publicKey: ByteArray,
     private val privateKey: PrivateKey,
-    private val cabalSecret: ByteArray // 32-byte key for the group
+    private val cabalSecret: ByteArray, // 32-byte key for the group
 ) {
     fun createTextPost(channel: String, text: String, links: List<ByteArray> = emptyList()): TextPost {
         // E2EE: Encrypt text before sending
@@ -42,6 +42,41 @@ class CableCore(
         } catch (_: Exception) {
             "[Decryption Error]"
         }
+    }
+
+    fun createInfoPost(info: Map<String, String>): InfoPost {
+        val post = InfoPost(
+            publicKey = publicKey,
+            links = emptyList(),
+            timestamp = System.currentTimeMillis() / 1000,
+            info = info
+        )
+        post.signature = Crypto.sign(post.serializePayload(), privateKey)
+        return post
+    }
+
+    @Suppress("unused")
+    fun createDeletePost(hashes: List<ByteArray>): DeletePost {
+        val post = DeletePost(
+            publicKey = publicKey,
+            links = hashes,
+            timestamp = System.currentTimeMillis() / 1000
+        )
+        post.signature = Crypto.sign(post.serializePayload(), privateKey)
+        return post
+    }
+
+    @Suppress("unused")
+    fun createTopicPost(channel: String, topic: String): TopicPost {
+        val post = TopicPost(
+            publicKey = publicKey,
+            links = emptyList(),
+            channel = channel,
+            timestamp = System.currentTimeMillis() / 1000,
+            topic = topic
+        )
+        post.signature = Crypto.sign(post.serializePayload(), privateKey)
+        return post
     }
 }
 

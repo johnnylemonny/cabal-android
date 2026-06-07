@@ -9,6 +9,7 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import kotlin.time.Duration.Companion.seconds
 import java.util.concurrent.ConcurrentHashMap
 import java.net.NetworkInterface
 
@@ -32,21 +33,43 @@ class TcpTransport(
     private val _messages = MutableSharedFlow<Pair<String, ByteArray>>(replay = 10)
     val messages = _messages.asSharedFlow()
 
+    private val knownRelays = mutableSetOf<String>()
+
     private var myIPs = setOf<String>()
 
     init {
         scope.launch(Dispatchers.IO) {
             myIPs = try {
-                NetworkInterface.getNetworkInterfaces().asSequence()
-                    .flatMap { it.inetAddresses.asSequence() }
-                    .map { it.hostAddress?.removePrefix("/") ?: "" }
-                    .filter { it.isNotEmpty() }
-                    .toSet()
+                withContext(Dispatchers.IO) {
+                    NetworkInterface.getNetworkInterfaces().asSequence()
+                        .flatMap { it.inetAddresses.asSequence() }
+                        .map { it.hostAddress?.removePrefix("/") ?: "" }
+                        .filter { it.isNotEmpty() }
+                        .toSet()
+                }
             } catch (_: Exception) {
                 emptySet()
             }
             Log.d("TcpTransport", "Local IPs: $myIPs")
         }
+        
+        // Background job to keep relay connections alive
+        scope.launch(Dispatchers.IO) {
+            while (isActive) {
+                knownRelays.forEach { address ->
+                    if (!activeConnections.containsKey(address)) {
+                        Log.d("TcpTransport", "Attempting to reconnect to relay: $address")
+                        connectToPeer(address, port)
+                    }
+                }
+                delay(30.seconds) // Every 30 seconds
+            }
+        }
+    }
+
+    fun addRelay(address: String) {
+        knownRelays.add(address)
+        scope.launch(Dispatchers.IO) { connectToPeer(address, port) }
     }
 
     fun start() {
@@ -121,7 +144,7 @@ class TcpTransport(
 
     private suspend fun tryConnect(address: String, port: Int, remoteId: String): Boolean = withContext(Dispatchers.IO) {
         return@withContext try {
-            withTimeout(3000) {
+            withTimeout(3.seconds) {
                 val socket = aSocket(selectorManager).tcp().connect(address, port)
                 if (activeConnections.containsKey(remoteId)) {
                     socket.close()
