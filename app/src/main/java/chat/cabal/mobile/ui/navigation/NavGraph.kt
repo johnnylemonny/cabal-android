@@ -7,9 +7,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import chat.cabal.mobile.core.IdentityBackupManager
+import chat.cabal.mobile.core.KeyStoreManager
+import chat.cabal.mobile.core.toHex
 import chat.cabal.mobile.ui.screens.*
 import chat.cabal.mobile.ui.theme.CabalPeerTeal
 import chat.cabal.mobile.ui.theme.CabalSurfaceDark
@@ -21,16 +25,20 @@ fun CabalNavGraph(
     navController: NavHostController,
     chatViewModel: ChatViewModel,
     transport: TcpTransport,
+    keyStoreManager: KeyStoreManager,
     myPublicKeyHex: String,
+    startDestination: String = "welcome",
+    onWelcomeCompleted: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     NavHost(
         navController = navController,
-        startDestination = "welcome",
+        startDestination = startDestination,
         modifier = modifier
     ) {
         composable("welcome") {
             WelcomeScreen(onEnter = {
+                onWelcomeCompleted()
                 navController.navigate("chat") {
                     popUpTo("welcome") { inclusive = true }
                 }
@@ -44,8 +52,15 @@ fun CabalNavGraph(
             )
         }
         composable("profile") {
+            val peers by chatViewModel.peers.collectAsState()
+            val currentPeer = remember(peers, myPublicKeyHex) {
+                peers.find { it.publicKey.toHex() == myPublicKeyHex }
+            }
+
             ProfileScreen(
                 myPublicKeyHex = myPublicKeyHex,
+                initialName = currentPeer?.name ?: "",
+                initialStatus = currentPeer?.status ?: "",
                 onSave = { name, status ->
                     chatViewModel.updateProfile(name, status)
                     navController.popBackStack()
@@ -54,8 +69,13 @@ fun CabalNavGraph(
         }
         composable("settings") {
             var showMnemonic by remember { mutableStateOf(false) }
-            val mnemonic = remember { 
-                listOf("abandon", "ability", "able", "about", "above", "absent", "absorb", "abstract", "absurd", "abuse", "access", "accident")
+            val mnemonic = remember {
+                val privBytes = keyStoreManager.getPrivateKeyBytes()
+                if (privBytes != null) {
+                    IdentityBackupManager.getMnemonicForPrivateKey(privBytes)
+                } else {
+                    emptyList()
+                }
             }
 
             SettingsScreen(
@@ -73,9 +93,25 @@ fun CabalNavGraph(
                     title = { Text("YOUR RECOVERY PHRASE") },
                     text = {
                         Column {
-                            Text("Write down these 12 words and keep them safe. Anyone with this phrase can access your account.", style = MaterialTheme.typography.bodySmall)
+                            Text(
+                                "Write down these 12 words and keep them safe. Anyone with this phrase can access your account.",
+                                style = MaterialTheme.typography.bodySmall
+                            )
                             Spacer(Modifier.height(16.dp))
-                            Text(mnemonic.joinToString(" "), fontWeight = FontWeight.Bold, color = CabalPeerTeal)
+                            if (mnemonic.isNotEmpty()) {
+                                Text(
+                                    mnemonic.joinToString(" "),
+                                    fontWeight = FontWeight.Bold,
+                                    color = CabalPeerTeal,
+                                    lineHeight = 22.sp
+                                )
+                            } else {
+                                Text(
+                                    "Unable to export seed phrase for hardware-backed key.",
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = MaterialTheme.colorScheme.error
+                                )
+                            }
                         }
                     },
                     confirmButton = {
@@ -94,3 +130,4 @@ fun CabalNavGraph(
         }
     }
 }
+

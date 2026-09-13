@@ -2,7 +2,6 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.sqldelight)
-    alias(libs.plugins.kotlinx.serialization)
 }
 
 sqldelight {
@@ -68,40 +67,30 @@ dependencies {
     implementation(project(":cable-protocol"))
     implementation(project(":cable-network"))
     implementation(libs.sqldelight.android.driver)
-    implementation(libs.ktor.client.core)
-    implementation(libs.ktor.client.cio)
 
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.core.splashscreen)
     implementation(libs.androidx.lifecycle.runtime.ktx)
-    
-    implementation(libs.androidx.lifecycle.viewmodel.compose) {
-        exclude(group = "androidx.activity", module = "activity")
-    }
-    implementation(libs.androidx.activity.compose) {
-        exclude(group = "androidx.activity", module = "activity")
-    }
-    implementation(libs.androidx.navigation.compose) {
-        exclude(group = "androidx.activity", module = "activity")
-    }
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.navigation.compose)
 
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.material.icons.extended)
-    implementation(libs.androidx.ui.text.google.fonts)
     implementation(libs.sqldelight.coroutines.extensions)
     implementation(libs.koin.android)
     implementation(libs.koin.androidx.compose)
     implementation(libs.androidx.security)
     implementation(libs.androidx.biometric)
     implementation(libs.androidx.work)
-    implementation(libs.zipline.android)
-    implementation(libs.kotlinx.serialization.json)
 
     testImplementation(libs.junit)
+    testImplementation(libs.mockk)
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.10.1")
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))

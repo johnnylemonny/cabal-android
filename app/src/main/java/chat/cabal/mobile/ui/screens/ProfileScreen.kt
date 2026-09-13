@@ -25,32 +25,23 @@ import chat.cabal.mobile.ui.theme.CabalDeepBlack
 import chat.cabal.mobile.ui.theme.CabalPeerTeal
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileScreen(
     myPublicKeyHex: String,
     onSave: (String, String) -> Unit,
+    initialName: String = "",
+    initialStatus: String = "",
     modifier: Modifier = Modifier,
 ) {
-    var name by remember { mutableStateOf("") }
-    var status by remember { mutableStateOf("") }
+    var name by remember(initialName) { mutableStateOf(initialName) }
+    var status by remember(initialStatus) { mutableStateOf(initialStatus) }
     val clipboard = LocalClipboard.current
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
 
-    Scaffold(
-        snackbarHost = { SnackbarHost(snackbarHostState) },
-        containerColor = CabalDeepBlack,
-        topBar = {
-            CenterAlignedTopAppBar(
-                title = { Text("MY IDENTITY", fontWeight = FontWeight.Black, letterSpacing = 2.sp) },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent)
-            )
-        }
-    ) { padding ->
+    Box(modifier = modifier.fillMaxSize()) {
         Column(
-            modifier = modifier
-                .padding(padding)
+            modifier = Modifier
                 .fillMaxSize()
                 .padding(24.dp),
             horizontalAlignment = Alignment.CenterHorizontally
@@ -77,6 +68,8 @@ fun ProfileScreen(
                 color = CabalCipherBlue
             )
             
+            Spacer(Modifier.height(8.dp))
+
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
@@ -146,5 +139,11 @@ fun ProfileScreen(
                 Text("SAVE PROFILE", fontWeight = FontWeight.Bold)
             }
         }
+
+        SnackbarHost(
+            hostState = snackbarHostState,
+            modifier = Modifier.align(Alignment.BottomCenter)
+        )
     }
 }
+

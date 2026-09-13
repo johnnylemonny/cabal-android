@@ -32,6 +32,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import chat.cabal.mobile.ui.viewmodel.ChatViewModel
+import org.koin.androidx.compose.koinViewModel
 import chat.cabal.database.CabalDatabase
 import chat.cabal.mobile.core.toHex
 import chat.cabal.mobile.core.*
@@ -57,6 +60,7 @@ class MainActivity : FragmentActivity() {
     private val cableCore: CableCore by inject()
     private val transport: TcpTransport by inject()
     private val syncEngine: SyncEngine by inject()
+    private val keyStoreManager: KeyStoreManager by inject()
     private val mainViewModel: MainViewModel by viewModel()
     private val scope: CoroutineScope by inject()
     private var discovery: PeerDiscovery? = null
@@ -98,7 +102,7 @@ class MainActivity : FragmentActivity() {
         setContent {
             CabalTheme {
                 if (isUnlocked) {
-                    MainApp(database, cableCore, transport, syncEngine, myPublicKeyHex, mainViewModel)
+                    MainApp(database, cableCore, transport, syncEngine, keyStoreManager, myPublicKeyHex, mainViewModel)
                 } else {
                     Box(modifier = Modifier.fillMaxSize().background(CabalDeepBlack), contentAlignment = Alignment.Center) {
                         Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -212,15 +216,18 @@ fun MainApp(
     cableCore: CableCore,
     transport: TcpTransport,
     syncEngine: SyncEngine,
+    keyStoreManager: KeyStoreManager,
     myPublicKeyHex: String,
     mainViewModel: MainViewModel,
 ) {
-    val chatViewModel: chat.cabal.mobile.ui.viewmodel.ChatViewModel = androidx.lifecycle.viewmodel.compose.viewModel(
-        factory = chat.cabal.mobile.ui.viewmodel.ChatViewModelFactory(database, cableCore, syncEngine)
-    )
+    val chatViewModel: ChatViewModel = koinViewModel()
     val localNavController = rememberNavController()
     val localDrawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val localComposableScope = rememberCoroutineScope()
+    val context = androidx.compose.ui.platform.LocalContext.current
+    val uiPrefs = remember { context.getSharedPreferences("cabal_ui_prefs", android.content.Context.MODE_PRIVATE) }
+    val hasSeenWelcome = remember { uiPrefs.getBoolean("has_seen_welcome", false) }
+    val startDestination = remember { if (hasSeenWelcome) "chat" else "welcome" }
     
     val cabals by mainViewModel.cabals.collectAsState()
     val peerCount by transport.connectionCount.collectAsState()
@@ -479,6 +486,7 @@ fun MainApp(
         Scaffold(
             topBar = {
                 if (currentRoute != "welcome") {
+                    val isSubScreen = currentRoute in listOf("settings", "profile", "about")
                     TopAppBar(
                         colors = TopAppBarDefaults.topAppBarColors(
                             containerColor = Color.Transparent,
@@ -487,12 +495,15 @@ fun MainApp(
                             actionIconContentColor = MaterialTheme.colorScheme.onBackground
                         ),
                         title = { 
-                            val titleText = if (currentRoute == "settings") "SETTINGS" else {
-                                cabals.find { it.key == selectedCabalKey.value }?.name?.uppercase() ?: "GENERAL"
+                            val titleText = when (currentRoute) {
+                                "settings" -> "SETTINGS"
+                                "profile" -> "MY IDENTITY"
+                                "about" -> "ABOUT CABAL"
+                                else -> cabals.find { it.key == selectedCabalKey.value }?.name?.uppercase() ?: "GENERAL"
                             }
                             Column {
                                 Row(verticalAlignment = Alignment.CenterVertically) {
-                                    if (currentRoute != "settings") {
+                                    if (!isSubScreen) {
                                         Icon(
                                             painter = painterResource(id = R.drawable.ic_cabal_mark_v2a_foreground),
                                             contentDescription = null,
@@ -508,7 +519,7 @@ fun MainApp(
                                         letterSpacing = 1.5.sp
                                     )
                                 }
-                                if (currentRoute != "settings") {
+                                if (!isSubScreen) {
                                     Row(
                                         verticalAlignment = Alignment.CenterVertically,
                                         modifier = Modifier.padding(top = 2.dp)
@@ -532,32 +543,42 @@ fun MainApp(
                             }
                         },
                         navigationIcon = {
-                            IconButton(onClick = {
-                                localComposableScope.launch { localDrawerState.open() }
-                            }) {
-                                Icon(Icons.Default.Menu, contentDescription = "Menu")
+                            if (isSubScreen) {
+                                IconButton(onClick = {
+                                    localNavController.popBackStack()
+                                }) {
+                                    Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                                }
+                            } else {
+                                IconButton(onClick = {
+                                    localComposableScope.launch { localDrawerState.open() }
+                                }) {
+                                    Icon(Icons.Default.Menu, contentDescription = "Menu")
+                                }
                             }
                         },
                         actions = {
-                            IconButton(onClick = {
-                                showLinkDialog.value = true
-                            }) {
-                                Icon(Icons.Default.Link, contentDescription = "Manual Link")
-                            }
+                            if (!isSubScreen) {
+                                IconButton(onClick = {
+                                    showLinkDialog.value = true
+                                }) {
+                                    Icon(Icons.Default.Link, contentDescription = "Manual Link")
+                                }
 
-                            if (peerCount > 0) {
-                                Icon(
-                                    Icons.Default.CloudDone, 
-                                    contentDescription = "Connected",
-                                    tint = MaterialTheme.colorScheme.primary,
-                                    modifier = Modifier.padding(end = 16.dp)
-                                )
-                            } else {
-                                CircularProgressIndicator(
-                                    modifier = Modifier.size(20.dp).padding(end = 16.dp),
-                                    strokeWidth = 2.dp,
-                                    color = MaterialTheme.colorScheme.secondary
-                                )
+                                if (peerCount > 0) {
+                                    Icon(
+                                        Icons.Default.CloudDone, 
+                                        contentDescription = "Connected",
+                                        tint = MaterialTheme.colorScheme.primary,
+                                        modifier = Modifier.padding(end = 16.dp)
+                                    )
+                                } else {
+                                    CircularProgressIndicator(
+                                        modifier = Modifier.size(20.dp).padding(end = 16.dp),
+                                        strokeWidth = 2.dp,
+                                        color = MaterialTheme.colorScheme.secondary
+                                    )
+                                }
                             }
                         }
                     )
@@ -570,7 +591,12 @@ fun MainApp(
                 navController = localNavController,
                 chatViewModel = chatViewModel,
                 transport = transport,
+                keyStoreManager = keyStoreManager,
                 myPublicKeyHex = myPublicKeyHex,
+                startDestination = startDestination,
+                onWelcomeCompleted = {
+                    uiPrefs.edit().putBoolean("has_seen_welcome", true).apply()
+                },
                 modifier = Modifier.padding(innerPadding)
             )
         }
