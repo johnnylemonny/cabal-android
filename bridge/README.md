@@ -112,3 +112,11 @@ npm test
 | `CABLE_TCP_PORT` | `13330` | TCP port for Cable protocol connections |
 | `CABLE_UDP_PORT` | `13334` | UDP port for discovery announcements |
 | `STORAGE_PATH` | System temp dir | Local storage directory for Hypercore data |
+
+---
+
+## 📄 License
+
+Copyright (C) 2026 johnnylemonny
+
+Licensed under the **GNU Affero General Public License v3 (AGPL-3.0)**. See the root [LICENSE](../LICENSE) file for the complete license terms.

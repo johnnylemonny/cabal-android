@@ -1,0 +1,47 @@
+name: "Lint Code Base"
+
+on:
+  push:
+    paths-ignore:
+      - '**/*.png'
+      - '**/*.svg'
+      - 'cabal_brand_pack/**'
+  pull_request:
+    branches: [ "**" ]
+    paths-ignore:
+      - '**/*.png'
+      - '**/*.svg'
+      - 'cabal_brand_pack/**'
+
+permissions:
+  contents: read
+  packages: read
+  statuses: write
+
+jobs:
+  lint:
+    name: Super-Linter
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          # Full git history is required for super-linter to check diffs accurately
+          fetch-depth: 0
+
+      - name: Run Super-Linter
+        uses: super-linter/super-linter/slim@v7
+        env:
+          VALIDATE_ALL_CODEBASE: false
+          DEFAULT_BRANCH: master
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Target language linters
+          VALIDATE_KOTLIN: true
+          VALIDATE_JAVASCRIPT_STANDARD: true
+          VALIDATE_JSON: true
+          VALIDATE_YAML: true
+          VALIDATE_MARKDOWN: true
+          VALIDATE_BASH: true
+          # Exclude build artifacts, package managers, and binary brand packs
+          FILTER_REGEX_EXCLUDE: '.*(node_modules|build|\.gradle|\.idea|cabal_brand_pack).*'
+          LOG_LEVEL: NOTICE
