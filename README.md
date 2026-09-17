@@ -28,7 +28,7 @@
 - [Getting Started](#getting-started)
 - [P2P Testing & Relays](#p2p-testing--relays)
 - [Quality & Verification](#quality--verification)
-- [License](#license)
+- [License & Strict Copyleft Terms](#license--strict-copyleft-terms)
 
 ---
 
@@ -102,7 +102,7 @@ Cabal operates as a multi-writer, append-only graph synchronized using the **Cab
 
 ## Project Modules
 
-```
+```text
 ├── app/               # Android application layer (UI, Compose Screens, ViewModels, DI, Workers)
 ├── cable-protocol/    # Pure Kotlin Cable Protocol (draft-8) binary serialization & crypto
 └── cable-network/     # P2P TCP socket transport & composite peer discovery (NSD + UDP)

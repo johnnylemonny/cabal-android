@@ -6,7 +6,7 @@ A lightweight, zero-configuration local bridge connecting the **Cabal v1 / Hyper
 
 ## 🌟 How It Works
 
-```
+```text
 ┌─────────────────────────────────────────────────────────────┐
 │                    cabal.chat (Web / P2P)                   │
 │             BitTorrent DHT / Hyperswarm + Hypercore         │
@@ -62,7 +62,7 @@ npm start
 ```
 
 You should see output similar to:
-```
+```text
 ====================================================
         CABAL <-> CABLE PROTOCOL BRIDGE            
 ====================================================
