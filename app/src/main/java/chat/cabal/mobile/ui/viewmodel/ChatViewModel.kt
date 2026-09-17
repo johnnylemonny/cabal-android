@@ -23,7 +23,8 @@ class ChatViewModel(
     private val cableCore: chat.cabal.protocol.CableCore,
     private val syncEngine: chat.cabal.mobile.core.SyncEngine
 ) : ViewModel() {
-    private val _currentChannel = MutableStateFlow("general")
+    private val _currentChannel = MutableStateFlow("default")
+    val currentChannel: StateFlow<String> = _currentChannel
 
     private val _replyTo = mutableStateOf<Message?>(null)
     val replyTo: State<Message?> = _replyTo

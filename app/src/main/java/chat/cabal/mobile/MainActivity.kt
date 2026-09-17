@@ -495,11 +495,12 @@ fun MainApp(
                             actionIconContentColor = MaterialTheme.colorScheme.onBackground
                         ),
                         title = { 
+                            val activeChannel by chatViewModel.currentChannel.collectAsState()
                             val titleText = when (currentRoute) {
                                 "settings" -> "SETTINGS"
                                 "profile" -> "MY IDENTITY"
                                 "about" -> "ABOUT CABAL"
-                                else -> cabals.find { it.key == selectedCabalKey.value }?.name?.uppercase() ?: "GENERAL"
+                                else -> cabals.find { it.key == selectedCabalKey.value }?.name?.uppercase() ?: activeChannel.uppercase()
                             }
                             Column {
                                 Row(verticalAlignment = Alignment.CenterVertically) {

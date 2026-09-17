@@ -77,3 +77,8 @@ google-services.json
 auth-secrets.properties
 seed_phrase.txt
 key.properties
+
+# Node.js
+node_modules/
+**/node_modules/
+bridge/cabal-storage/

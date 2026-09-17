@@ -1,0 +1,31 @@
+{
+  "name": "cabal-chat-bridge",
+  "version": "1.0.0",
+  "description": "Bi-directional bridge between cabal.chat (Cabal v1 / Hyperswarm) and Cable Protocol (Android)",
+  "main": "src/index.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "node --test test/*.test.js"
+  },
+  "keywords": [
+    "cabal",
+    "cable",
+    "hyperswarm",
+    "p2p",
+    "chat-bridge",
+    "android"
+  ],
+  "author": "johnnylemonny",
+  "license": "MIT",
+  "dependencies": {
+    "@noble/hashes": "^1.7.1",
+    "b4a": "^1.6.7",
+    "cabal-core": "^7.1.0",
+    "hyperswarm": "^4.10.1",
+    "varint": "^6.0.0"
+  },
+  "devDependencies": {
+    "@noble/ed25519": "^2.2.3"
+  }
+}

@@ -38,7 +38,8 @@ class SyncEngine(
             Log.i("SyncEngine", "Peer connected: $remoteId. Requesting history for ${allChannels.size} channels.")
             
             if (allChannels.isEmpty()) {
-                // If no channels known, at least request 'general' with UNJOINED policy
+                // If no channels known, request history for 'default' (cabal.chat) and 'general'
+                requestHistory(remoteId, "default", ReplicationPolicy.JOINED)
                 requestHistory(remoteId, "general", ReplicationPolicy.UNJOINED)
             } else {
                 allChannels.forEach { channel ->
