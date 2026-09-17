@@ -1,11 +1,12 @@
 package chat.cabal.protocol
 
+import org.bouncycastle.util.encoders.Base64
 import java.security.PrivateKey
 
 class CableCore(
     val publicKey: ByteArray,
     private val privateKey: PrivateKey,
-    private val cabalSecret: ByteArray // 32-byte key for the group
+    private val cabalSecret: ByteArray, // 32-byte key for the group
 ) {
     fun createTextPost(channel: String, text: String, links: List<ByteArray> = emptyList()): TextPost {
         // E2EE: Encrypt text before sending
@@ -17,7 +18,7 @@ class CableCore(
         System.arraycopy(nonce, 0, combined, 0, nonce.size)
         System.arraycopy(encryptedBytes, 0, combined, nonce.size, encryptedBytes.size)
         
-        val encryptedText = "E2E:" + android.util.Base64.encodeToString(combined, android.util.Base64.NO_WRAP)
+        val encryptedText = "E2E:" + Base64.toBase64String(combined)
 
         val post = TextPost(
             publicKey = publicKey,
@@ -34,7 +35,7 @@ class CableCore(
         if (!encryptedText.startsWith("E2E:")) return encryptedText
         
         return try {
-            val combined = android.util.Base64.decode(encryptedText.removePrefix("E2E:"), android.util.Base64.DEFAULT)
+            val combined = Base64.decode(encryptedText.removePrefix("E2E:"))
             val nonce = combined.copyOfRange(0, 12)
             val encryptedBytes = combined.copyOfRange(12, combined.size)
             val decryptedBytes = Crypto.decrypt(cabalSecret, nonce, encryptedBytes)
@@ -42,6 +43,41 @@ class CableCore(
         } catch (_: Exception) {
             "[Decryption Error]"
         }
+    }
+
+    fun createInfoPost(info: Map<String, String>): InfoPost {
+        val post = InfoPost(
+            publicKey = publicKey,
+            links = emptyList(),
+            timestamp = System.currentTimeMillis() / 1000,
+            info = info
+        )
+        post.signature = Crypto.sign(post.serializePayload(), privateKey)
+        return post
+    }
+
+    @Suppress("unused")
+    fun createDeletePost(hashes: List<ByteArray>): DeletePost {
+        val post = DeletePost(
+            publicKey = publicKey,
+            links = hashes,
+            timestamp = System.currentTimeMillis() / 1000
+        )
+        post.signature = Crypto.sign(post.serializePayload(), privateKey)
+        return post
+    }
+
+    @Suppress("unused")
+    fun createTopicPost(channel: String, topic: String): TopicPost {
+        val post = TopicPost(
+            publicKey = publicKey,
+            links = emptyList(),
+            channel = channel,
+            timestamp = System.currentTimeMillis() / 1000,
+            topic = topic
+        )
+        post.signature = Crypto.sign(post.serializePayload(), privateKey)
+        return post
     }
 }
 

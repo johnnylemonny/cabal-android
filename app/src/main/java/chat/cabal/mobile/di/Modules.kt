@@ -19,7 +19,13 @@ import org.koin.dsl.module
 
 val appModule = module {
     single<SqlDriver> {
-        AndroidSqliteDriver(CabalDatabase.Schema, androidContext(), "cabal.db") 
+        val dbName = "cabal_v4_enhanced.db"
+        try {
+            AndroidSqliteDriver(CabalDatabase.Schema, androidContext(), dbName)
+        } catch (_: Exception) {
+            androidContext().deleteDatabase(dbName)
+            AndroidSqliteDriver(CabalDatabase.Schema, androidContext(), dbName)
+        }
     }
     single { CabalDatabase(get()) }
     
@@ -32,7 +38,7 @@ val appModule = module {
         val kp = ksm.getOrCreateKeyPair()
         // Hardware keys might not expose bytes via encoded. Fallback to a zero-filled key for dev/test
         // or a deterministic key derived from something else if needed.
-        val publicKey = kp.public.encoded?.takeLast(32)?.toByteArray() ?: ByteArray(32) { 0 }
+        val publicKey = kp.public.encoded?.takeLast(32)?.toByteArray() ?: ByteArray(32)
         val cabalSecret = Crypto.blake2b("default".toByteArray())
         CableCore(publicKey, kp.private, cabalSecret)
     }

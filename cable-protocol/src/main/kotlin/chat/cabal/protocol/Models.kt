@@ -442,6 +442,41 @@ data class TopicPost(
     }
 }
 
+data class DeletePost(
+    override val publicKey: ByteArray,
+    override var signature: ByteArray? = null,
+    override val links: List<ByteArray>, // Hashes of posts to delete
+    override val timestamp: Long
+) : CablePost() {
+    override fun serializePayload(): ByteArray {
+        val linksCount = links.size.toLong()
+        val size = Varint.size(linksCount) +
+                (links.size * Constants.HASH_SIZE) +
+                Varint.size(Constants.DELETE_POST.toLong()) +
+                Varint.size(timestamp)
+        
+        val buffer = ByteBuffer.allocate(size)
+        buffer.put(Varint.encode(linksCount))
+        links.forEach { buffer.put(it) }
+        buffer.put(Varint.encode(Constants.DELETE_POST.toLong()))
+        buffer.put(Varint.encode(timestamp))
+        
+        return buffer.array()
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is DeletePost) return false
+        return publicKey.contentEquals(other.publicKey) && timestamp == other.timestamp
+    }
+
+    override fun hashCode(): Int {
+        var result = publicKey.contentHashCode()
+        result = 31 * result + timestamp.hashCode()
+        return result
+    }
+}
+
 object CableParser {
     fun parsePost(data: ByteArray): CablePost {
         val buffer = ByteBuffer.wrap(data)
@@ -474,6 +509,9 @@ object CableParser {
                 val text = String(textBytes, StandardCharsets.UTF_8)
                 
                 TextPost(publicKey, signature, links, channel, timestamp, text)
+            }
+            Constants.DELETE_POST -> {
+                DeletePost(publicKey, signature, links, timestamp)
             }
             Constants.INFO_POST -> {
                 val info = mutableMapOf<String, String>()

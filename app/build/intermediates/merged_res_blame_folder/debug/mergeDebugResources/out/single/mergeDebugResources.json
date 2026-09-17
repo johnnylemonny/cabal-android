@@ -24,12 +24,12 @@
         "source": "chat.cabal.mobile.app-main-5:/drawable/ic_cabal_splash_icon.xml"
     },
     {
-        "merged": "chat.cabal.mobile.app-debug-3:/font_inter_extrabold.ttf.flat",
-        "source": "chat.cabal.mobile.app-main-5:/font/inter_extrabold.ttf"
-    },
-    {
         "merged": "chat.cabal.mobile.app-debug-3:/font_inter_bold.ttf.flat",
         "source": "chat.cabal.mobile.app-main-5:/font/inter_bold.ttf"
+    },
+    {
+        "merged": "chat.cabal.mobile.app-debug-3:/font_inter_extrabold.ttf.flat",
+        "source": "chat.cabal.mobile.app-main-5:/font/inter_extrabold.ttf"
     },
     {
         "merged": "chat.cabal.mobile.app-debug-3:/font_inter_medium.ttf.flat",

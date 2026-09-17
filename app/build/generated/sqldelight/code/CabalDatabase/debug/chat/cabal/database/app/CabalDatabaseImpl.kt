@@ -34,14 +34,45 @@ private class CabalDatabaseImpl(
           |)
           """.trimMargin(), 0)
       driver.execute(null, """
+          |CREATE TABLE peer (
+          |    publicKey BLOB NOT NULL PRIMARY KEY,
+          |    name TEXT,
+          |    status TEXT,
+          |    lastSeen INTEGER NOT NULL,
+          |    isIgnored INTEGER NOT NULL DEFAULT 0,
+          |    isVerified INTEGER NOT NULL DEFAULT 0,
+          |    role INTEGER NOT NULL DEFAULT 2
+          |)
+          """.trimMargin(), 0)
+      driver.execute(null, """
+          |CREATE TABLE channel (
+          |    name TEXT NOT NULL PRIMARY KEY,
+          |    topic TEXT,
+          |    isJoined INTEGER NOT NULL DEFAULT 0
+          |)
+          """.trimMargin(), 0)
+      driver.execute(null, """
           |CREATE TABLE message (
           |    hash BLOB NOT NULL PRIMARY KEY,
           |    publicKey BLOB NOT NULL,
           |    channel TEXT NOT NULL,
           |    timestamp INTEGER NOT NULL,
           |    text TEXT NOT NULL,
-          |    rawPost BLOB NOT NULL, -- The original signed post bytes
-          |    status INTEGER NOT NULL DEFAULT 0 -- 0: Sending, 1: Sent to network, 2: Confirmed
+          |    rawPost BLOB NOT NULL,
+          |    status INTEGER NOT NULL DEFAULT 0,
+          |    parentHash BLOB,
+          |    isEdited INTEGER NOT NULL DEFAULT 0,
+          |    isDeleted INTEGER NOT NULL DEFAULT 0,
+          |    ttl INTEGER
+          |)
+          """.trimMargin(), 0)
+      driver.execute(null, """
+          |CREATE TABLE link_preview (
+          |    url TEXT NOT NULL PRIMARY KEY,
+          |    title TEXT,
+          |    description TEXT,
+          |    image BLOB,
+          |    timestamp INTEGER NOT NULL
           |)
           """.trimMargin(), 0)
       driver.execute(null, "CREATE INDEX message_channel_timestamp ON message(channel, timestamp)", 0)

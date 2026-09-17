@@ -1,15 +1,20 @@
 package chat.cabal.mobile.ui.viewmodel
 
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToList
 import chat.cabal.database.CabalDatabase
 import chat.cabal.database.Message
+import chat.cabal.database.Peer
 import chat.cabal.mobile.core.toHex
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
@@ -18,23 +23,46 @@ class ChatViewModel(
     private val cableCore: chat.cabal.protocol.CableCore,
     private val syncEngine: chat.cabal.mobile.core.SyncEngine
 ) : ViewModel() {
-    val messages: StateFlow<List<Message>> = database.cabalQueries
-        .getMessagesByChannel("general")
+    private val _currentChannel = MutableStateFlow("general")
+
+    private val _replyTo = mutableStateOf<Message?>(null)
+    val replyTo: State<Message?> = _replyTo
+
+    @OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)
+    val messages: StateFlow<List<Message>> = _currentChannel
+        .flatMapLatest { channel ->
+            database.cabalQueries
+                .getMessagesByChannel(channel)
+                .asFlow()
+                .mapToList(Dispatchers.IO)
+        }
+        .stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
+
+    val peers: StateFlow<List<Peer>> = database.cabalQueries
+        .getAllPeers()
         .asFlow()
         .mapToList(Dispatchers.IO)
         .stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
+
+    fun setChannel(channel: String) {
+        _currentChannel.value = channel
+    }
+
+    fun setReplyTo(message: Message?) {
+        _replyTo.value = message
+    }
 
     fun sendMessage(text: String) {
         if (text.isBlank()) return
         
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                android.util.Log.d("ChatViewModel", "Creating text post: $text")
-                val post = cableCore.createTextPost("general", text)
+                val channel = _currentChannel.value
+                val links = _replyTo.value?.hash?.let { listOf(it) } ?: emptyList()
+                val post = cableCore.createTextPost(channel, text, links)
                 val rawPost = post.serialize()
                 val hash = post.hash()
                 
-                // Save locally first
                 database.cabalQueries.insertMessage(
                     hash = hash,
                     publicKey = post.publicKey,
@@ -42,18 +70,37 @@ class ChatViewModel(
                     timestamp = post.timestamp,
                     text = text,
                     rawPost = rawPost,
-                    status = 0L // Status: Sending
+                    status = 0L,
+                    parentHash = _replyTo.value?.hash,
+                    isEdited = 0L,
+                    isDeleted = 0L,
+                    ttl = 0L
                 )
                 
-                // Broadcast
                 syncEngine.broadcastPost(post)
-                
-                // Update status to 1 (Sent)
                 database.cabalQueries.updateMessageStatus(1L, hash)
-                android.util.Log.i("ChatViewModel", "Message broadcasted and status updated for ${hash.toHex().take(8)}")
+                _replyTo.value = null
             } catch (e: Exception) {
-                android.util.Log.e("ChatViewModel", "CRITICAL: Failed to send message", e)
+                android.util.Log.e("ChatViewModel", "Failed to send message", e)
             }
+        }
+    }
+
+    fun updateProfile(name: String, status: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val info = mapOf("name" to name, "status" to status)
+            val post = cableCore.createInfoPost(info)
+            syncEngine.broadcastPost(post)
+            
+            database.cabalQueries.insertOrUpdatePeer(
+                publicKey = post.publicKey,
+                name = name,
+                status = status,
+                lastSeen = post.timestamp,
+                isIgnored = 0L,
+                isVerified = 0L,
+                role = 2L
+            )
         }
     }
 }

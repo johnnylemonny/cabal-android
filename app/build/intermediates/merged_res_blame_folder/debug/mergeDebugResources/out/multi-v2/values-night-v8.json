@@ -4,7 +4,7 @@
             "outputFile": "chat.cabal.mobile.app-mergeDebugResources-1:/values-night-v8/values-night-v8.xml",
             "map": [
                 {
-                    "source": "D:\\DEV\\gradle\\caches\\9.5.1\\transforms\\8adc19f0bf87e0f8f10c8dc349d3b7e5\\transformed\\appcompat-1.7.1\\res\\values-night-v8\\values-night-v8.xml",
+                    "source": "D:\\DEV\\gradle\\caches\\9.5.1\\transforms\\e34bea7e9572f4f78d5c8e1657ba7511\\transformed\\appcompat-1.7.1\\res\\values-night-v8\\values-night-v8.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9",
                         "startColumns": "4,4,4,4,4,4,4,4",
@@ -21,7 +21,7 @@
                     }
                 },
                 {
-                    "source": "D:\\DEV\\gradle\\caches\\9.5.1\\transforms\\a8175cdeb1e95f289666de40b4608546\\transformed\\core-splashscreen-1.2.0\\res\\values-night-v8\\values-night-v8.xml",
+                    "source": "D:\\DEV\\gradle\\caches\\9.5.1\\transforms\\bc076b927e3449468600858663a712d6\\transformed\\core-splashscreen-1.2.0\\res\\values-night-v8\\values-night-v8.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",

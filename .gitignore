@@ -68,9 +68,12 @@ label_communities.py
 check_cache.py
 scripts/*.py
 *.xml.flat
+*.artifact.md
 
 # Secrets / Sensitive
 *.jks
 *.keystore
 google-services.json
 auth-secrets.properties
+seed_phrase.txt
+key.properties

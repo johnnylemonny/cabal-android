@@ -12,4 +12,8 @@ public data class Message(
   public val text: String,
   public val rawPost: ByteArray,
   public val status: Long,
+  public val parentHash: ByteArray?,
+  public val isEdited: Long,
+  public val isDeleted: Long,
+  public val ttl: Long?,
 )
