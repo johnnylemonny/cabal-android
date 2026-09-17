@@ -2,7 +2,6 @@ name: "CodeQL Analysis"
 
 on:
   push:
-    branches: [ "master", "feature/*" ]
     paths-ignore:
       - '**/*.md'
       - '**/*.png'
@@ -11,7 +10,7 @@ on:
       - '.gitignore'
       - 'cabal_brand_pack/**'
   pull_request:
-    branches: [ "master" ]
+    branches: [ "**" ]
     paths-ignore:
       - '**/*.md'
       - '**/*.png'

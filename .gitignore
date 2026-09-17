@@ -77,3 +77,20 @@ google-services.json
 auth-secrets.properties
 seed_phrase.txt
 key.properties
+
+# Node.js
+node_modules/
+**/node_modules/
+bridge/cabal-storage/
+
+# Linters & CI Artifacts
+.super-linter/
+super-linter.log
+*.sarif
+.scannerwork/
+.sonar/
+
+# Environment & Local Secrets
+.env
+.env.*
+!.env.example

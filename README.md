@@ -9,6 +9,8 @@
     <img src="https://img.shields.io/badge/Kotlin-2.3.21-purple.svg" alt="Kotlin">
     <img src="https://img.shields.io/badge/UI-Jetpack%20Compose%20(Material%203)-blueviolet.svg" alt="Compose Material 3">
     <img src="https://img.shields.io/badge/Security-AES--256--GCM%20%7C%20Ed25519-brightgreen.svg" alt="Security">
+    <img src="https://img.shields.io/badge/CodeQL-v4%20Sec--Extended-blue.svg" alt="CodeQL v4">
+    <img src="https://img.shields.io/badge/Linter-Super--Linter%20v7-black.svg" alt="Super-Linter v7">
   </p>
 </div>
 
@@ -26,7 +28,7 @@
 - [Getting Started](#getting-started)
 - [P2P Testing & Relays](#p2p-testing--relays)
 - [Quality & Verification](#quality--verification)
-- [License](#license)
+- [License & Strict Copyleft Terms](#license--strict-copyleft-terms)
 
 ---
 
@@ -100,7 +102,7 @@ Cabal operates as a multi-writer, append-only graph synchronized using the **Cab
 
 ## Project Modules
 
-```
+```text
 ├── app/               # Android application layer (UI, Compose Screens, ViewModels, DI, Workers)
 ├── cable-protocol/    # Pure Kotlin Cable Protocol (draft-8) binary serialization & crypto
 └── cable-network/     # P2P TCP socket transport & composite peer discovery (NSD + UDP)
@@ -154,21 +156,38 @@ In the app on `emulator-5556`, tap the **Link** icon in the top app bar and conn
 
 ## Quality & Verification
 
-Run automated test suites and linters:
+Automated quality gates and continuous security testing are enforced on every commit and branch:
 
+### Local Checks
 ```bash
 # Execute unit tests across all modules
 ./gradlew test
 
 # Run Android Lint analysis
 ./gradlew lintDebug
+
+# Run bridge unit tests (Cable protocol encoding & crypto)
+cd bridge && npm test
 ```
+
+### GitHub Actions CI/CD Pipeline
+- **CodeQL Analysis v4 (`codeql.yml`)**: GitHub's state-of-the-art SAST scanner running the `security-extended` rule suite for Kotlin/Java and JavaScript/TypeScript on every push.
+- **Super-Linter v7 (`linter.yml`)**: Multi-language linter validating Kotlin (ktlint), JavaScript (standard), Markdown, JSON, YAML, and Shell scripts across commits and pull requests.
+- **AI Community & Security Moderator (`ai-moderator.yml`)**: Automated security and triage bot protecting issues and PRs against spam, phishing links, prompt injections, and Code of Conduct violations while confirming AGPL-3.0 contributor compliance.
 
 ---
 
-## License
+## License & Strict Copyleft Terms
 
-Copyright (C) 2026 johnnylemonny
+Copyright (C) 2026 **johnnylemonny**
 
-Licensed under the **GNU Affero General Public License v3 (AGPL-3.0)**. See the [LICENSE](LICENSE) file for details.
+Licensed under the **GNU Affero General Public License v3 (AGPL-3.0-only)**.
+
+### Why AGPL-3.0?
+Cabal Android is designed as a public commons for private, decentralized communication. To protect user autonomy and software freedom, AGPL-3.0 enforces **strict copyleft**:
+1. **Source Code Availability**: If you run a modified version of this software, an adapter, relay, or bridge communicating across a network (including P2P swarms), you **must make the complete corresponding source code available** to all interacting users under the same AGPL-3.0 license.
+2. **Anti-Proprietary / Anti-Enclosure**: No proprietary forks, closed-source re-bundling, or commercial lock-in without source disclosure.
+3. **Patent Grant**: Contributors provide an express grant of patent rights protecting downstream users.
+
+See the complete [LICENSE](LICENSE) file for the full legal text.
 

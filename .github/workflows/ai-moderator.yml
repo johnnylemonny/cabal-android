@@ -1,0 +1,183 @@
+name: "AI Community & Security Moderator"
+
+on:
+  issues:
+    types: [opened, edited]
+  pull_request_target:
+    types: [opened, edited]
+  issue_comment:
+    types: [created]
+
+permissions:
+  issues: write
+  pull-requests: write
+  contents: read
+
+jobs:
+  moderate:
+    name: "AI & Rule-Based Moderation"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Run Moderation & Triage Script
+        uses: actions/github-script@v7
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        with:
+          script: |
+            const eventName = context.eventName;
+            let target = null;
+            let isPR = false;
+            let title = '';
+            let body = '';
+            let author = '';
+            let issueNumber = null;
+
+            if (eventName === 'issues') {
+              target = context.payload.issue;
+              title = target.title || '';
+              body = target.body || '';
+              author = target.user ? target.user.login : '';
+              issueNumber = target.number;
+            } else if (eventName === 'pull_request_target' || eventName === 'pull_request') {
+              target = context.payload.pull_request;
+              isPR = true;
+              title = target.title || '';
+              body = target.body || '';
+              author = target.user ? target.user.login : '';
+              issueNumber = target.number;
+            } else if (eventName === 'issue_comment') {
+              target = context.payload.comment;
+              body = target.body || '';
+              author = target.user ? target.user.login : '';
+              issueNumber = context.payload.issue.number;
+            }
+
+            if (!target || !body && !title) {
+              console.log('No content to moderate.');
+              return;
+            }
+
+            // Skip moderation for bots
+            if (author.endsWith('[bot]') || author === 'github-actions') {
+              console.log('Skipping bot content.');
+              return;
+            }
+
+            const fullText = `${title}\n${body}`.toLowerCase();
+
+            // 1. Spam, Phishing and Scam patterns
+            const spamPatterns = [
+              /whatsapp\s*\+?\d{6,}/i,
+              /t\.me\/[a-zA-Z0-9_]+/i,
+              /bit\.ly\/[a-zA-Z0-9_-]+/i,
+              /tinyurl\.com\/[a-zA-Z0-9_-]+/i,
+              /free\s*(crypto|bitcoin|usdt|airdrop|tokens)/i,
+              /casino|poker|viagra|cialis|seo-ranking/i,
+              /dm\s*me\s*on\s*telegram/i
+            ];
+
+            // 2. Prompt Injection patterns targeting AI triage
+            const injectionPatterns = [
+              /ignore\s+(all\s+)?(previous|prior)\s+instructions/i,
+              /system\s*prompt\s*override/i,
+              /you\s+are\s+now\s+in\s+developer\s+mode/i
+            ];
+
+            let violationReason = null;
+            for (const pattern of spamPatterns) {
+              if (pattern.test(fullText)) {
+                violationReason = 'Spam, promotional link, or unsolicited commercial content';
+                break;
+              }
+            }
+
+            if (!violationReason) {
+              for (const pattern of injectionPatterns) {
+                if (pattern.test(fullText)) {
+                  violationReason = 'Suspected prompt injection or automated exploit attempt';
+                  break;
+                }
+              }
+            }
+
+            // Check for empty / low-effort submissions on new issues
+            if (!violationReason && eventName === 'issues' && context.payload.action === 'opened') {
+              if (body.trim().length < 15) {
+                violationReason = 'Incomplete issue description (less than 15 characters)';
+              }
+            }
+
+            // Action on violation
+            if (violationReason) {
+              console.log(`[Moderation] Violation detected: ${violationReason}`);
+              const warningMessage = `⚠️ **Automated Moderation Notice**\n\nThis submission was automatically flagged by the **Cabal AI Moderator** for:\n> **${violationReason}**\n\nPlease ensure contributions adhere to our project guidelines and Code of Conduct. A maintainer will review this item shortly.`;
+              
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issueNumber,
+                body: warningMessage
+              });
+
+              // Add flagged label
+              try {
+                await github.rest.issues.addLabels({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: issueNumber,
+                  labels: ['moderation:flagged']
+                });
+              } catch (err) {
+                console.log('Note: could not add label:', err.message);
+              }
+              return;
+            }
+
+            // Auto-tagging & Triage for clean submissions
+            if ((eventName === 'issues' || eventName === 'pull_request_target') && context.payload.action === 'opened') {
+              const suggestedLabels = [];
+
+              if (fullText.includes('protocol') || fullText.includes('cable') || fullText.includes('varint') || fullText.includes('crypto')) {
+                suggestedLabels.push('area:protocol');
+              }
+              if (fullText.includes('ui') || fullText.includes('compose') || fullText.includes('theme') || fullText.includes('screen') || fullText.includes('glass')) {
+                suggestedLabels.push('area:ui');
+              }
+              if (fullText.includes('bridge') || fullText.includes('cabal.chat') || fullText.includes('hyperswarm')) {
+                suggestedLabels.push('area:bridge');
+              }
+              if (fullText.includes('crash') || fullText.includes('bug') || fullText.includes('error') || fullText.includes('exception')) {
+                suggestedLabels.push('bug');
+              } else if (fullText.includes('feature') || fullText.includes('enhancement') || fullText.includes('request')) {
+                suggestedLabels.push('enhancement');
+              }
+
+              if (suggestedLabels.length > 0) {
+                try {
+                  await github.rest.issues.addLabels({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    issue_number: issueNumber,
+                    labels: suggestedLabels
+                  });
+                  console.log(`[Moderation] Auto-assigned labels: ${suggestedLabels.join(', ')}`);
+                } catch (e) {
+                  console.log('Could not apply labels:', e.message);
+                }
+              }
+
+              // Welcome contributor with AGPL-3.0 copyleft notice
+              if (eventName === 'pull_request_target') {
+                const welcomePrMsg = `👋 **Thank you @${author} for contributing to Cabal Android!**\n\n🛡️ **License & Copyleft Notice**: All contributions to this repository are licensed under the **GNU Affero General Public License v3 (AGPL-3.0)**. By submitting this pull request, you confirm that your changes are compliant with AGPL-3.0 terms and copyleft requirements.\n\nOur automated CI suite (CodeQL v4, Super-Linter) will now verify your changes.`;
+                await github.rest.issues.createComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: issueNumber,
+                  body: welcomePrMsg
+                });
+              }
+            }
