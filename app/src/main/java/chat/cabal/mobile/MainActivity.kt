@@ -281,7 +281,9 @@ fun MainApp(
                         val key = if (newCabalKey.isBlank()) {
                             // Generate a random hex key
                             (1..32).joinToString("") { "%02x".format((0..255).random()) }
-                        } else newCabalKey
+                        } else {
+                            newCabalKey
+                        }
                         mainViewModel.addCabal(key, newCabalName.ifBlank { "Unnamed Cabal" })
                         showAddDialog.value = false
                     },
@@ -358,11 +360,11 @@ fun MainApp(
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
+                        .padding(horizontal = 24.dp, vertical = 24.dp)
                         .clickable {
                             localNavController.navigate("profile")
                             localComposableScope.launch { localDrawerState.close() }
                         }
-                        .padding(horizontal = 24.dp, vertical = 24.dp)
                 ) {
                     PeerAvatar(myPublicKeyHex, modifier = Modifier.size(64.dp))
                     Spacer(Modifier.width(20.dp))
