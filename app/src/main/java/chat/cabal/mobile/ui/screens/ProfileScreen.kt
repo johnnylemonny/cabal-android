@@ -59,15 +59,15 @@ fun ProfileScreen(
                     tint = CabalPeerTeal
                 )
             }
-            
+
             Spacer(Modifier.height(24.dp))
-            
+
             Text(
                 text = "PUBLIC KEY",
                 style = MaterialTheme.typography.labelMedium,
                 color = CabalCipherBlue
             )
-            
+
             Spacer(Modifier.height(8.dp))
 
             Row(
@@ -97,9 +97,9 @@ fun ProfileScreen(
                     Icon(Icons.Default.ContentCopy, contentDescription = "Copy", tint = CabalPeerTeal)
                 }
             }
-            
+
             Spacer(Modifier.height(32.dp))
-            
+
             TextField(
                 value = name,
                 onValueChange = { name = it },
@@ -110,9 +110,9 @@ fun ProfileScreen(
                     unfocusedContainerColor = Color.White.copy(alpha = 0.03f)
                 )
             )
-            
+
             Spacer(Modifier.height(16.dp))
-            
+
             TextField(
                 value = status,
                 onValueChange = { status = it },
@@ -123,9 +123,9 @@ fun ProfileScreen(
                     unfocusedContainerColor = Color.White.copy(alpha = 0.03f)
                 )
             )
-            
+
             Spacer(Modifier.weight(1f))
-            
+
             Button(
                 onClick = { onSave(name, status) },
                 modifier = Modifier

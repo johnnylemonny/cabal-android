@@ -77,14 +77,14 @@ class MainActivity : FragmentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
         super.onCreate(savedInstanceState)
-        
+
         enableEdgeToEdge()
-        
+
         // Start Biometric Auth if supported
         if (biometricAuthManager.canAuthenticate()) {
             biometricAuthManager.authenticate(
                 activity = this,
-                onSuccess = { 
+                onSuccess = {
                     isUnlocked = true
                     initializeSystem()
                 },
@@ -98,8 +98,12 @@ class MainActivity : FragmentActivity() {
             initializeSystem()
         }
 
-        val myPublicKeyHex: String = try { cableCore.publicKey.toHex() } catch (_: Exception) { "unknown" }
-        
+        val myPublicKeyHex: String = try {
+            cableCore.publicKey.toHex()
+        } catch (_: Exception) {
+            "unknown"
+        }
+
         setContent {
             CabalTheme {
                 if (isUnlocked) {
@@ -116,7 +120,7 @@ class MainActivity : FragmentActivity() {
                             Spacer(Modifier.height(32.dp))
                             CircularProgressIndicator(color = CabalPeerTeal)
                             Text(
-                                "CABAL LOCKED", 
+                                "CABAL LOCKED",
                                 style = MaterialTheme.typography.labelLarge,
                                 color = Color.White.copy(alpha = 0.5f),
                                 modifier = Modifier.padding(top = 16.dp)
@@ -138,7 +142,7 @@ class MainActivity : FragmentActivity() {
     private fun retryAuth() {
         biometricAuthManager.authenticate(
             activity = this,
-            onSuccess = { 
+            onSuccess = {
                 isUnlocked = true
                 initializeSystem()
             },
@@ -157,9 +161,9 @@ class MainActivity : FragmentActivity() {
         } catch (e: Exception) {
             Log.e("MainActivity", "Failed to start service: ${e.message}")
         }
-        
+
         transport.start()
-        
+
         // Composite discovery using both NSD (mDNS) and UDP Broadcast
         discovery = CompositeDiscovery(
             listOf(
@@ -173,20 +177,20 @@ class MainActivity : FragmentActivity() {
 
     private fun checkAndRequestPermissions() {
         val permissions = mutableListOf<String>()
-        
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             permissions.add(Manifest.permission.POST_NOTIFICATIONS)
             permissions.add(Manifest.permission.NEARBY_WIFI_DEVICES)
         }
-        
+
         if (Build.VERSION.SDK_INT >= 35) { // Android 15+
             permissions.add("android.permission.ACCESS_LOCAL_NETWORK")
         }
-        
-        val allGranted = permissions.all { 
-            checkSelfPermission(it) == PackageManager.PERMISSION_GRANTED 
+
+        val allGranted = permissions.all {
+            checkSelfPermission(it) == PackageManager.PERMISSION_GRANTED
         }
-        
+
         if (allGranted) {
             startDiscovery()
         } else {
@@ -229,20 +233,20 @@ fun MainApp(
     val uiPrefs = remember { context.getSharedPreferences("cabal_ui_prefs", android.content.Context.MODE_PRIVATE) }
     val hasSeenWelcome = remember { uiPrefs.getBoolean("has_seen_welcome", false) }
     val startDestination = remember { if (hasSeenWelcome) "chat" else "welcome" }
-    
+
     val cabals by mainViewModel.cabals.collectAsState()
     val peerCount by transport.connectionCount.collectAsState()
     val showAddDialog = remember { mutableStateOf(false) }
     val showLinkDialog = remember { mutableStateOf(false) }
     val selectedCabalKey = remember { mutableStateOf<String?>(null) }
-    
+
     val navBackStackEntry by localNavController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
 
     if (showAddDialog.value) {
         var newCabalKey by remember { mutableStateOf("") }
         var newCabalName by remember { mutableStateOf("") }
-        
+
         AlertDialog(
             onDismissRequest = { showAddDialog.value = false },
             title = { Text("CREATE OR JOIN CABAL", fontWeight = FontWeight.Black, letterSpacing = 1.sp) },
@@ -354,7 +358,7 @@ fun MainApp(
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
-                        .clickable { 
+                        .clickable {
                             localNavController.navigate("profile")
                             localComposableScope.launch { localDrawerState.close() }
                         }
@@ -377,12 +381,12 @@ fun MainApp(
                         )
                     }
                 }
-                
+
                 HorizontalDivider(
                     modifier = Modifier.padding(horizontal = 24.dp, vertical = 8.dp),
                     color = Color.White.copy(alpha = 0.05f)
                 )
-                
+
                 Text(
                     "PEER NETWORKS",
                     style = MaterialTheme.typography.labelMedium,
@@ -391,22 +395,22 @@ fun MainApp(
                     letterSpacing = 2.5.sp,
                     modifier = Modifier.padding(horizontal = 28.dp, vertical = 16.dp)
                 )
-                
+
                 cabals.forEach { cabal ->
                     NavigationDrawerItem(
-                        icon = { 
+                        icon = {
                             Icon(
-                                if (selectedCabalKey.value == cabal.key) Icons.Default.CloudDone else Icons.Default.Group, 
+                                if (selectedCabalKey.value == cabal.key) Icons.Default.CloudDone else Icons.Default.Group,
                                 contentDescription = null,
                                 modifier = Modifier.size(24.dp)
-                            ) 
+                            )
                         },
-                        label = { 
+                        label = {
                             Text(
-                                cabal.name.uppercase(), 
+                                cabal.name.uppercase(),
                                 fontWeight = if (selectedCabalKey.value == cabal.key) FontWeight.ExtraBold else FontWeight.Medium,
                                 letterSpacing = 1.sp
-                            ) 
+                            )
                         },
                         selected = (selectedCabalKey.value == cabal.key),
                         onClick = {
@@ -426,13 +430,13 @@ fun MainApp(
                         modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp)
                     )
                 }
-                
+
                 NavigationDrawerItem(
                     icon = { Icon(Icons.Default.Add, contentDescription = null) },
                     label = { Text("NEW CABAL", fontWeight = FontWeight.Bold, letterSpacing = 1.sp) },
                     selected = false,
-                    onClick = { 
-                        showAddDialog.value = true 
+                    onClick = {
+                        showAddDialog.value = true
                     },
                     colors = NavigationDrawerItemDefaults.colors(
                         unselectedIconColor = CabalPeerTeal.copy(alpha = 0.8f),
@@ -442,12 +446,12 @@ fun MainApp(
                 )
 
                 Spacer(Modifier.weight(1f))
-                
+
                 HorizontalDivider(
                     modifier = Modifier.padding(horizontal = 24.dp),
                     color = Color.White.copy(alpha = 0.1f)
                 )
-                
+
                 NavigationDrawerItem(
                     icon = { Icon(Icons.Default.Settings, contentDescription = null) },
                     label = { Text("SETTINGS", fontWeight = FontWeight.Bold, letterSpacing = 1.sp) },
@@ -495,7 +499,7 @@ fun MainApp(
                             navigationIconContentColor = MaterialTheme.colorScheme.onBackground,
                             actionIconContentColor = MaterialTheme.colorScheme.onBackground
                         ),
-                        title = { 
+                        title = {
                             val titleText = when (currentRoute) {
                                 "settings" -> "SETTINGS"
                                 "profile" -> "MY IDENTITY"
@@ -568,7 +572,7 @@ fun MainApp(
 
                                 if (peerCount > 0) {
                                     Icon(
-                                        Icons.Default.CloudDone, 
+                                        Icons.Default.CloudDone,
                                         contentDescription = "Connected",
                                         tint = MaterialTheme.colorScheme.primary,
                                         modifier = Modifier.padding(end = 16.dp)
