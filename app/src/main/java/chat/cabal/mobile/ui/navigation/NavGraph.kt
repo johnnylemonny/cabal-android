@@ -27,9 +27,9 @@ fun CabalNavGraph(
     transport: TcpTransport,
     keyStoreManager: KeyStoreManager,
     myPublicKeyHex: String,
+    modifier: Modifier = Modifier,
     startDestination: String = "welcome",
-    onWelcomeCompleted: () -> Unit = {},
-    modifier: Modifier = Modifier
+    onWelcomeCompleted: () -> Unit = {}
 ) {
     NavHost(
         navController = navController,

@@ -1,20 +1,21 @@
 [versions]
-agp = "9.4.0"
+agp = "9.5.1"
 kotlin = "2.3.21"
 lifecycleRuntimeKtx = "2.11.0"
-navigationCompose = "2.10.1"
+navigationCompose = "2.10.2"
 activityCompose = "1.13.0"
 composeBom = "2026.09.00"
-koin = "4.2.1"
-ktor = "3.5.0"
-sqldelight = "2.3.2"
+koin = "4.2.2"
+ktor = "3.6.1"
+sqldelight = "2.4.1"
 biometric = "1.4.0-alpha02"
-work = "2.11.2"
+work = "2.12.0"
 securityCrypto = "1.1.0"
-mockk = "1.14.9"
+mockk = "1.14.12"
+kotlinxCoroutines = "1.11.0"
 
 [libraries]
-androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version = "1.19.0" }
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version = "1.19.1" }
 androidx-core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version = "1.2.0" }
 junit = { group = "junit", name = "junit", version = "4.13.2" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version = "1.3.0" }
@@ -31,18 +32,19 @@ androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-toolin
 androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
-androidx-material-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended", version = "1.7.8" }
+androidx-material-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended" }
 koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koin" }
 koin-androidx-compose = { group = "io.insert-koin", name = "koin-androidx-compose", version.ref = "koin" }
 ktor-network = { group = "io.ktor", name = "ktor-network", version.ref = "ktor" }
 ktor-utils = { group = "io.ktor", name = "ktor-utils", version.ref = "ktor" }
 sqldelight-android-driver = { group = "app.cash.sqldelight", name = "android-driver", version.ref = "sqldelight" }
 sqldelight-coroutines-extensions = { group = "app.cash.sqldelight", name = "coroutines-extensions", version.ref = "sqldelight" }
-bouncycastle-bcprov = { group = "org.bouncycastle", name = "bcprov-jdk18on", version = "1.84" }
+bouncycastle-bcprov = { group = "org.bouncycastle", name = "bcprov-jdk18on", version = "1.87" }
 androidx-security = { group = "androidx.security", name = "security-crypto", version.ref = "securityCrypto" }
 androidx-biometric = { group = "androidx.biometric", name = "biometric-ktx", version.ref = "biometric" }
 androidx-work = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "work" }
 mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
+kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinxCoroutines" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

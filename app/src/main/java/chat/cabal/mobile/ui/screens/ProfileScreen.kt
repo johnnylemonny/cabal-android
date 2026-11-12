@@ -29,9 +29,9 @@ import kotlinx.coroutines.launch
 fun ProfileScreen(
     myPublicKeyHex: String,
     onSave: (String, String) -> Unit,
+    modifier: Modifier = Modifier,
     initialName: String = "",
     initialStatus: String = "",
-    modifier: Modifier = Modifier,
 ) {
     var name by remember(initialName) { mutableStateOf(initialName) }
     var status by remember(initialStatus) { mutableStateOf(initialStatus) }

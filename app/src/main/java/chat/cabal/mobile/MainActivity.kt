@@ -6,6 +6,7 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import androidx.core.content.edit
 import androidx.fragment.app.FragmentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -595,7 +596,7 @@ fun MainApp(
                 myPublicKeyHex = myPublicKeyHex,
                 startDestination = startDestination,
                 onWelcomeCompleted = {
-                    uiPrefs.edit().putBoolean("has_seen_welcome", true).apply()
+                    uiPrefs.edit { putBoolean("has_seen_welcome", true) }
                 },
                 modifier = Modifier.padding(innerPadding)
             )
